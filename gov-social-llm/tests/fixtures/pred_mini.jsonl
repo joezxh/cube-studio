@@ -1,0 +1,8 @@
+{"id": 1, "label": "矛盾纠纷/邻里纠纷", "risk": "低", "output": "{\"label\": \"矛盾纠纷/邻里纠纷\", \"confidence\": 0.9, \"reason\": \"噪音\"}"}
+{"id": 2, "label": "矛盾纠纷/物业纠纷", "risk": "中", "output": "{\"label\": \"矛盾纠纷/物业纠纷\", \"confidence\": 0.8, \"reason\": \"停车\"}"}
+{"id": 3, "label": "治安/寻衅滋事", "risk": "中", "output": "{\"label\": \"治安/寻衅滋事\", \"confidence\": 0.7, \"reason\": \"滋事\"}"}
+{"id": 4, "label": "矛盾纠纷/邻里纠纷", "risk": "低", "output": "无法回答该问题"}
+{"id": 5, "label": "城管执法/占道经营", "risk": "低", "output": "{\"label\": \"城管执法/占道经营\", \"confidence\": 0.85, \"reason\": \"占道\"}"}
+{"id": 6, "label": "信访/重复信访", "risk": "高", "output": "{\"label\": \"信访/重复信访\", \"confidence\": 0.6, \"reason\": \"信访\"}"}
+{"id": 7, "label": "矛盾纠纷/物业纠纷", "risk": "低", "output": "坏输出非JSON"}
+{"id": 8, "label": "治安/寻衅滋事", "risk": "高", "output": "{\"label\": \"治安/寻衅滋事\", \"confidence\": 0.9, \"reason\": \"斗殴\"}"}
