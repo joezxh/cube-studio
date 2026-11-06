@@ -1,0 +1,2 @@
+# gov-kev 依赖由镜像内 uv 项目（/work/kev，uv.lock）锁定，不通过本文件安装。
+# start.py 与 kev_cmd.py 仅用标准库；此文件为本地开发/审计占位，无额外 pip 依赖。
