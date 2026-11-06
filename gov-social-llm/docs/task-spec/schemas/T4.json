@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$meta": {
+    "task": "T4 事件要素抽取",
+    "example": "{\"entities\": [{\"type\": \"时间\", \"text\": \"上周三晚10点\"}, {\"type\": \"主体\", \"text\": \"楼下KTV\"}, {\"type\": \"行为\", \"text\": \"噪音扰民\"}], \"relations\": [{\"head\": \"楼下KTV\", \"type\": \"实施\", \"tail\": \"噪音扰民\"}]}"
+  },
+  "type": "object",
+  "required": ["entities", "relations"],
+  "properties": {
+    "entities": {
+      "type": "array", "maxItems": 30,
+      "items": {
+        "type": "object", "required": ["type", "text"], "additionalProperties": false,
+        "properties": {
+          "type": {"type": "string", "enum": ["时间", "地点", "主体", "行为", "对象"]},
+          "text": {"type": "string", "minLength": 1, "maxLength": 100}
+        }
+      }
+    },
+    "relations": {
+      "type": "array", "maxItems": 20,
+      "items": {
+        "type": "object", "required": ["head", "type", "tail"], "additionalProperties": false,
+        "properties": {
+          "head": {"type": "string", "minLength": 1, "maxLength": 100},
+          "type": {"type": "string", "minLength": 1, "maxLength": 50},
+          "tail": {"type": "string", "minLength": 1, "maxLength": 100}
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

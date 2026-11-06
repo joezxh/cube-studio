@@ -1,0 +1,27 @@
+{
+  "$meta": {
+    "describe": "kev(Jev-like system-one 决策模型)类型化问题定义，spec §3.4 映射表。criteria 的 key 即 department 候选值；待业务方按实际委办局清单补全。"
+  },
+  "questions": {
+    "department": {
+      "type": "choice",
+      "instructions": "该事件应由哪个条线承办？",
+      "criteria": {
+        "城管执法": "市容、违建、噪音",
+        "公安": "治安、交通、危管",
+        "住建": "物业、房屋安全",
+        "信访": "重复信访、跨部门",
+        "民政": "救助、基层治理"
+      }
+    },
+    "escalate": {
+      "type": "noul",
+      "instructions": "是否需要紧急人工介入（对应风险=高）？"
+    },
+    "frustration": {
+      "type": "score",
+      "instructions": "当事人情绪烈度？",
+      "criteria": ["平静", "不满", "愤怒"]
+    }
+  }
+}

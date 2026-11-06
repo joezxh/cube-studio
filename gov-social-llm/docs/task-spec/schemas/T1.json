@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$meta": {
+    "task": "T1 事件/工单分类",
+    "example": "{\"label\": \"矛盾纠纷/邻里纠纷\", \"confidence\": 0.93, \"reason\": \"噪音引发的邻里矛盾\"}"
+  },
+  "type": "object",
+  "required": ["label", "confidence", "reason"],
+  "properties": {
+    "label": {
+      "type": "string",
+      "pattern": "^[^/]+/[^/]+(\\|[^/]+/[^/]+)*$"
+    },
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "reason": {"type": "string", "minLength": 1, "maxLength": 200}
+  },
+  "additionalProperties": false
+}

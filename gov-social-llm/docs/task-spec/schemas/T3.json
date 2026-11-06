@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$meta": {
+    "task": "T3 矛盾纠纷调解辅助",
+    "example": "{\"disputes\": [\"噪音扰民\", \"赔偿金额分歧\"], \"policy_points\": [\"《噪声污染防治法》第六十四条\"], \"suggestion\": \"建议先由社区调解委员会组织双方协商，明确夜间营业时段与隔音整改责任，协商不成引导走生态环境执法渠道。\"}"
+  },
+  "type": "object",
+  "required": ["disputes", "policy_points", "suggestion"],
+  "properties": {
+    "disputes": {
+      "type": "array", "minItems": 1, "maxItems": 8,
+      "items": {"type": "string", "minLength": 1, "maxLength": 50}
+    },
+    "policy_points": {
+      "type": "array", "minItems": 1, "maxItems": 8,
+      "items": {"type": "string", "minLength": 1, "maxLength": 100}
+    },
+    "suggestion": {"type": "string", "minLength": 10, "maxLength": 800}
+  },
+  "additionalProperties": false
+}

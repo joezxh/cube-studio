@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$meta": {
+    "task": "T2 风险预警识别",
+    "example": "{\"risk_level\": \"高\", \"evidences\": [\"当事人扬言采取极端行为\", \"近三月重复投诉5次\"], \"escalate\": true}"
+  },
+  "type": "object",
+  "required": ["risk_level", "evidences", "escalate"],
+  "properties": {
+    "risk_level": {"type": "string", "enum": ["高", "中", "低"]},
+    "evidences": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 5,
+      "items": {"type": "string", "minLength": 1, "maxLength": 200}
+    },
+    "escalate": {"type": "boolean"}
+  },
+  "additionalProperties": false
+}
