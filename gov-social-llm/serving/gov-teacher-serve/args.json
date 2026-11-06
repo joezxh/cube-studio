@@ -1,0 +1,21 @@
+{
+  "service_type": "serving",
+  "images": "REGISTRY/gov-teacher-serve:v0.1.0",
+  "command": "python3 -m vllm.entrypoints.openai.api_server --model /mnt/gov/models/Qwen3.8-27B-AWQ --quantization awq --max-model-len 8192 --port 8000",
+  "port": "8000",
+  "health_port": "8000",
+  "health_pattern": "/health",
+  "env_var": "VLLM_WORKER_MULTIPROC_METHOD=spawn",
+  "presets": {
+    "2x4090-48G": {
+      "_note": "Ada sm_89；48G 显存余量大，可放并发",
+      "extra_args": "--gpu-memory-utilization 0.90 --max-num-seqs 32",
+      "tensor_parallel_size": "2"
+    },
+    "2x5090-32G": {
+      "_note": "Blackwell sm_120；32G 显存偏紧，降 KV 并发防 OOM",
+      "extra_args": "--gpu-memory-utilization 0.85 --max-num-seqs 16",
+      "tensor_parallel_size": "2"
+    }
+  }
+}
