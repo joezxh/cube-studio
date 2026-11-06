@@ -1,0 +1,68 @@
+{
+  "pipeline": {
+    "name": "gov-p0-env-check",
+    "describe": "P0 环境自检：GPU/挂载/CUDA 自检 → 拉起教师服务 → 冒烟评测连通性",
+    "project": "社会治理",
+    "parameter": {},
+    "dag_json": {
+      "env-selfcheck": {},
+      "serve-teacher": {"upstream": ["env-selfcheck"]},
+      "smoke-eval": {"upstream": ["serve-teacher"]}
+    },
+    "global_env": "DATA_ROOT=/mnt/gov",
+    "expand": [
+      {"id": "env-selfcheck", "type": "dataSet", "position": {"x": 200, "y": 200}, "data": {"info": {"describe": "GPU/挂载/CUDA 自检"}, "name": "env-selfcheck", "label": "环境自检"}},
+      {"id": "serve-teacher", "type": "dataSet", "position": {"x": 400, "y": 200}, "data": {"info": {"describe": "AWQ 教师服务部署"}, "name": "serve-teacher", "label": "部署教师服务"}},
+      {"id": "smoke-eval", "type": "dataSet", "position": {"x": 600, "y": 200}, "data": {"info": {"describe": "教师服务冒烟评测"}, "name": "smoke-eval", "label": "冒烟评测"}}
+    ]
+  },
+  "tasks": [
+    {
+      "job_templete": "python",
+      "name": "env-selfcheck",
+      "label": "环境自检",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "2G",
+      "resource_cpu": "2",
+      "resource_gpu": "0",
+      "args": {"--command": "nvidia-smi; df -h /mnt; python -c \"import torch;print(torch.version.cuda)\""}
+    },
+    {
+      "job_templete": "deploy-service",
+      "name": "serve-teacher",
+      "label": "部署教师服务",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "32G",
+      "resource_cpu": "8",
+      "resource_gpu": "1",
+      "args": {
+        "--project_name": "public",
+        "--label": "gov-teacher-serve",
+        "--service_type": "serving",
+        "--images": "REGISTRY/gov-teacher-serve:v0.1.0",
+        "--model_path": "/mnt/gov/models/Qwen3.8-27B-AWQ",
+        "--command": "python3 -m vllm.entrypoints.openai.api_server --model /mnt/gov/models/Qwen3.8-27B-AWQ --quantization awq --max-model-len 8192 --gpu-memory-utilization 0.85 --port 8000",
+        "--port": "8000",
+        "--health_port": "8000",
+        "--health_pattern": "/health",
+        "--resource": "1"
+      }
+    },
+    {
+      "job_templete": "gov-eval",
+      "name": "smoke-eval",
+      "label": "冒烟评测",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "4G",
+      "resource_cpu": "2",
+      "resource_gpu": "0",
+      "args": {
+        "--mode": "smoke",
+        "--eval-set": "/mnt/gov/eval/smoke/v1/smoke.jsonl",
+        "--endpoint": "http://serve-teacher-svc:8000/v1",
+        "--limit": "10",
+        "--out-dir": "/mnt/gov/eval/smoke/v1/report"
+      }
+    }
+  ]
+}

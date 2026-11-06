@@ -1,0 +1,99 @@
+{
+  "pipeline": {
+    "name": "gov-p2-distill-line",
+    "describe": "P2 蒸馏主线：种子导入→清洗→限量筛选→教师探针→批量生成→三闸过滤→血缘登记",
+    "project": "社会治理",
+    "parameter": {},
+    "dag_json": {
+      "import-seeds": {},
+      "clean-seeds": {"upstream": ["import-seeds"]},
+      "filter-seeds": {"upstream": ["clean-seeds"]},
+      "teacher-probe": {"upstream": ["filter-seeds"]},
+      "distill-gen": {"upstream": ["teacher-probe"]},
+      "distill-filter": {"upstream": ["distill-gen"]},
+      "manifest-set": {"upstream": ["distill-filter"]}
+    },
+    "global_env": "DATA_ROOT=/mnt/gov",
+    "expand": [
+      {"id": "import-seeds", "type": "dataSet", "position": {"x": 200, "y": 200}, "data": {"info": {"describe": "导入工单种子"}, "name": "import-seeds", "label": "导入种子"}},
+      {"id": "clean-seeds", "type": "dataSet", "position": {"x": 400, "y": 200}, "data": {"info": {"describe": "文本清洗"}, "name": "clean-seeds", "label": "清洗种子"}},
+      {"id": "filter-seeds", "type": "dataSet", "position": {"x": 600, "y": 200}, "data": {"info": {"describe": "限量筛选 max=500"}, "name": "filter-seeds", "label": "筛选种子"}},
+      {"id": "teacher-probe", "type": "dataSet", "position": {"x": 800, "y": 200}, "data": {"info": {"describe": "教师能力探针闸门(达标才进入批量蒸馏)"}, "name": "teacher-probe", "label": "教师探针"}},
+      {"id": "distill-gen", "type": "dataSet", "position": {"x": 1000, "y": 200}, "data": {"info": {"describe": "教师多候选采样生成"}, "name": "distill-gen", "label": "蒸馏生成"}},
+      {"id": "distill-filter", "type": "dataSet", "position": {"x": 1200, "y": 200}, "data": {"info": {"describe": "三闸过滤+三格式导出"}, "name": "distill-filter", "label": "蒸馏过滤"}},
+      {"id": "manifest-set", "type": "dataSet", "position": {"x": 1400, "y": 200}, "data": {"info": {"describe": "产出集血缘登记"}, "name": "manifest-set", "label": "血缘登记"}}
+    ]
+  },
+  "tasks": [
+    {
+      "job_templete": "dataset",
+      "name": "import-seeds",
+      "label": "导入种子",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "2G",
+      "resource_cpu": "2",
+      "resource_gpu": "0",
+      "args": {"--dataset_name": "gov-seeds", "--dataset_version": "v1", "--out_path": "/mnt/gov/seeds/raw/v1/seeds.jsonl"}
+    },
+    {
+      "job_templete": "nlp-clean-data",
+      "name": "clean-seeds",
+      "label": "清洗种子",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "4G",
+      "resource_cpu": "4",
+      "resource_gpu": "0",
+      "args": {"--input": "/mnt/gov/seeds/raw/v1/seeds.jsonl", "--output": "/mnt/gov/seeds/clean/v1/seeds.jsonl"}
+    },
+    {
+      "job_templete": "nlp-filter-data",
+      "name": "filter-seeds",
+      "label": "筛选种子",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "4G",
+      "resource_cpu": "4",
+      "resource_gpu": "0",
+      "args": {"--input": "/mnt/gov/seeds/clean/v1/seeds.jsonl", "--output": "/mnt/gov/seeds/v1/seeds.jsonl", "--max": "500"}
+    },
+    {
+      "job_templete": "gov-eval",
+      "name": "teacher-probe",
+      "label": "教师探针(闸门: 宏F1≥0.85 才批量蒸馏)",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "4G",
+      "resource_cpu": "2",
+      "resource_gpu": "0",
+      "args": {"--mode": "dev", "--eval-set": "/mnt/gov/eval/dev/v1/eval.jsonl", "--task": "T1", "--endpoint": "http://serve-teacher-svc:8000/v1", "--out-dir": "/mnt/gov/probe/teacher/v1"}
+    },
+    {
+      "job_templete": "gov-distill-gen",
+      "name": "distill-gen",
+      "label": "蒸馏生成",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "8G",
+      "resource_cpu": "8",
+      "resource_gpu": "0",
+      "args": {"--seeds": "/mnt/gov/seeds/v1/seeds.jsonl", "--task": "T1", "--prompt-version": "v1", "--endpoint": "http://serve-teacher-svc:8000/v1", "--model": "teacher", "--n-candidates": "3", "--out-dir": "/mnt/gov/distill/T1/v1"}
+    },
+    {
+      "job_templete": "gov-distill-filter",
+      "name": "distill-filter",
+      "label": "蒸馏过滤",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "8G",
+      "resource_cpu": "8",
+      "resource_gpu": "0",
+      "args": {"--raw": "/mnt/gov/distill/T1/v1/raw.jsonl", "--task": "T1", "--out-dir": "/mnt/gov/distill/T1/v1/filtered"}
+    },
+    {
+      "job_templete": "gov-manifest",
+      "name": "manifest-set",
+      "label": "血缘登记",
+      "volume_mount": "gov-nfs(pvc):/mnt",
+      "resource_memory": "2G",
+      "resource_cpu": "1",
+      "resource_gpu": "0",
+      "args": {"--cmd": "generate", "--dir": "/mnt/gov/distill/T1/v1/filtered"}
+    }
+  ]
+}
