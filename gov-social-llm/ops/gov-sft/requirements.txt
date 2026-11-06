@@ -1,0 +1,2 @@
+# gov-sft 运行依赖由基础镜像 hiyouga/llamafactory 提供（含 torch/transformers/peft/trl）。
+# start.py 与 sft_cmd.py 仅用标准库，无额外 pip 依赖。
