@@ -102,8 +102,8 @@ gov-social-llm/
 | **gov-teacher-serve**（deploy-service 参数包，非算子） | `--model /mnt/gov/models/Qwen3.8-27B-AWQ --max-model-len 8192 --gpu-mem-util 0.85 --tp 1`；健康检查 `/health`；OpenAI 端点 `:8000/v1` | 1 GPU（AWQ 16–18G 权重+KV，32G/48G 单卡均可） | 底座权重 → 集群内教师服务地址 |
 | **gov-distill-gen** | `--seeds <jsonl> --task T1..T4 --prompt-version vN --n-candidates 3 --temperature 0.7 --top-p 0.95 --endpoint <教师地址> --resume` | CPU 2核/4G | `seeds/T*/v*/seeds.jsonl` → `distill/T*/v{N}/raw.jsonl`（每行含 seed_id、候选输出、生成参数、教师响应元数据）+ `gen_report.json`；并发信号量限流、断点续跑 |
 | **gov-distill-filter** | `--raw <jsonl> --schema docs/task-spec/schemas/T*.json --consistency-k 2 --max-len 4096` | CPU | `raw.jsonl` → 三闸过滤（①JSON schema 硬校验 ②同种子多候选多数投票一致性 ③长度/重复/异常规则）→ `train_alpaca.jsonl`（LLaMA-Factory 用）+ `train_sharegpt.jsonl` + `kev_format.jsonl`（systemone questions 格式）+ `filter_report.json`（各闸通过率、标签分布） |
-| **gov-sft**（封装开源 LLaMA-Factory） | `--base /mnt/gov/models/Qwen3-{0.6B,1.7B} --dataset <jsonl> --method lora\|qlora --lora-r 32 --lr 1e-4 --epochs 3 --seq-len 4096 --merge --output /mnt/gov/models/students/{exp}/v{N}` | 1 GPU（1.7B LoRA 峰值≈20G；QLoRA<16G 兜底） | 指令集 vN → 学生模型目录 + `train_manifest.json`（数据集 manifest 摘要 + 底座权重摘要 + 超参） |
-| **gov-kev**（封装 jaredpalmer/kev） | `--train-data <kev_format.jsonl> --base Qwen3-0.6B --init-from kev-0.8b --epochs 2 --lr 2e-5 --output /mnt/gov/models/students/kev-{exp}/v{N}` | 1 GPU（<16G） | kev 格式指令集 → LoRA+指针头 checkpoint；同镜像内置 `python -m kev.serve`（`/v1/systemone`），供 P6 部署 |
+| **gov-sft**（封装开源 LLaMA-Factory） | `--base /mnt/gov/models/Qwen3.8-{0.8B,1.7B} --dataset <jsonl>`（底座与教师同代系列，保证 tokenizer/分布一致）`--method lora\|qlora --lora-r 32 --lr 1e-4 --epochs 3 --seq-len 4096 --merge --output /mnt/gov/models/students/{exp}/v{N}` | 1 GPU（1.7B LoRA 峰值≈20G；QLoRA<16G 兜底） | 指令集 vN → 学生模型目录 + `train_manifest.json`（数据集 manifest 摘要 + 底座权重摘要 + 超参） |
+| **gov-kev**（封装 jaredpalmer/kev） | `--train-data <kev_format.jsonl> --base <kev 官方支持列表内最小档（Qwen3.5 系列 0.6B/0.8B）> --init-from kev-0.8b --epochs 2 --lr 2e-5 --output /mnt/gov/models/students/kev-{exp}/v{N}` | 1 GPU（<16G） | kev 格式指令集 → LoRA+指针头 checkpoint；同镜像内置 `python -m kev.serve`（`/v1/systemone`），供 P6 部署 |
 | **gov-eval** | `--endpoint <服务> 或 --model-path <本地>`；`--eval-set /mnt/gov/eval/{dev,blind}/v*/`；`--tasks T1,T2,T3,T4`；`--redteam <jsonl>`；`--judge <教师地址,可选>`；`--bench`；模式：dev/blind/smoke/safety/bench | CPU；`--bench` 时 1 GPU | → `metrics.json`（macro-F1、高危召回、格式合规率、拒答率、红队违规率、事实一致性抽检分、P50/P95、显存）+ `report.md` + echart JSON（平台原生表格/echart 结果可视化） |
 | **gov-manifest** | 子命令 `generate <dir>` / `verify <dir> --parents` / `seal <dir>` | CPU | 目录 → manifest.json；`seal` 输出只读+封存标记 |
 
@@ -187,7 +187,8 @@ kev = jaredpalmer/kev（Apache-2.0，可商用）：Qwen 底座 + LoRA + 指针�
 | `frustration` | score | T3 当事人情绪烈度 | 档位映射调解策略选择 |
 
 - 数据：`gov-distill-filter` 第三路输出 `kev_format.jsonl`（state + 类型化 questions + 教师判定），零额外教师调用成本；
-- 训练：`gov-kev` 镜像 `git clone kev → uv sync --extra serve`，底座 Qwen3-0.6B/0.8B 权重经 model-download 思路预取至 `/mnt/gov/models`；
+- 训练：`gov-kev` 镜像 `git clone kev → uv sync --extra serve`，底座权重（以 kev 上游 model card 支持列表为准，Qwen3.5 系列最小档）经 model-download 思路预取至 `/mnt/gov/models`；
+- **底座选型规则（决策完备）**：学生双臂底座取与教师同代的 Qwen3.8 小参数档 0.8B/1.7B，若该代无对应小档则退选 Qwen3.5 同档位；具体模型 ID 及权重 SHA256 在 P0 预取完成时写入《环境就绪单》并经 `gov-manifest` 登记，此后全流程不得更换；
 - 评测：同一 blind 集对比 **准确率、校准误差 ECE、P95 延迟**；
 - 裁决规则：kev 档 acc ≥ 生成式学生 −2pp 且 P95 ≤ 其 1/3 → T1/T2 生产采用 `kev.serve`；否则维持生成式学生，kev 结果入档作二期参考；
 - 约束提醒：kev 指针头不在 LLaMA-Factory 支持范围，必须走「自定义镜像 + kev 自有训练脚本」，不可用 `gov-sft` 替代。
@@ -196,7 +197,7 @@ kev = jaredpalmer/kev（Apache-2.0，可商用）：Qwen 底座 + LoRA + 指针�
 
 | 阶段 | 周期 | 人日 | 关键任务 | 交付物 | 出口判据 |
 |---|---|---|---|---|---|
-| P0 平台核验+算子开发 | 第1–2周 | 算法3 + 平台1 | 6 算子骨架+Dockerfile 构建、3 条 Pipeline JSON 编写并导入、p0 线实跑、GPU 驱动/CUDA 核对 | `gov-social-llm/` 全套骨架、镜像入 registry、算子注册完成 | p0 线全绿，就绪单签发 |
+| P0 平台核验+算子开发 | 第1–2周 | 算法3 + 平台1 | 6 算子骨架+Dockerfile 构建、3 条 Pipeline JSON 编写并导入、p0 线实跑、GPU 驱动/CUDA 核对、底座权重预取与定版（§3.4 选型规则） | `gov-social-llm/` 全套骨架、镜像入 registry、算子注册完成 | p0 线全绿，就绪单签发（含底座 ID/摘要） |
 | P1 评测集工程化 | 第2–3周 | 数据2 | 1000–2000 条导入→脱敏→7:3 切分→红队抽样→blind 封存 | dev/blind/redteam 三 manifest | Kappa≥0.8 记录、seal 成功 |
 | P2 教师摸底+蒸馏 | 第3–5周 | 算法2 | 27B-AWQ 拉起、dev 摸底过闸、放量 5k–20k、三闸过滤 | 指令集 v1（三格式）+ filter_report | 通过率≥80%、分布校验达标 |
 | P4 学生训练+kev | 第5–7周 | 算法3 | gov-sft 双臂(0.8B/1.7B)、gov-kev 对照、平台超参搜索(Ray/NNI)搜 lr/lora_r/epoch | checkpoint ×3 + train_manifest | dev 集达教师 90% |
