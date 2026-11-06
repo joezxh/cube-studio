@@ -10,6 +10,8 @@
 
 **Spec:** `docs/superpowers/specs/2026-11-06-gov-social-llm-distill-design.md`（本计划实现其 §1.2、§2、§3.1 全部实物与 §3.5 的 P0 行）
 
+> 修订记录： 2026-11-06 执行前评审修正——①Task8 GOOD 样本 args 改合规键（否则违反自身规则 3）；②Task2 提交步骤改为 git add（untracked 文件 -am 不覆盖）；③Task5 测试删除未用的 filter3 导入。
+
 ## Global Constraints
 
 - 所有代码位于 `gov-social-llm/`，**不得修改** cube-studio 上游任何文件（spec §1.3 原则 3）
@@ -311,7 +313,7 @@ ENTRYPOINT ["python", "start.py"]
 
 - [ ] **Step 6: 手工冒烟** — `python gov-social-llm/ops/gov-manifest/start.py verify gov-social-llm/tests/tmp_manual` 输出可读（无 traceback）；删除临时目录
 
-- [ ] **Step 7: Commit** — `git commit -am "feat(gov-llm): gov-manifest 血缘库与 CLI（digest/verify/seal）"`
+- [ ] **Step 7: Commit** — `git add gov-social-llm/ops/gov-manifest gov-social-llm/tests/test_manifest.py; git commit -m "feat(gov-llm): gov-manifest 血缘库与 CLI（digest/verify/seal）"`
 
 ---
 
@@ -456,7 +458,6 @@ def test_outputs_three_formats(tmp_path):
 - [ ] **Step 1: 写失败测试**
 
 ```python
-import filter3  # 复用 parse
 from metrics import macro_f1, high_risk_recall, score_all, format_compliance, refusal_rate
 
 def test_macro_f1_perfect_and_skewed():
@@ -626,7 +627,7 @@ GOOD = {  # 合法双节点样例（规则各分支测试的基座）
   "tasks": [{"job_templete": "gov-eval", "name": "a", "label": "A", "volume_mount": "gov-nfs(pvc):/mnt",
              "resource_memory": "4G", "resource_cpu": "2", "resource_gpu": "0", "args": {"--mode": "smoke"}},
             {"job_templete": "gov-manifest", "name": "b", "label": "B", "volume_mount": "gov-nfs(pvc):/mnt",
-             "resource_memory": "2G", "resource_cpu": "1", "resource_gpu": "0", "args": {"verify": ""}}]}
+             "resource_memory": "2G", "resource_cpu": "1", "resource_gpu": "0", "args": {"--cmd": "verify", "--dir": "x"}}]}
 
 @pytest.mark.parametrize("mutate,keyword", [
   (lambda d: d["tasks"][0]["args"].update({"mode": "x"}), "args"),
