@@ -1,0 +1,4611 @@
+# Translations template for PROJECT.
+# Copyright (C) 2026 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-07 19:20+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#: myapp/cli.py:87
+msgid "公共项目组"
+msgstr ""
+
+#: myapp/cli.py:94
+msgid "基础命令"
+msgstr ""
+
+#: myapp/cli.py:94
+msgid "python/bash等直接在服务器命令行中执行命令的模板"
+msgstr ""
+
+#: myapp/cli.py:95
+msgid "数据导入导出"
+msgstr ""
+
+#: myapp/cli.py:95
+msgid "集群与用户机器或其他集群之间的数据迁移"
+msgstr ""
+
+#: myapp/cli.py:96
+msgid "数据处理工具"
+msgstr ""
+
+#: myapp/cli.py:96
+msgid "数据的单机或分布式处理任务,ray/spark/hadoop/volcanojob"
+msgstr ""
+
+#: myapp/cli.py:97
+msgid "特征处理"
+msgstr ""
+
+#: myapp/cli.py:97
+msgid "特征处理相关功能"
+msgstr ""
+
+#: myapp/cli.py:98
+msgid "图像处理"
+msgstr ""
+
+#: myapp/cli.py:98
+msgid "图像处理相关功能"
+msgstr ""
+
+#: myapp/cli.py:99
+msgid "视频处理"
+msgstr ""
+
+#: myapp/cli.py:99
+msgid "视频处理相关功能"
+msgstr ""
+
+#: myapp/cli.py:100
+msgid "音频处理"
+msgstr ""
+
+#: myapp/cli.py:100
+msgid "音频处理相关功能"
+msgstr ""
+
+#: myapp/cli.py:101
+msgid "文本处理"
+msgstr ""
+
+#: myapp/cli.py:101
+msgid "文本处理相关功能"
+msgstr ""
+
+#: myapp/cli.py:102
+msgid "机器学习框架"
+msgstr ""
+
+#: myapp/cli.py:102
+msgid "传统机器学习框架，sklearn"
+msgstr ""
+
+#: myapp/cli.py:103
+msgid "机器学习算法"
+msgstr ""
+
+#: myapp/cli.py:103
+msgid "传统机器学习，lr/决策树/gbdt/xgb/fm等"
+msgstr ""
+
+#: myapp/cli.py:104
+msgid "深度学习"
+msgstr ""
+
+#: myapp/cli.py:104
+msgid "深度框架训练，tf/pytorch/mxnet/mpi/horovod/kaldi等"
+msgstr ""
+
+#: myapp/cli.py:105
+msgid "分布式加速"
+msgstr ""
+
+#: myapp/cli.py:105
+msgid "分布式训练加速框架"
+msgstr ""
+
+#: myapp/cli.py:106
+msgid "模型处理"
+msgstr ""
+
+#: myapp/cli.py:106
+msgid "模型压缩转换处理相关的组件模板"
+msgstr ""
+
+#: myapp/cli.py:107
+msgid "模型服务化"
+msgstr ""
+
+#: myapp/cli.py:107
+msgid "模型服务化部署相关的组件模板"
+msgstr ""
+
+#: myapp/cli.py:108
+msgid "推荐类模板"
+msgstr ""
+
+#: myapp/cli.py:108
+msgid "推荐领域常用的任务模板"
+msgstr ""
+
+#: myapp/cli.py:109
+msgid "搜索类模板"
+msgstr ""
+
+#: myapp/cli.py:109
+msgid "搜索领域常用的任务模板"
+msgstr ""
+
+#: myapp/cli.py:110
+msgid "广告类模板"
+msgstr ""
+
+#: myapp/cli.py:110
+msgid "广告领域常用的任务模板"
+msgstr ""
+
+#: myapp/cli.py:111
+msgid "多媒体类模板"
+msgstr ""
+
+#: myapp/cli.py:111
+msgid "音视频图片文本常用的任务模板"
+msgstr ""
+
+#: myapp/cli.py:112 myapp/views/view_aihub.py:89
+msgid "机器视觉"
+msgstr ""
+
+#: myapp/cli.py:112
+msgid "视觉类相关模板"
+msgstr ""
+
+#: myapp/cli.py:113 myapp/views/view_aihub.py:105
+msgid "听觉"
+msgstr ""
+
+#: myapp/cli.py:113
+msgid "听觉类相关模板"
+msgstr ""
+
+#: myapp/cli.py:114 myapp/views/home.py:462 myapp/views/view_aihub.py:120
+msgid "自然语言"
+msgstr ""
+
+#: myapp/cli.py:114
+msgid "自然语言类相关模板"
+msgstr ""
+
+#: myapp/cli.py:115 myapp/views/home.py:476 myapp/views/view_aihub.py:150
+msgid "大模型"
+msgstr ""
+
+#: myapp/cli.py:115
+msgid "大模型相关模板"
+msgstr ""
+
+#: myapp/forms.py:197
+msgid "Select Value"
+msgstr ""
+
+#: myapp/forms.py:287
+msgid "Invalid choice(s): one or more data inputs could not be coerced"
+msgstr ""
+
+#: myapp/models/base.py:73 myapp/models/base.py:74 myapp/security.py:120
+#: myapp/views/view_team.py:86 myapp/views/view_total_resource.py:297
+msgid "用户"
+msgstr ""
+
+#: myapp/security.py:135 myapp/views/view_user_role.py:38
+msgid "全名称"
+msgstr ""
+
+#: myapp/security.py:136 myapp/views/view_user_role.py:39
+msgid "姓"
+msgstr ""
+
+#: myapp/security.py:137 myapp/views/view_user_role.py:40
+msgid "名"
+msgstr ""
+
+#: myapp/models/base.py:78 myapp/security.py:138 myapp/security.py:171
+#: myapp/views/view_images.py:50 myapp/views/view_images.py:66
+#: myapp/views/view_user_role.py:41
+msgid "用户名"
+msgstr ""
+
+#: myapp/models/base.py:79 myapp/security.py:139 myapp/security.py:177
+msgid "昵称"
+msgstr ""
+
+#: myapp/models/base.py:20 myapp/security.py:140 myapp/security.py:183
+#: myapp/views/view_images.py:73 myapp/views/view_user_role.py:42
+msgid "密码"
+msgstr ""
+
+#: myapp/models/base.py:265 myapp/security.py:141
+#: myapp/views/view_user_role.py:43
+msgid "激活"
+msgstr ""
+
+#: myapp/models/base.py:303 myapp/security.py:142 myapp/security.py:188
+#: myapp/views/view_user_role.py:44
+msgid "邮箱"
+msgstr ""
+
+#: myapp/models/base.py:75 myapp/models/base.py:304 myapp/models/base.py:305
+#: myapp/security.py:143 myapp/security.py:144 myapp/views/view_user_role.py:45
+#: myapp/views/view_user_role.py:46
+msgid "角色"
+msgstr ""
+
+#: myapp/security.py:145 myapp/views/view_user_role.py:47
+msgid "最近一次登录"
+msgstr ""
+
+#: myapp/security.py:146 myapp/views/view_user_role.py:48
+msgid "登录次数"
+msgstr ""
+
+#: myapp/security.py:147 myapp/views/view_user_role.py:49
+msgid "登录失败次数"
+msgstr ""
+
+#: myapp/models/base.py:288 myapp/models/base.py:289 myapp/security.py:148
+#: myapp/views/view_total_resource.py:302 myapp/views/view_user_role.py:50
+#: myapp/views/view_workflow.py:332
+msgid "创建时间"
+msgstr ""
+
+#: myapp/models/base.py:285 myapp/models/base.py:286 myapp/security.py:149
+#: myapp/views/view_user_role.py:51
+msgid "创建者"
+msgstr ""
+
+#: myapp/models/base.py:291 myapp/models/base.py:293 myapp/security.py:150
+#: myapp/views/view_user_role.py:52
+msgid "修改时间"
+msgstr ""
+
+#: myapp/models/base.py:287 myapp/security.py:151
+#: myapp/views/view_user_role.py:53
+msgid "修改者"
+msgstr ""
+
+#: myapp/security.py:152 myapp/views/view_user_role.py:54
+msgid "秘钥"
+msgstr ""
+
+#: myapp/models/base.py:253 myapp/security.py:153 myapp/security.py:193
+#: myapp/views/view_user_role.py:55
+msgid "组织架构"
+msgstr ""
+
+#: myapp/security.py:163 myapp/views/view_user_role.py:71
+msgid "用户信息"
+msgstr ""
+
+#: myapp/security.py:174
+msgid "用户名只能由小写字母、数字、-组成"
+msgstr ""
+
+#: myapp/security.py:180 myapp/views/view_aihub.py:63
+#: myapp/views/view_chat.py:256 myapp/views/view_dataset.py:79
+#: myapp/views/view_serving.py:86 myapp/views/view_task.py:106
+msgid "中文名"
+msgstr ""
+
+#: myapp/security.py:195
+msgid "组织架构，自行填写"
+msgstr ""
+
+#: myapp/models/base.py:10 myapp/models/base.py:11 myapp/views/view_chat.py:247
+#: myapp/views/view_chat.py:351 myapp/views/view_dataset.py:152
+#: myapp/views/view_etl_pipeline.py:132 myapp/views/view_images.py:86
+#: myapp/views/view_images.py:187 myapp/views/view_job_template.py:83
+#: myapp/views/view_metadata_metric.py:101 myapp/views/view_nni.py:99
+#: myapp/views/view_notebook.py:87 myapp/views/view_pipeline.py:598
+#: myapp/views/view_serving.py:85 myapp/views/view_task.py:99
+msgid "名称"
+msgstr ""
+
+#: myapp/models/base.py:12
+msgid "名称(移动鼠标，查看描述)"
+msgstr ""
+
+#: myapp/models/base.py:13 myapp/models/base.py:283
+msgid "任务类型"
+msgstr ""
+
+#: myapp/models/base.py:14 myapp/models/base.py:15 myapp/views/home.py:88
+#: myapp/views/view_etl_pipeline.py:139
+#: myapp/views/view_inferenceserving.py:191 myapp/views/view_notebook.py:102
+#: myapp/views/view_pipeline.py:610 myapp/views/view_serving.py:84
+#: myapp/views/view_team.py:65 myapp/views/view_total_resource.py:292
+msgid "项目组"
+msgstr ""
+
+#: myapp/models/base.py:16 myapp/models/base.py:17 myapp/views/view_nni.py:111
+#: myapp/views/view_pipeline.py:622
+msgid "命名空间"
+msgstr ""
+
+#: myapp/models/base.py:18 myapp/models/base.py:19
+#: myapp/views/view_dataset.py:180 myapp/views/view_dimension.py:218
+#: myapp/views/view_docker.py:112 myapp/views/view_etl_pipeline.py:145
+#: myapp/views/view_job_template.py:90 myapp/views/view_metadata.py:118
+#: myapp/views/view_metadata_metric.py:113 myapp/views/view_nni.py:105
+#: myapp/views/view_notebook.py:94 myapp/views/view_pipeline.py:604
+#: myapp/views/view_train_model.py:109
+msgid "描述"
+msgstr ""
+
+#: myapp/models/base.py:21 myapp/views/view_inferenceserving.py:207
+#: myapp/views/view_job_template.py:111 myapp/views/view_nni.py:214
+#: myapp/views/view_notebook.py:149 myapp/views/view_serving.py:89
+#: myapp/views/view_task.py:118
+msgid "工作目录"
+msgstr ""
+
+#: myapp/models/base.py:22 myapp/models/base.py:34
+#: myapp/views/view_images.py:152 myapp/views/view_inferenceserving.py:308
+#: myapp/views/view_notebook.py:112 myapp/views/view_notebook.py:120
+#: myapp/views/view_serving.py:87
+msgid "镜像"
+msgstr ""
+
+#: myapp/models/base.py:23 myapp/views/view_images.py:32
+#: myapp/views/view_images.py:49
+msgid "仓库"
+msgstr ""
+
+#: myapp/models/base.py:24 myapp/models/base.py:25 myapp/views/view_task.py:82
+msgid "启动参数"
+msgstr ""
+
+#: myapp/models/base.py:26 myapp/models/base.py:27
+msgid "参数示例"
+msgstr ""
+
+#: myapp/models/base.py:28 myapp/models/base.py:37 myapp/models/base.py:267
+#: myapp/views/view_images.py:194 myapp/views/view_inferenceserving.py:316
+#: myapp/views/view_job_template.py:117 myapp/views/view_serving.py:90
+#: myapp/views/view_task.py:123 myapp/views/view_task.py:124
+msgid "启动命令"
+msgstr ""
+
+#: myapp/models/base.py:29
+msgid "Dockerfile"
+msgstr ""
+
+#: myapp/models/base.py:30
+msgid "git地址"
+msgstr ""
+
+#: myapp/models/base.py:31 myapp/views/view_inferenceserving.py:322
+#: myapp/views/view_job_template.py:129 myapp/views/view_serving.py:97
+msgid "环境变量"
+msgstr ""
+
+#: myapp/models/base.py:32
+msgid "特权模式"
+msgstr ""
+
+#: myapp/models/base.py:33 myapp/views/view_job_template.py:147
+msgid "k8s账号"
+msgstr ""
+
+#: myapp/models/base.py:35
+msgid "host"
+msgstr ""
+
+#: myapp/models/base.py:36
+msgid "覆盖原始启动命令"
+msgstr ""
+
+#: myapp/models/base.py:38
+msgid "启动目录"
+msgstr ""
+
+#: myapp/models/base.py:39
+msgid "挂载目录"
+msgstr ""
+
+#: myapp/models/base.py:40
+msgid "调度机器"
+msgstr ""
+
+#: myapp/models/base.py:41
+msgid "镜像拉取策略"
+msgstr ""
+
+#: myapp/models/base.py:42
+msgid "内存申请"
+msgstr ""
+
+#: myapp/models/base.py:43 myapp/tasks/schedules.py:805
+msgid "cpu申请"
+msgstr ""
+
+#: myapp/models/base.py:44
+msgid "gpu申请"
+msgstr ""
+
+#: myapp/models/base.py:45
+msgid "rdma申请"
+msgstr ""
+
+#: myapp/models/base.py:46
+msgid "资源"
+msgstr ""
+
+#: myapp/models/base.py:47 myapp/views/view_etl_pipeline_airflow.py:96
+#: myapp/views/view_etl_pipeline_azkaban.py:97
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:97
+msgid "超时中断"
+msgstr ""
+
+#: myapp/models/base.py:48 myapp/views/view_etl_pipeline_airflow.py:109
+#: myapp/views/view_etl_pipeline_airflow.py:115
+#: myapp/views/view_etl_pipeline_azkaban.py:110
+#: myapp/views/view_etl_pipeline_azkaban.py:116
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:110
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:116
+msgid "重试次数"
+msgstr ""
+
+#: myapp/models/base.py:49 myapp/models/base.py:211
+#: myapp/views/view_task.py:165
+msgid "输出"
+msgstr ""
+
+#: myapp/models/base.py:50 myapp/views/view_dataset.py:159
+#: myapp/views/view_job_template.py:97 myapp/views/view_train_model.py:119
+msgid "版本"
+msgstr ""
+
+#: myapp/models/base.py:51 myapp/models/base.py:54
+#: myapp/views/view_inferenceserving.py:226
+msgid "模型名称"
+msgstr ""
+
+#: myapp/models/base.py:52 myapp/models/base.py:55
+#: myapp/views/view_train_model.py:121
+msgid "模型版本"
+msgstr ""
+
+#: myapp/models/base.py:53 myapp/models/base.py:56
+#: myapp/views/view_inferenceserving.py:301
+msgid "模型地址"
+msgstr ""
+
+#: myapp/models/base.py:57
+msgid "兜底版本"
+msgstr ""
+
+#: myapp/models/base.py:58
+msgid "检查服务"
+msgstr ""
+
+#: myapp/models/base.py:59 myapp/models/base.py:60 myapp/models/base.py:61
+#: myapp/views/view_dataset.py:245 myapp/views/view_metadata_metric.py:158
+#: myapp/views/view_runhistory.py:58 myapp/views/view_workflow.py:319
+msgid "状态"
+msgstr ""
+
+#: myapp/models/base.py:62
+msgid "最终状态"
+msgstr ""
+
+#: myapp/models/base.py:63 myapp/models/base.py:65 myapp/models/base.py:67
+#: myapp/models/base.py:274 myapp/views/home.py:312 myapp/views/home.py:318
+#: myapp/views/view_etl_pipeline.py:107 myapp/views/view_pipeline.py:562
+#: myapp/views/view_task.py:86 myapp/views/view_workflow.py:296
+msgid "任务流"
+msgstr ""
+
+#: myapp/models/base.py:64 myapp/models/base.py:118 myapp/models/base.py:275
+#: myapp/views/view_train_model.py:114
+msgid "任务流id"
+msgstr ""
+
+#: myapp/models/base.py:66
+msgid "模型指标"
+msgstr ""
+
+#: myapp/models/base.py:68
+msgid "推理编排"
+msgstr ""
+
+#: myapp/models/base.py:69
+msgid "运行id"
+msgstr ""
+
+#: myapp/models/base.py:70
+msgid "运行时间"
+msgstr ""
+
+#: myapp/models/base.py:71 myapp/views/view_total_resource.py:294
+msgid "类型"
+msgstr ""
+
+#: myapp/models/base.py:72
+msgid "重置"
+msgstr ""
+
+#: myapp/models/base.py:76 myapp/models/base.py:77
+msgid "流向图"
+msgstr ""
+
+#: myapp/models/base.py:80 myapp/views/view_pipeline.py:673
+#: myapp/views/view_workflow.py:370
+msgid "调度类型"
+msgstr ""
+
+#: myapp/models/base.py:81 myapp/models/base.py:233
+#: myapp/views/view_etl_pipeline_airflow.py:42
+#: myapp/views/view_etl_pipeline_azkaban.py:43
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:43
+#: myapp/views/view_pipeline.py:680
+msgid "调度周期"
+msgstr ""
+
+#: myapp/models/base.py:82
+msgid "全局参数"
+msgstr ""
+
+#: myapp/models/base.py:83 myapp/views/view_pipeline.py:668
+msgid "全局环境变量"
+msgstr ""
+
+#: myapp/models/base.py:84 myapp/views/view_nni.py:119
+msgid "任务并行数"
+msgstr ""
+
+#: myapp/models/base.py:85 myapp/models/base.py:194 myapp/models/base.py:195
+msgid "运行"
+msgstr ""
+
+#: myapp/models/base.py:86 myapp/models/base.py:87
+msgid "状态详情"
+msgstr ""
+
+#: myapp/models/base.py:88
+msgid "执行时间"
+msgstr ""
+
+#: myapp/models/base.py:89 myapp/views/view_docker.py:146
+msgid "基础镜像"
+msgstr ""
+
+#: myapp/models/base.py:90
+msgid "tag"
+msgstr ""
+
+#: myapp/models/base.py:91
+msgid "保存"
+msgstr ""
+
+#: myapp/models/base.py:92
+msgid "历史"
+msgstr ""
+
+#: myapp/models/base.py:93
+msgid "连续构建"
+msgstr ""
+
+#: myapp/models/base.py:94
+msgid "构建"
+msgstr ""
+
+#: myapp/models/base.py:95
+msgid "需要gpu"
+msgstr ""
+
+#: myapp/models/base.py:96
+msgid "最新镜像"
+msgstr ""
+
+#: myapp/models/base.py:97
+msgid "有效实例数目"
+msgstr ""
+
+#: myapp/models/base.py:98
+msgid "分流"
+msgstr ""
+
+#: myapp/models/base.py:99 myapp/views/view_inferenceserving.py:287
+msgid "流量复制"
+msgstr ""
+
+#: myapp/models/base.py:100 myapp/models/model_job.py:235
+#: myapp/views/view_etl_pipeline_airflow.py:954
+#: myapp/views/view_etl_pipeline_azkaban.py:955
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:955
+#: myapp/views/view_log.py:11
+msgid "日志"
+msgstr ""
+
+#: myapp/models/base.py:101 myapp/views/view_docker.py:48
+msgid "容器"
+msgstr ""
+
+#: myapp/models/base.py:102 myapp/models/base.py:103
+msgid "IDE类型"
+msgstr ""
+
+#: myapp/models/base.py:104 myapp/models/base.py:105
+msgid "注释"
+msgstr ""
+
+#: myapp/models/base.py:106 myapp/models/base.py:107
+msgid "属性"
+msgstr ""
+
+#: myapp/models/base.py:108 myapp/models/base.py:109
+msgid "通知"
+msgstr ""
+
+#: myapp/models/base.py:110 myapp/models/base.py:111 myapp/models/base.py:112
+#: myapp/models/base.py:113 myapp/views/view_chat.py:254
+#: myapp/views/view_dataset.py:173 myapp/views/view_dimension.py:211
+#: myapp/views/view_inferenceserving.py:249
+#: myapp/views/view_metadata_metric.py:107 myapp/views/view_serving.py:86
+#: myapp/views/view_task.py:105 myapp/views/view_total_resource.py:295
+msgid "标签"
+msgstr ""
+
+#: myapp/models/base.py:114
+msgid "添加时间"
+msgstr ""
+
+#: myapp/models/base.py:115
+msgid "实验id"
+msgstr ""
+
+#: myapp/models/base.py:116 myapp/models/base.py:117
+msgid "workflow yaml"
+msgstr ""
+
+#: myapp/models/base.py:119
+msgid "版本id"
+msgstr ""
+
+#: myapp/models/base.py:120 myapp/models/base.py:121 myapp/views/home.py:303
+#: myapp/views/view_job_template.py:56 myapp/views/view_task.py:92
+msgid "任务模板"
+msgstr ""
+
+#: myapp/models/base.py:122
+msgid "功能模板"
+msgstr ""
+
+#: myapp/models/base.py:123
+msgid "监控状态"
+msgstr ""
+
+#: myapp/models/base.py:124
+msgid "任务参数"
+msgstr ""
+
+#: myapp/models/base.py:125 myapp/models/base.py:126 myapp/views/view_log.py:21
+msgid "网址"
+msgstr ""
+
+#: myapp/models/base.py:127
+msgid "公开"
+msgstr ""
+
+#: myapp/models/base.py:128
+msgid "通知用户"
+msgstr ""
+
+#: myapp/models/base.py:129 myapp/models/base.py:130
+msgid "Experiment yaml"
+msgstr ""
+
+#: myapp/models/base.py:131
+msgid "训练模型"
+msgstr ""
+
+#: myapp/models/base.py:133
+msgid "部署时间"
+msgstr ""
+
+#: myapp/models/base.py:134 myapp/models/base.py:135
+#: myapp/views/view_inferenceserving.py:203
+msgid "域名"
+msgstr ""
+
+#: myapp/models/base.py:136
+msgid "部署"
+msgstr ""
+
+#: myapp/models/base.py:137
+msgid "测试部署"
+msgstr ""
+
+#: myapp/models/base.py:138
+msgid "测试"
+msgstr ""
+
+#: myapp/models/base.py:139
+msgid "生产部署"
+msgstr ""
+
+#: myapp/models/base.py:140
+msgid "检测测试服务"
+msgstr ""
+
+#: myapp/models/base.py:141 myapp/views/view_inferenceserving.py:199
+msgid "最小副本数"
+msgstr ""
+
+#: myapp/models/base.py:142 myapp/views/view_inferenceserving.py:200
+msgid "最大副本数"
+msgstr ""
+
+#: myapp/models/base.py:143 myapp/models/base.py:144
+#: myapp/views/view_serving.py:95
+msgid "副本数"
+msgstr ""
+
+#: myapp/models/base.py:145 myapp/views/view_inferenceserving.py:328
+#: myapp/views/view_serving.py:96
+msgid "端口"
+msgstr ""
+
+#: myapp/models/base.py:146
+msgid "滚动发布"
+msgstr ""
+
+#: myapp/models/base.py:148
+msgid "服务"
+msgstr ""
+
+#: myapp/models/base.py:149 myapp/models/base.py:150
+#: myapp/views/view_dataset.py:263
+msgid "下载地址"
+msgstr ""
+
+#: myapp/models/base.py:151 myapp/models/base.py:152 myapp/views/home.py:153
+#: myapp/views/view_metadata_metric.py:66
+#: myapp/views/view_metadata_metric.py:194
+msgid "指标"
+msgstr ""
+
+#: myapp/models/base.py:153 myapp/models/base.py:154
+#: myapp/views/view_dataset.py:87
+msgid "操作"
+msgstr ""
+
+#: myapp/models/base.py:156 myapp/views/view_chat.py:285
+msgid "服务类型"
+msgstr ""
+
+#: myapp/models/base.py:157
+msgid "模板参数定义示例"
+msgstr ""
+
+#: myapp/models/base.py:158
+msgid "模板描述"
+msgstr ""
+
+#: myapp/models/base.py:159
+msgid "模板参数示例"
+msgstr ""
+
+#: myapp/models/base.py:160 myapp/models/model_job.py:874
+msgid "停止"
+msgstr ""
+
+#: myapp/models/base.py:161
+msgid "搜索并行数"
+msgstr ""
+
+#: myapp/models/base.py:162
+msgid "搜索并行方式"
+msgstr ""
+
+#: myapp/models/base.py:163
+msgid "最多搜索次数"
+msgstr ""
+
+#: myapp/models/base.py:164
+msgid "最大运行时长"
+msgstr ""
+
+#: myapp/models/base.py:165
+msgid "最多失败搜索次数"
+msgstr ""
+
+#: myapp/models/base.py:166 myapp/views/view_nni.py:140
+msgid "目标函数类型"
+msgstr ""
+
+#: myapp/models/base.py:167
+msgid "目标值"
+msgstr ""
+
+#: myapp/models/base.py:168
+msgid "目标度量"
+msgstr ""
+
+#: myapp/models/base.py:169
+msgid "附加目标度量"
+msgstr ""
+
+#: myapp/models/base.py:170 myapp/views/view_nni.py:187
+msgid "搜索算法"
+msgstr ""
+
+#: myapp/models/base.py:171 myapp/views/view_nni.py:195
+msgid "搜索算法配置"
+msgstr ""
+
+#: myapp/models/base.py:172 myapp/models/base.py:174
+msgid "超参数配置"
+msgstr ""
+
+#: myapp/models/base.py:173
+msgid "超参配置示例"
+msgstr ""
+
+#: myapp/models/base.py:175
+msgid "搜索任务配置"
+msgstr ""
+
+#: myapp/models/base.py:176 myapp/models/base.py:177
+msgid "任务 yaml"
+msgstr ""
+
+#: myapp/models/base.py:178
+msgid "启动调度"
+msgstr ""
+
+#: myapp/models/base.py:179 myapp/views/home.py:343
+#: myapp/views/view_workflow.py:72
+msgid "运行实例"
+msgstr ""
+
+#: myapp/models/base.py:180 myapp/models/base.py:181 myapp/models/base.py:182
+msgid "监控"
+msgstr ""
+
+#: myapp/models/base.py:183 myapp/views/view_link.py:17
+msgid "链接"
+msgstr ""
+
+#: myapp/models/base.py:184
+msgid "清理"
+msgstr ""
+
+#: myapp/models/base.py:185 myapp/models/base.py:186
+#: myapp/views/view_chat.py:335 myapp/views/view_docker.py:120
+#: myapp/views/view_inferenceserving.py:271
+#: myapp/views/view_job_template.py:158 myapp/views/view_team.py:209
+#: myapp/views/view_team.py:266
+msgid "扩展"
+msgstr ""
+
+#: myapp/models/base.py:187 myapp/models/base.py:188
+msgid "扩展参数"
+msgstr ""
+
+#: myapp/models/base.py:189
+msgid "续期"
+msgstr ""
+
+#: myapp/models/base.py:190 myapp/views/view_chat.py:155
+msgid "接口类型"
+msgstr ""
+
+#: myapp/models/base.py:191
+msgid "代码目录"
+msgstr ""
+
+#: myapp/models/base.py:193
+msgid "调试"
+msgstr ""
+
+#: myapp/models/base.py:196 myapp/views/view_pipeline.py:642
+msgid "过往依赖"
+msgstr ""
+
+#: myapp/models/base.py:197
+msgid "最大激活运行数"
+msgstr ""
+
+#: myapp/models/base.py:198 myapp/models/base.py:199
+#: myapp/views/view_docker.py:139
+msgid "目标镜像"
+msgstr ""
+
+#: myapp/models/base.py:200
+msgid "镜像历史"
+msgstr ""
+
+#: myapp/models/base.py:201
+msgid "耗时"
+msgstr ""
+
+#: myapp/models/base.py:202
+msgid "任务状态"
+msgstr ""
+
+#: myapp/models/base.py:203
+msgid "弹性伸缩容"
+msgstr ""
+
+#: myapp/models/base.py:204
+msgid "定时伸缩容"
+msgstr ""
+
+#: myapp/models/base.py:205 myapp/views/view_inferenceserving.py:342
+msgid "健康检查"
+msgstr ""
+
+#: myapp/models/base.py:206
+msgid "处理变换"
+msgstr ""
+
+#: myapp/models/base.py:207
+msgid "部署记录"
+msgstr ""
+
+#: myapp/models/base.py:208
+msgid "模型输入"
+msgstr ""
+
+#: myapp/models/base.py:209
+msgid "输入"
+msgstr ""
+
+#: myapp/models/base.py:210
+msgid "模型输出"
+msgstr ""
+
+#: myapp/models/base.py:212 myapp/models/base.py:213
+msgid "配置"
+msgstr ""
+
+#: myapp/models/base.py:214 myapp/views/view_dimension.py:225
+#: myapp/views/view_metadata.py:125 myapp/views/view_metadata_metric.py:95
+msgid "产品"
+msgstr ""
+
+#: myapp/models/base.py:215 myapp/views/view_dataset.py:198
+msgid "领域"
+msgstr ""
+
+#: myapp/models/base.py:216
+msgid "场景"
+msgstr ""
+
+#: myapp/models/base.py:217 myapp/models/base.py:218
+#: myapp/views/view_team.py:252 myapp/views/view_team.py:277
+#: myapp/views/view_total_resource.py:64 myapp/views/view_total_resource.py:291
+#: myapp/views/view_workflow.py:304
+msgid "集群"
+msgstr ""
+
+#: myapp/models/base.py:219 myapp/models/base.py:220 myapp/models/base.py:224
+#: myapp/models/base.py:225 myapp/views/view_metadata.py:133
+#: myapp/views/view_sqllab.py:144
+msgid "数据库"
+msgstr ""
+
+#: myapp/models/base.py:221 myapp/models/base.py:222 myapp/models/base.py:223
+#: myapp/views/view_dimension.py:204 myapp/views/view_metadata.py:111
+msgid "表名"
+msgstr ""
+
+#: myapp/models/base.py:226 myapp/models/base.py:227
+#: myapp/views/view_dimension.py:188
+msgid "列信息"
+msgstr ""
+
+#: myapp/models/base.py:228 myapp/views/view_metadata.py:147
+msgid "安全等级"
+msgstr ""
+
+#: myapp/models/base.py:229 myapp/views/view_metadata.py:155
+msgid "价值评分"
+msgstr ""
+
+#: myapp/models/base.py:230 myapp/views/view_dataset.py:233
+#: myapp/views/view_metadata.py:161
+msgid "存储大小"
+msgstr ""
+
+#: myapp/models/base.py:231 myapp/views/view_dataset.py:75
+#: myapp/views/view_dataset.py:227
+msgid "存储类型"
+msgstr ""
+
+#: myapp/models/base.py:232
+msgid "数仓类型"
+msgstr ""
+
+#: myapp/models/base.py:234 myapp/views/view_metadata.py:174
+msgid "数据成本"
+msgstr ""
+
+#: myapp/models/base.py:235 myapp/views/view_metadata.py:46
+msgid "列类型"
+msgstr ""
+
+#: myapp/models/base.py:236 myapp/models/base.py:237
+#: myapp/views/view_metadata.py:52 myapp/views/view_metadata.py:53
+#: myapp/views/view_metadata_metric.py:57
+#: myapp/views/view_metadata_metric.py:119
+#: myapp/views/view_metadata_metric.py:198
+msgid "备注"
+msgstr ""
+
+#: myapp/models/base.py:238
+msgid "保留时长"
+msgstr ""
+
+#: myapp/models/base.py:241
+msgid "主分区列"
+msgstr ""
+
+#: myapp/models/base.py:242
+msgid "应用组"
+msgstr ""
+
+#: myapp/models/base.py:244 myapp/views/view_metadata.py:200
+msgid "建表sql"
+msgstr ""
+
+#: myapp/models/base.py:245
+msgid "数据导入sql"
+msgstr ""
+
+#: myapp/models/base.py:246 myapp/views/view_metadata_metric.py:125
+msgid "指标类型"
+msgstr ""
+
+#: myapp/models/base.py:247
+msgid "指标数据类型"
+msgstr ""
+
+#: myapp/models/base.py:248 myapp/views/view_metadata_metric.py:145
+#: myapp/views/view_metadata_metric.py:146
+msgid "指标维度"
+msgstr ""
+
+#: myapp/models/base.py:249
+msgid "指标级别"
+msgstr ""
+
+#: myapp/models/base.py:250 myapp/views/view_metadata_metric.py:164
+msgid "口径"
+msgstr ""
+
+#: myapp/models/base.py:251
+msgid "是否分区列"
+msgstr ""
+
+#: myapp/models/base.py:252
+msgid "分区类型"
+msgstr ""
+
+#: myapp/models/base.py:254
+msgid "当前生命周期(天)"
+msgstr ""
+
+#: myapp/models/base.py:255
+msgid "推荐生命周期(天)"
+msgstr ""
+
+#: myapp/models/base.py:256
+msgid "存储成本(元/月)"
+msgstr ""
+
+#: myapp/models/base.py:257
+msgid "7日访问次数"
+msgstr ""
+
+#: myapp/models/base.py:258
+msgid "最近访问日期"
+msgstr ""
+
+#: myapp/models/base.py:259
+msgid "分区开始时间"
+msgstr ""
+
+#: myapp/models/base.py:260
+msgid "分区结束时间"
+msgstr ""
+
+#: myapp/models/base.py:261
+msgid "30天访问次数"
+msgstr ""
+
+#: myapp/models/base.py:262
+msgid "产品名"
+msgstr ""
+
+#: myapp/models/base.py:263
+msgid "产品id"
+msgstr ""
+
+#: myapp/models/base.py:264
+msgid "产品描述"
+msgstr ""
+
+#: myapp/models/base.py:266
+msgid "工作镜像"
+msgstr ""
+
+#: myapp/models/base.py:268 myapp/views/view_dataset.py:205
+msgid "数据源类型"
+msgstr ""
+
+#: myapp/models/base.py:269
+msgid "优先级"
+msgstr ""
+
+#: myapp/models/base.py:270 myapp/models/base.py:271 myapp/models/base.py:281
+#: myapp/views/view_chat.py:269 myapp/views/view_dataset.py:238
+#: myapp/views/view_dimension.py:238 myapp/views/view_metadata.py:181
+msgid "责任人"
+msgstr ""
+
+#: myapp/models/base.py:272 myapp/views/view_dataset.py:187
+msgid "行业"
+msgstr ""
+
+#: myapp/models/base.py:273
+msgid "跳过"
+msgstr ""
+
+#: myapp/models/base.py:276 myapp/views/home.py:327
+#: myapp/views/view_etl_pipeline.py:48 myapp/views/view_task.py:43
+msgid "任务"
+msgstr ""
+
+#: myapp/models/base.py:277 myapp/views/view_metadata_metric.py:170
+msgid "任务id"
+msgstr ""
+
+#: myapp/models/base.py:278
+msgid "接入"
+msgstr ""
+
+#: myapp/models/base.py:279 myapp/views/view_inferenceserving.py:400
+msgid "推理配置"
+msgstr ""
+
+#: myapp/models/base.py:280 myapp/views/view_dataset.py:221
+msgid "文件类型"
+msgstr ""
+
+#: myapp/models/base.py:282
+msgid "周期单位"
+msgstr ""
+
+#: myapp/models/base.py:284
+msgid "任务 id"
+msgstr ""
+
+#: myapp/models/base.py:290 myapp/models/base.py:292
+msgid "更新时间"
+msgstr ""
+
+#: myapp/models/base.py:294
+msgid "补录起点"
+msgstr ""
+
+#: myapp/models/base.py:295
+msgid "帮助"
+msgstr ""
+
+#: myapp/models/base.py:296
+msgid "方式"
+msgstr ""
+
+#: myapp/models/base.py:297 myapp/views/view_chat.py:261
+msgid "图标"
+msgstr ""
+
+#: myapp/models/base.py:298 myapp/views/home.py:39
+msgid "文档"
+msgstr ""
+
+#: myapp/models/base.py:299
+msgid "资源额度"
+msgstr ""
+
+#: myapp/models/base.py:300
+msgid "账单"
+msgstr ""
+
+#: myapp/models/base.py:301
+msgid "发票"
+msgstr ""
+
+#: myapp/models/base.py:302
+msgid "用户id"
+msgstr ""
+
+#: myapp/models/base.py:306 myapp/views/home.py:176
+#: myapp/views/view_dataset.py:55
+msgid "数据集"
+msgstr ""
+
+#: myapp/models/base.py:307
+msgid "预训练模型"
+msgstr ""
+
+#: myapp/models/base.py:308
+msgid "来源"
+msgstr ""
+
+#: myapp/models/base.py:309
+msgid "热度"
+msgstr ""
+
+#: myapp/models/base.py:310 myapp/views/view_dataset.py:84
+msgid "价格"
+msgstr ""
+
+#: myapp/models/model_chat.py:42
+msgid "(副本)"
+msgstr ""
+
+#: myapp/models/model_dimension.py:50
+msgid "更新远程表"
+msgstr ""
+
+#: myapp/models/model_job.py:82 myapp/views/view_images.py:177
+msgid "开发镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:83 myapp/views/view_images.py:177
+msgid "jupyter镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:84 myapp/views/view_images.py:177
+msgid "任务模板镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:85 myapp/views/view_images.py:177
+msgid "任务流镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:86 myapp/views/view_images.py:177
+msgid "超参搜索镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:87 myapp/views/view_images.py:177
+msgid "内部服务镜像"
+msgstr ""
+
+#: myapp/models/model_job.py:88 myapp/views/view_images.py:177
+#: myapp/views/view_inferenceserving.py:310
+msgid "推理服务镜像"
+msgstr ""
+
+#: myapp/models/model_metadata.py:51 myapp/models/model_metadata_metric.py:27
+#: myapp/views/view_metadata.py:150 myapp/views/view_metadata_metric.py:140
+msgid "普通"
+msgstr ""
+
+#: myapp/models/model_serving.py:411
+msgid "未开通"
+msgstr ""
+
+#: myapp/tasks/async_task.py:107
+#, python-format
+msgid "%s 准备进行服务迭代 %s %s"
+msgstr ""
+
+#: myapp/tasks/async_task.py:177
+#, python-format
+msgid "%s 服务 %s %s ready副本数:%s 目标副本数:%s"
+msgstr ""
+
+#: myapp/tasks/async_task.py:231
+#, python-format
+msgid "%s 没有发现 新服务 %s %s 的 deployment，部署失败"
+msgstr ""
+
+#: myapp/tasks/async_task.py:240
+#, python-format
+msgid "%s 新版本推理服务运行状态检查超时，请手动检查和清理旧版本%s %s"
+msgstr ""
+
+#: myapp/tasks/async_task.py:274
+#, python-format
+msgid "%s 新版本服务升级完成，下线旧服务 %s %s"
+msgstr ""
+
+#: myapp/tasks/async_task.py:278
+#, python-format
+msgid "%s %s 推理服务没有历史在线版本，%s版本升级完成"
+msgstr ""
+
+#: myapp/tasks/async_task.py:284
+#, python-format
+msgid "部署升级报错 %s %s: %s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:110
+#, python-format
+msgid "%s %s %s %s 创建时间 %s， 已经运行时间过久，注意修正"
+msgstr ""
+
+#: myapp/tasks/schedules.py:208
+#, python-format
+msgid "您的notebook %s已清理释放资源，如果需要可reset后重新使用。"
+msgstr ""
+
+#: myapp/tasks/schedules.py:210
+#, python-format
+msgid "您的notebook %s即将过期，如要继续使用，请尽快续期，每次有效期3天\n"
+msgstr ""
+
+#: myapp/tasks/schedules.py:450
+#, python-format
+msgid "发现%s 任务流在 %s 时刻存在多个定时记录"
+msgstr ""
+
+#: myapp/tasks/schedules.py:606
+#, python-format
+msgid "阻止重复提交 timerun %s, pipeline %s, exec time %s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:764
+#, python-format
+msgid ""
+"\n"
+"每次训练耗时(h):%s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:806
+msgid "memory申请"
+msgstr ""
+
+#: myapp/tasks/schedules.py:814 myapp/tasks/schedules.py:838
+msgid "tfjob_cpu申请"
+msgstr ""
+
+#: myapp/tasks/schedules.py:815 myapp/tasks/schedules.py:839
+msgid "tfjob_memory申请"
+msgstr ""
+
+#: myapp/tasks/schedules.py:835
+msgid "，tfjob资源使用率:"
+msgstr ""
+
+#: myapp/tasks/schedules.py:838
+msgid ""
+"\n"
+"申请cpu: "
+msgstr ""
+
+#: myapp/tasks/schedules.py:839
+msgid ""
+"\n"
+"申请mem: "
+msgstr ""
+
+#: myapp/tasks/schedules.py:840
+msgid ""
+"\n"
+"\n"
+"自行增加tfjob资源配置或worker数目"
+msgstr ""
+
+#: myapp/tasks/schedules.py:906
+#, python-format
+msgid ""
+"\n"
+"目录%s,目录大小前10名:\n"
+msgstr ""
+
+#: myapp/tasks/schedules.py:921 myapp/tasks/schedules.py:922
+#, python-format
+msgid ""
+"%s "
+"检测到您的工作目录当前占用磁盘大小为%sG。目前每个用户工作目录上限为2500G，超出后部分功能可能受限，请及时进入个人notebook清理旧数据"
+msgstr ""
+
+#: myapp/tasks/schedules.py:947
+#, python-format
+msgid "%s集群共已使用%s张卡"
+msgstr ""
+
+#: myapp/tasks/schedules.py:1120 myapp/tasks/schedules.py:1140
+#, python-format
+msgid "集群 %s 调整项目组 %s 下 cpu机器 %s 到项目组%s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:1128 myapp/tasks/schedules.py:1150
+#, python-format
+msgid "集群 %s 调整项目组 %s 下 gpu机器 %s 到项目组%s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:1211
+#, python-format
+msgid "集群%s,%s %s kill失败， 可先选择强制删除 %s"
+msgstr ""
+
+#: myapp/tasks/schedules.py:1215
+msgid "查询终止态pod失败"
+msgstr ""
+
+#: myapp/tools/check_celery.py:36
+msgid "超过100个任务堆积未被调度"
+msgstr ""
+
+#: myapp/tools/check_celery.py:42
+msgid "超过500个调度未完成"
+msgstr ""
+
+#: myapp/tools/watch_workflow.py:86
+msgid "pod详情"
+msgstr ""
+
+#: myapp/tools/watch_workflow.py:176
+#, python-format
+msgid "pipeline(%s)根据近10次的任务训练资源使用情况，系统做如下调整:\n"
+msgstr ""
+
+#: myapp/tools/watch_workflow.py:195
+#, python-format
+msgid "task(%s)，原申请cpu:%s，近10次最大使用cpu:%s，新申请值:%s\n"
+msgstr ""
+
+#: myapp/tools/watch_workflow.py:202
+#, python-format
+msgid "task(%s)，原申请mem:%s，近10次最大使用mem:%s(G)，新申请值:%s\n"
+msgstr ""
+
+#: myapp/tools/watch_workflow.py:229
+#, python-format
+msgid ""
+"\n"
+"%s %s，各task耗时，酌情优化:\n"
+msgstr ""
+
+#: myapp/utils/core.py:831
+#, python-format
+msgid "[Myapp] Access to the datasource %(name)s was granted"
+msgstr ""
+
+#: myapp/utils/core.py:1230
+msgid "From date cannot be larger than to date"
+msgstr ""
+
+#: myapp/utils/core.py:1562
+msgid "占用算力超过管理员设定的最大值，系统已自动调整算力为:"
+msgstr ""
+
+#: myapp/utils/sqllab/base_impl.py:49 myapp/utils/sqllab/base_impl.py:133
+#: myapp/utils/sqllab/base_impl.py:192
+msgid "任务异常，数据库记录不存在"
+msgstr ""
+
+#: myapp/utils/sqllab/base_impl.py:52
+msgid "无法识别账号"
+msgstr ""
+
+#: myapp/utils/sqllab/base_impl.py:54
+msgid "查询sql必须包含limit"
+msgstr ""
+
+#: myapp/utils/sqllab/base_impl.py:159
+msgid "下载失败，desc: "
+msgstr ""
+
+#: myapp/utils/sqllab/base_impl.py:199
+msgid "暂未实现远程数据库kill操作"
+msgstr ""
+
+#: myapp/views/base.py:214
+msgid "json isn't valid"
+msgstr ""
+
+#: myapp/views/baseApi.py:414
+msgid " 列表"
+msgstr ""
+
+#: myapp/views/baseApi.py:416 myapp/views/baseFormApi.py:143
+msgid "添加 "
+msgstr ""
+
+#: myapp/views/baseApi.py:418 myapp/views/baseFormApi.py:145
+msgid "编辑 "
+msgstr ""
+
+#: myapp/views/baseApi.py:420 myapp/views/baseFormApi.py:147
+msgid "查看 "
+msgstr ""
+
+#: myapp/views/baseApi.py:1657 myapp/views/view_dimension.py:832
+msgid "csv首行header与数据库字段不对应"
+msgstr ""
+
+#: myapp/views/baseFormApi.py:141
+msgid "遍历 "
+msgstr ""
+
+#: myapp/views/home.py:81
+msgid "项目空间"
+msgstr ""
+
+#: myapp/views/home.py:94 myapp/views/view_team.py:257
+#: myapp/views/view_team.py:260
+msgid "项目分组"
+msgstr ""
+
+#: myapp/views/home.py:103 myapp/views/view_team.py:54
+msgid "组成员"
+msgstr ""
+
+#: myapp/views/home.py:117
+msgid "数据资产"
+msgstr ""
+
+#: myapp/views/home.py:124
+msgid "数据探索"
+msgstr ""
+
+#: myapp/views/home.py:140
+msgid "元数据"
+msgstr ""
+
+#: myapp/views/home.py:146 myapp/views/view_metadata.py:278
+msgid "库表"
+msgstr ""
+
+#: myapp/views/home.py:160 myapp/views/view_dimension.py:160
+msgid "维表"
+msgstr ""
+
+#: myapp/views/home.py:170
+msgid "媒体数据"
+msgstr ""
+
+#: myapp/views/home.py:183
+msgid "标注平台"
+msgstr ""
+
+#: myapp/views/home.py:197
+msgid "在线开发"
+msgstr ""
+
+#: myapp/views/home.py:204 myapp/views/home.py:224
+msgid "镜像管理"
+msgstr ""
+
+#: myapp/views/home.py:210
+msgid "镜像仓库"
+msgstr ""
+
+#: myapp/views/home.py:217
+msgid "镜像构建"
+msgstr ""
+
+#: myapp/views/home.py:233
+msgid "代码开发"
+msgstr ""
+
+#: myapp/views/home.py:248
+msgid "数据开发"
+msgstr ""
+
+#: myapp/views/home.py:254
+msgid "任务ETL"
+msgstr ""
+
+#: myapp/views/home.py:262
+msgid "任务管理"
+msgstr ""
+
+#: myapp/views/home.py:270 myapp/views/view_etl_pipeline.py:343
+msgid "任务实例"
+msgstr ""
+
+#: myapp/views/home.py:282
+msgid "模型训练"
+msgstr ""
+
+#: myapp/views/home.py:289
+msgid "模板开发"
+msgstr ""
+
+#: myapp/views/home.py:295
+msgid "模板分类"
+msgstr ""
+
+#: myapp/views/home.py:336
+msgid "定时调度"
+msgstr ""
+
+#: myapp/views/home.py:352
+msgid "Automl"
+msgstr ""
+
+#: myapp/views/home.py:358
+msgid "超参搜索"
+msgstr ""
+
+#: myapp/views/home.py:370
+msgid "服务化"
+msgstr ""
+
+#: myapp/views/home.py:377 myapp/views/view_total_resource.py:314
+msgid "整体资源"
+msgstr ""
+
+#: myapp/views/home.py:384
+msgid "内部服务"
+msgstr ""
+
+#: myapp/views/home.py:391 myapp/views/view_chat.py:238
+msgid "模型服务"
+msgstr ""
+
+#: myapp/views/home.py:397 myapp/views/home.py:567
+msgid "模型管理"
+msgstr ""
+
+#: myapp/views/home.py:404 myapp/views/view_inferenceserving.py:168
+msgid "推理服务"
+msgstr ""
+
+#: myapp/views/home.py:411
+msgid "服务网关"
+msgstr ""
+
+#: myapp/views/home.py:440
+msgid "模型市场"
+msgstr ""
+
+#: myapp/views/home.py:448
+msgid "视觉"
+msgstr ""
+
+#: myapp/views/home.py:455
+msgid "语音"
+msgstr ""
+
+#: myapp/views/home.py:469 myapp/views/view_aihub.py:135
+msgid "多模态"
+msgstr ""
+
+#: myapp/views/home.py:485
+msgid "智能体"
+msgstr ""
+
+#: myapp/views/home.py:491
+msgid "智能对话"
+msgstr ""
+
+#: myapp/views/home.py:499
+msgid "Agent配置"
+msgstr ""
+
+#: myapp/views/home.py:509
+msgid "算力租赁"
+msgstr ""
+
+#: myapp/views/home.py:517
+msgid "算力市场"
+msgstr ""
+
+#: myapp/views/home.py:524 myapp/views/home.py:622
+msgid "存储资源"
+msgstr ""
+
+#: myapp/views/home.py:531
+msgid "实例管理"
+msgstr ""
+
+#: myapp/views/home.py:540
+msgid "TOKEN租赁"
+msgstr ""
+
+#: myapp/views/home.py:549
+msgid "模型广场"
+msgstr ""
+
+#: myapp/views/home.py:558
+msgid "我的Key"
+msgstr ""
+
+#: myapp/views/home.py:576
+msgid "费用"
+msgstr ""
+
+#: myapp/views/home.py:582
+msgid "计量计费"
+msgstr ""
+
+#: myapp/views/home.py:590
+msgid "账单支付"
+msgstr ""
+
+#: myapp/views/home.py:598
+msgid "充值"
+msgstr ""
+
+#: myapp/views/home.py:608
+msgid "资源配置(管理员)"
+msgstr ""
+
+#: myapp/views/home.py:614
+msgid "机器资源"
+msgstr ""
+
+#: myapp/views/home.py:636
+msgid "数据智能"
+msgstr ""
+
+#: myapp/views/home.py:646
+msgid "聊天"
+msgstr ""
+
+#: myapp/views/home.py:660
+msgid "安全设置(管理员)"
+msgstr ""
+
+#: myapp/views/home.py:666
+msgid "用户列表"
+msgstr ""
+
+#: myapp/views/home.py:677
+msgid "日志列表"
+msgstr ""
+
+#: myapp/views/home.py:695
+msgid "链接(管理员)"
+msgstr ""
+
+#: myapp/views/home.py:743
+msgid "未能正常获取弹窗信息"
+msgstr ""
+
+#: myapp/views/home.py:747
+msgid "弹窗失败"
+msgstr ""
+
+#: myapp/views/view_aihub.py:52
+msgid "aihub应用"
+msgstr ""
+
+#: myapp/views/view_aihub.py:62
+msgid "信息"
+msgstr ""
+
+#: myapp/views/view_aihub.py:64
+msgid "图片地址"
+msgstr ""
+
+#: myapp/views/view_aihub.py:65
+msgid "数据集配置"
+msgstr ""
+
+#: myapp/views/view_aihub.py:66
+msgid "在线开发配置"
+msgstr ""
+
+#: myapp/views/view_aihub.py:67
+msgid "在线微调配置"
+msgstr ""
+
+#: myapp/views/view_aihub.py:68
+msgid "在线部署配置"
+msgstr ""
+
+#: myapp/views/view_aihub.py:73 myapp/views/view_aihub.py:74
+msgid "AI领域"
+msgstr ""
+
+#: myapp/views/view_chat.py:124
+msgid ""
+"\n"
+"你是一个AI助手，以下```中的内容是你已知的知识。\n"
+"```\n"
+"{{knowledge}}\n"
+"```\n"
+"\n"
+"你的任务是根据上面给出的知识，回答用户的问题。当你回答时，你的回复必须遵循以下约束：\n"
+"\n"
+"1. 只回复以上知识中包含的信息。\n"
+"2. 当你回答问题需要一些额外知识的时候，只能使用非常确定的知识和信息，以确保不会误导用户。\n"
+"3. 如果你无法确切回答用户问题的答案，请直接回复\"不知道\"，并给出原因。\n"
+"4. 使用中文回答。\n"
+"\n"
+"你需要回答：\n"
+"\n"
+"{{query}}\n"
+msgstr ""
+
+#: myapp/views/view_chat.py:145
+msgid "智能体配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:151
+msgid "交互类型"
+msgstr ""
+
+#: myapp/views/view_chat.py:152
+msgid "欢迎语"
+msgstr ""
+
+#: myapp/views/view_chat.py:153 myapp/views/view_chat.py:328
+msgid "输入示例"
+msgstr ""
+
+#: myapp/views/view_chat.py:154 myapp/views/view_chat.py:304
+msgid "知识库"
+msgstr ""
+
+#: myapp/views/view_chat.py:156 myapp/views/view_chat.py:293
+msgid "接口配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:157 myapp/views/view_chat.py:321
+msgid "上下文条数"
+msgstr ""
+
+#: myapp/views/view_chat.py:158
+msgid "提示词模板"
+msgstr ""
+
+#: myapp/views/view_chat.py:230
+msgid "基础配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:234
+msgid "提示词配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:248 myapp/views/view_chat.py:352
+#: myapp/views/view_etl_pipeline.py:133
+#: myapp/views/view_inferenceserving.py:228 myapp/views/view_job_template.py:84
+#: myapp/views/view_nni.py:100 myapp/views/view_pipeline.py:599
+#: myapp/views/view_serving.py:85 myapp/views/view_task.py:100
+msgid "英文名(小写字母、数字、- 组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_chat.py:263
+msgid ""
+"svg格式图标，图标宽高设置为50*50，<a target=\"_blank\" "
+"href=\"https://www.iconfont.cn/\">iconfont</a>"
+msgstr ""
+
+#: myapp/views/view_chat.py:271
+msgid "可见用户，*表示所有用户可见，将责任人列为第一管理员，逗号分割多个责任人"
+msgstr ""
+
+#: myapp/views/view_chat.py:277
+msgid "对话类型"
+msgstr ""
+
+#: myapp/views/view_chat.py:281
+msgid "文本对话"
+msgstr ""
+
+#: myapp/views/view_chat.py:281
+msgid "数字人"
+msgstr ""
+
+#: myapp/views/view_chat.py:286
+msgid "接口类型，并不一定是openai，只需要符合http请求响应格式即可"
+msgstr ""
+
+#: myapp/views/view_chat.py:289 myapp/views/view_chat.py:775
+msgid "召回列表"
+msgstr ""
+
+#: myapp/views/view_chat.py:299
+msgid "接口配置，每种接口类型配置参数不同"
+msgstr ""
+
+#: myapp/views/view_chat.py:307
+msgid "文件地址"
+msgstr ""
+
+#: myapp/views/view_chat.py:309
+msgid "先验知识配置。如果先验字符串少于1800个字符，可以直接填写字符串，否则需要使用json配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:314
+msgid "提示词"
+msgstr ""
+
+#: myapp/views/view_chat.py:316
+msgid "提示词模板，包含{{knowledge}}知识库召回内容，{{history}}为多轮对话，{{query}}为用户的问题"
+msgstr ""
+
+#: myapp/views/view_chat.py:323
+msgid "最大保留的上下文对话条数，同时受限于最大token数"
+msgstr ""
+
+#: myapp/views/view_chat.py:330
+msgid "提示输入，多个提示输入，多行配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:339
+msgid "配置扩展参数，\"index\":控制显示顺序,\"isPublic\":控制是否为公共应用"
+msgstr ""
+
+#: myapp/views/view_chat.py:376
+msgid "自动为您创建的私人对话，不使用上下文，左下角可以清理会话和修改知识库配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:551
+msgid "只有创建者或管理员可以配置"
+msgstr ""
+
+#: myapp/views/view_chat.py:666
+msgid "聊天不存在"
+msgstr ""
+
+#: myapp/views/view_chat.py:766 myapp/views/view_chat.py:1277
+msgid "失败"
+msgstr ""
+
+#: myapp/views/view_chat.py:766 myapp/views/view_chat.py:780
+#: myapp/views/view_chat.py:798 myapp/views/view_chat.py:1277
+msgid "成功"
+msgstr ""
+
+#: myapp/views/view_chat.py:777
+msgid ""
+"内容：\n"
+"\n"
+"    "
+msgstr ""
+
+#: myapp/views/view_chat.py:777
+msgid ""
+"得分：\n"
+"\n"
+"    "
+msgstr ""
+
+#: myapp/views/view_chat.py:777
+msgid ""
+"文件：\n"
+"\n"
+"    "
+msgstr ""
+
+#: myapp/views/view_chat.py:790
+msgid "召回内容为空"
+msgstr ""
+
+#: myapp/views/view_chat.py:795
+msgid "多轮"
+msgstr ""
+
+#: myapp/views/view_chat.py:808
+msgid "未找到相关内容"
+msgstr ""
+
+#: myapp/views/view_chat.py:844
+msgid "按照您的要求\""
+msgstr ""
+
+#: myapp/views/view_chat.py:844
+msgid "\"，绘制的图片"
+msgstr ""
+
+#: myapp/views/view_dataset.py:70
+msgid "子数据集名称"
+msgstr ""
+
+#: myapp/views/view_dataset.py:71
+msgid "来源类型"
+msgstr ""
+
+#: myapp/views/view_dataset.py:72 myapp/views/view_dataset.py:213
+msgid "数据来源"
+msgstr ""
+
+#: myapp/views/view_dataset.py:73
+msgid "数据用途"
+msgstr ""
+
+#: myapp/views/view_dataset.py:74
+msgid "研究方向"
+msgstr ""
+
+#: myapp/views/view_dataset.py:76
+msgid "数据年份"
+msgstr ""
+
+#: myapp/views/view_dataset.py:77 myapp/views/view_dataset.py:78
+#: myapp/views/view_dataset.py:251
+msgid "相关网址"
+msgstr ""
+
+#: myapp/views/view_dataset.py:80 myapp/views/view_dataset.py:81
+#: myapp/views/view_dataset.py:257
+msgid "容器内路径"
+msgstr ""
+
+#: myapp/views/view_dataset.py:82
+msgid "条目数量"
+msgstr ""
+
+#: myapp/views/view_dataset.py:83
+msgid "文件时长"
+msgstr ""
+
+#: myapp/views/view_dataset.py:85 myapp/views/view_dataset.py:86
+#: myapp/views/view_dataset.py:269
+msgid "预览图"
+msgstr ""
+
+#: myapp/views/view_dataset.py:88 myapp/views/view_dataset.py:276
+msgid "特征列"
+msgstr ""
+
+#: myapp/views/view_dataset.py:89
+msgid "分区"
+msgstr ""
+
+#: myapp/views/view_dataset.py:153
+msgid "数据集英文名，(小写字母、数字、- 组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_dataset.py:160
+msgid "数据集版本"
+msgstr ""
+
+#: myapp/views/view_dataset.py:166
+msgid "子数据集"
+msgstr ""
+
+#: myapp/views/view_dataset.py:167
+msgid "子数据集名称，不存在子数据集，与name同值"
+msgstr ""
+
+#: myapp/views/view_dataset.py:182
+msgid "数据集描述"
+msgstr ""
+
+#: myapp/views/view_dataset.py:188
+msgid "行业分类"
+msgstr ""
+
+#: myapp/views/view_dataset.py:208
+msgid "开源"
+msgstr ""
+
+#: myapp/views/view_dataset.py:214
+msgid "数据来源，可自己填写"
+msgstr ""
+
+#: myapp/views/view_dataset.py:240
+msgid "责任人,逗号分隔的多个用户,*表示公开"
+msgstr ""
+
+#: myapp/views/view_dataset.py:246
+msgid "数据集状态"
+msgstr ""
+
+#: myapp/views/view_dataset.py:252
+msgid "关于数据集介绍或者手动下载的网址，每行一个网址"
+msgstr ""
+
+#: myapp/views/view_dataset.py:258
+msgid ""
+"本地文件通过notebook上传到平台内，处理后，压缩成单个压缩文件，每行一个压缩文件地址。<a target=\"_blank\" "
+"href=\"/notebook_modelview/api/entry/jupyter?file_path=/mnt/{{creator}}/\">上传文件</a>"
+msgstr ""
+
+#: myapp/views/view_dataset.py:264
+msgid "如何数据集存储在外部，此处提供可以直接下载的链接地址，每行一个url"
+msgstr ""
+
+#: myapp/views/view_dataset.py:271
+msgid "可以为图片地址，svg源码，或者帮助文档链接"
+msgstr ""
+
+#: myapp/views/view_dataset.py:277
+msgid "数据集中的列信息，要求数据集中要有data.csv文件用于表示数据集中的全部数据"
+msgstr ""
+
+#: myapp/views/view_dimension.py:58 myapp/views/view_metadata.py:30
+msgid "列名"
+msgstr ""
+
+#: myapp/views/view_dimension.py:59 myapp/views/view_metadata.py:32
+msgid "列名(小写字母、数字、_ 组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_dimension.py:65 myapp/views/view_metadata.py:38
+msgid "列描述"
+msgstr ""
+
+#: myapp/views/view_dimension.py:72 myapp/views/view_metadata.py:45
+msgid "字段类型"
+msgstr ""
+
+#: myapp/views/view_dimension.py:80
+msgid "是否唯一"
+msgstr ""
+
+#: myapp/views/view_dimension.py:86
+msgid "是否可为空"
+msgstr ""
+
+#: myapp/views/view_dimension.py:92
+msgid "是否为主键"
+msgstr ""
+
+#: myapp/views/view_dimension.py:98
+msgid "可选择项"
+msgstr ""
+
+#: myapp/views/view_dimension.py:99
+msgid "enum类型时，逗号分割多个可选择项，为空则为数据库记录已存在可选择项"
+msgstr ""
+
+#: myapp/views/view_dimension.py:121
+msgid "更新了不支持的新字段类型"
+msgstr ""
+
+#: myapp/views/view_dimension.py:178 myapp/views/view_dimension.py:197
+msgid "链接串地址"
+msgstr ""
+
+#: myapp/views/view_dimension.py:184
+msgid "表元数据"
+msgstr ""
+
+#: myapp/views/view_dimension.py:199
+msgid ""
+"链接串地址： <br> 示例：mysql+pymysql://账号:密码@ip:端口/库名?charset=utf8 <br> "
+"示例：postgresql+psycopg2://账号:密码@ip:端口/库名"
+msgstr ""
+
+#: myapp/views/view_dimension.py:205
+msgid "远程数据库的表名(小写字母、数字、_ 组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_dimension.py:233
+msgid "字段信息"
+msgstr ""
+
+#: myapp/views/view_dimension.py:234
+msgid "维表字段信息，必须包含自增主键列，例如id"
+msgstr ""
+
+#: myapp/views/view_dimension.py:240 myapp/views/view_metadata.py:183
+msgid "责任人,逗号分隔的多个用户"
+msgstr ""
+
+#: myapp/views/view_dimension.py:260 myapp/views/view_dimension.py:269
+msgid "主键"
+msgstr ""
+
+#: myapp/views/view_dimension.py:285
+msgid "添加或修改字段类型，需要点击\"更新远程表\"，以实现在远程数据库上建表"
+msgstr ""
+
+#: myapp/views/view_dimension.py:302
+msgid "数据库连接串地址无法访问"
+msgstr ""
+
+#: myapp/views/view_dimension.py:307
+msgid "测试数据库连通性失败，请重新配置数据库连接串"
+msgstr ""
+
+#: myapp/views/view_dimension.py:369
+msgid "清空完成"
+msgstr ""
+
+#: myapp/views/view_dimension.py:372
+msgid "清空失败："
+msgstr ""
+
+#: myapp/views/view_dimension.py:422 myapp/views/view_dimension.py:508
+msgid "创建新表成功"
+msgstr ""
+
+#: myapp/views/view_dimension.py:436 myapp/views/view_dimension.py:477
+msgid "增加新字段成功"
+msgstr ""
+
+#: myapp/views/view_dimension.py:440 myapp/views/view_dimension.py:481
+msgid "增加新字段失败："
+msgstr ""
+
+#: myapp/views/view_dimension.py:748 myapp/views/view_dimension.py:749
+msgid "检测到唯一性字段重复"
+msgstr ""
+
+#: myapp/views/view_dimension.py:813
+msgid "不识别的csv文件编码格式，请转为utf-8编码格式"
+msgstr ""
+
+#: myapp/views/view_docker.py:88 myapp/views/view_notebook.py:155
+#: myapp/views/view_total_resource.py:300
+msgid "内存"
+msgstr ""
+
+#: myapp/views/view_docker.py:90 myapp/views/view_notebook.py:157
+msgid "内存的资源使用配置，示例：1G，20G"
+msgstr ""
+
+#: myapp/views/view_docker.py:95 myapp/views/view_nni.py:241
+#: myapp/views/view_notebook.py:162 myapp/views/view_serving.py:93
+#: myapp/views/view_task.py:146 myapp/views/view_total_resource.py:299
+msgid "cpu"
+msgstr ""
+
+#: myapp/views/view_docker.py:97 myapp/views/view_notebook.py:164
+msgid "cpu的资源使用配置(单位：核)，示例：2"
+msgstr ""
+
+#: myapp/views/view_docker.py:102 myapp/views/view_inferenceserving.py:205
+#: myapp/views/view_nni.py:248 myapp/views/view_notebook.py:169
+#: myapp/views/view_serving.py:94
+msgid "gpu"
+msgstr ""
+
+#: myapp/views/view_docker.py:104 myapp/views/view_inferenceserving.py:205
+#: myapp/views/view_nni.py:250 myapp/views/view_notebook.py:171
+msgid "申请的gpu卡数目，示例:2，每个容器独占整卡。申请具体的卡型号，可以类似 1(V100)"
+msgstr ""
+
+#: myapp/views/view_docker.py:114
+msgid "目标镜像描述"
+msgstr ""
+
+#: myapp/views/view_docker.py:141
+msgid "目标镜像名，将直接推送到目标仓库，需在镜像仓库中配置了相应仓库的账号密码"
+msgstr ""
+
+#: myapp/views/view_docker.py:165 myapp/views/view_docker.py:170
+msgid "目标镜像名称不符合规范，未发现目标所属仓库的配置"
+msgstr ""
+
+#: myapp/views/view_docker.py:195
+msgid "发现集群更换，已帮你删除之前启动的debug容器"
+msgstr ""
+
+#: myapp/views/view_docker.py:199
+msgid "发现基础镜像更换，已帮你删除之前启动的debug容器"
+msgstr ""
+
+#: myapp/views/view_docker.py:270
+msgid "拉取镜像时间过长，一分钟后刷新此页面，或者打开链接："
+msgstr ""
+
+#: myapp/views/view_docker.py:270
+msgid "查看pod信息"
+msgstr ""
+
+#: myapp/views/view_docker.py:277
+msgid "镜像调试只安装环境，请不要运行业务代码。当晚前请注意保存镜像"
+msgstr ""
+
+#: myapp/views/view_docker.py:293
+msgid "清理结束，可重新进行调试"
+msgstr ""
+
+#: myapp/views/view_docker.py:321
+msgid "没有发现正在运行的调试镜像，请先调试镜像，安装环境后，再保存生成新镜像"
+msgstr ""
+
+#: myapp/views/view_docker.py:336
+msgid "构建推送镜像前，请先添加镜像仓库信息"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:73 myapp/views/view_etl_pipeline.py:549
+msgid "此部分仅提供任务流编排能力，管理员自行对接调度Azkaban/Oozie/Airflow/argo等调度平台能力"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:148
+msgid "任务流描述"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:151
+msgid "上下有关系"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:156 myapp/views/view_etl_pipeline.py:535
+msgid "调度引擎"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:159
+msgid "调度集群选择"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:280
+msgid "任务流不存在"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:288
+msgid "只有创建者或管理员可修改"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:336
+msgid "任务查看"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline.py:534
+msgid "全部配置"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:24
+#: myapp/views/view_etl_pipeline_azkaban.py:25
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:25
+msgid "中文名称"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:30
+#: myapp/views/view_etl_pipeline_azkaban.py:31
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:31
+msgid "任务中文别名"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:38
+#: myapp/views/view_etl_pipeline_azkaban.py:39
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:39
+msgid "任务元数据"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:48
+#: myapp/views/view_etl_pipeline_azkaban.py:49
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:49
+msgid "周期任务的时间设定 * * * * * 一次性任务可不填写 <br>表示为 minute hour day month week"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:55
+#: myapp/views/view_etl_pipeline_azkaban.py:56
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:56
+msgid "自依赖判断"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:57
+msgid "自依赖"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:57
+#: myapp/views/view_etl_pipeline_airflow.py:59
+#: myapp/views/view_etl_pipeline_azkaban.py:60
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:60
+msgid "单实例运行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:57
+msgid "多实例运行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:61
+#: myapp/views/view_etl_pipeline_azkaban.py:62
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:62
+msgid "一个任务的多次调度实例之间是否要进行前后依赖"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:68
+#: myapp/views/view_etl_pipeline_airflow.py:74
+#: myapp/views/view_etl_pipeline_azkaban.py:69
+#: myapp/views/view_etl_pipeline_azkaban.py:75
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:69
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:75
+msgid "队列"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:79
+#: myapp/views/view_etl_pipeline_azkaban.py:80
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:80
+msgid "监控配置"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:83
+#: myapp/views/view_etl_pipeline_azkaban.py:84
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:84
+#: myapp/views/view_pipeline.py:693
+msgid "报警用户"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:89
+#: myapp/views/view_etl_pipeline_azkaban.py:90
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:90
+msgid "报警用户，逗号分隔"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:102
+#: myapp/views/view_etl_pipeline_azkaban.py:103
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:103
+#: myapp/views/view_task.py:155
+msgid "task运行时长限制，为0表示不限制(单位s)"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:125
+#: myapp/views/view_etl_pipeline_airflow.py:144
+#: myapp/views/view_etl_pipeline_azkaban.py:126
+#: myapp/views/view_etl_pipeline_azkaban.py:145
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:126
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:145
+msgid "绑定任务"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:127
+#: myapp/views/view_etl_pipeline_azkaban.py:128
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:128
+msgid "已存在任务"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:129
+#: myapp/views/view_etl_pipeline_airflow.py:154
+#: myapp/views/view_etl_pipeline_airflow.py:181
+#: myapp/views/view_etl_pipeline_airflow.py:326
+#: myapp/views/view_etl_pipeline_airflow.py:411
+#: myapp/views/view_etl_pipeline_airflow.py:460
+#: myapp/views/view_etl_pipeline_airflow.py:511
+#: myapp/views/view_etl_pipeline_airflow.py:676
+#: myapp/views/view_etl_pipeline_airflow.py:739
+#: myapp/views/view_etl_pipeline_airflow.py:901
+#: myapp/views/view_etl_pipeline_azkaban.py:130
+#: myapp/views/view_etl_pipeline_azkaban.py:155
+#: myapp/views/view_etl_pipeline_azkaban.py:182
+#: myapp/views/view_etl_pipeline_azkaban.py:327
+#: myapp/views/view_etl_pipeline_azkaban.py:412
+#: myapp/views/view_etl_pipeline_azkaban.py:461
+#: myapp/views/view_etl_pipeline_azkaban.py:512
+#: myapp/views/view_etl_pipeline_azkaban.py:677
+#: myapp/views/view_etl_pipeline_azkaban.py:740
+#: myapp/views/view_etl_pipeline_azkaban.py:902
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:130
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:155
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:182
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:327
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:412
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:461
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:512
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:677
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:740
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:902
+#: myapp/views/view_job_template.py:168
+msgid "参数"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:133
+#: myapp/views/view_etl_pipeline_airflow.py:139
+msgid "已存在任务的us task id"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:145
+#: myapp/views/view_etl_pipeline_azkaban.py:146
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:146
+msgid "绑定已存在任务，类似于创建软链接"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:152
+#: myapp/views/view_etl_pipeline_airflow.py:169
+#: myapp/views/view_etl_pipeline_azkaban.py:153
+#: myapp/views/view_etl_pipeline_azkaban.py:170
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:153
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:170
+msgid "xx平台任务流"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:158
+#: myapp/views/view_etl_pipeline_azkaban.py:159
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:159
+msgid "xx平台任务流id"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:164
+#: myapp/views/view_etl_pipeline_azkaban.py:165
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:165
+msgid "xx平台任务流id，可以在任务流详情处查看。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:170
+#: myapp/views/view_etl_pipeline_azkaban.py:171
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:171
+msgid "绑定xx平台任务流，类似于创建软链接。用于创建依赖。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:177
+#: myapp/views/view_etl_pipeline_azkaban.py:178
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:178
+msgid "出库入库"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:179
+#: myapp/views/view_etl_pipeline_azkaban.py:180
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:180
+msgid "hdfs入库至hive"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:185
+#: myapp/views/view_etl_pipeline_airflow.py:191
+#: myapp/views/view_etl_pipeline_azkaban.py:186
+#: myapp/views/view_etl_pipeline_azkaban.py:192
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:186
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:192
+msgid "源文件字符集"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:197
+#: myapp/views/view_etl_pipeline_airflow.py:203
+#: myapp/views/view_etl_pipeline_azkaban.py:198
+#: myapp/views/view_etl_pipeline_azkaban.py:204
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:198
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:204
+msgid "hive数据库名称"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:209
+#: myapp/views/view_etl_pipeline_airflow.py:215
+#: myapp/views/view_etl_pipeline_azkaban.py:210
+#: myapp/views/view_etl_pipeline_azkaban.py:216
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:210
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:216
+msgid "hive表名"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:221
+#: myapp/views/view_etl_pipeline_azkaban.py:222
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:222
+msgid "源文件分隔符, 填ascii码"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:227
+#: myapp/views/view_etl_pipeline_azkaban.py:228
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:228
+msgid "默认TAB，ascii码：9"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:233
+#: myapp/views/view_etl_pipeline_azkaban.py:234
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:234
+msgid "入库为空时任务处理"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:239
+#: myapp/views/view_etl_pipeline_azkaban.py:240
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:240
+msgid "无源文件或入库记录为0时,可以指定任务为成功(0)或失败(1)，默认失败(1)"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:245
+#: myapp/views/view_etl_pipeline_azkaban.py:246
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:246
+msgid "分区格式"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:251
+#: myapp/views/view_etl_pipeline_azkaban.py:252
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:252
+#, python-brace-format
+msgid "分区格式：P_${YYYYMM}、P_${YYYYMMDD}、P_${YYYYMMDDHH}、NULL"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:257
+#: myapp/views/view_etl_pipeline_azkaban.py:258
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:258
+msgid "数据文件hdfs路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:263
+#: myapp/views/view_etl_pipeline_azkaban.py:264
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:264
+#, python-brace-format
+msgid "支持三种日期变量:${YYYYMM}、${YYYYMMDD}、${YYYYMMDDHH}。系统用任务实例的数据时间替换日期变量。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:269
+#: myapp/views/view_etl_pipeline_azkaban.py:270
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:270
+msgid "源文件名"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:275
+#: myapp/views/view_etl_pipeline_azkaban.py:276
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:276
+#, python-brace-format
+msgid "源文件名(支持通配符*和${YYYYMMDD});入库不做检查"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:281
+#: myapp/views/view_etl_pipeline_azkaban.py:282
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:282
+msgid "源文件的栏位名称"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:287
+#: myapp/views/view_etl_pipeline_azkaban.py:288
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:288
+msgid "源文件的栏位名称，以逗号分割（结尾不能是逗号）,必须保证列数和文件内容一致（创建临时表所用表列名）。例如column1,column2,column3。注：不允许输入空格，源文件栏位名称只由大小写字符、数字和下划线组成"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:293
+#: myapp/views/view_etl_pipeline_azkaban.py:294
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:294
+msgid "字段映射关系，即hive表的列名"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:299
+#: myapp/views/view_etl_pipeline_azkaban.py:300
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:300
+msgid "字段映射关系，即hive表的列名。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:305
+#: myapp/views/view_etl_pipeline_azkaban.py:306
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:306
+msgid "数据入库模式"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:311
+#: myapp/views/view_etl_pipeline_azkaban.py:312
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:312
+msgid "数据入库模式,TRUNCATE或APPEND;"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:316
+#: myapp/views/view_etl_pipeline_airflow.py:317
+#: myapp/views/view_etl_pipeline_azkaban.py:317
+#: myapp/views/view_etl_pipeline_azkaban.py:318
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:317
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:318
+msgid "hdfs入库至hive任务"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:324
+#: myapp/views/view_etl_pipeline_azkaban.py:325
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:325
+msgid "hive出库至hdfs"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:330
+#: myapp/views/view_etl_pipeline_airflow.py:336
+#: myapp/views/view_etl_pipeline_azkaban.py:331
+#: myapp/views/view_etl_pipeline_azkaban.py:337
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:331
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:337
+msgid "hive表所在的database"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:342
+#: myapp/views/view_etl_pipeline_airflow.py:348
+#: myapp/views/view_etl_pipeline_azkaban.py:343
+#: myapp/views/view_etl_pipeline_azkaban.py:349
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:343
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:349
+msgid "对账文件名"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:354
+#: myapp/views/view_etl_pipeline_airflow.py:360
+#: myapp/views/view_etl_pipeline_azkaban.py:355
+#: myapp/views/view_etl_pipeline_azkaban.py:361
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:355
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:361
+msgid "对账文件路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:366
+#: myapp/views/view_etl_pipeline_azkaban.py:367
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:367
+msgid "出库文件分隔符"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:372
+#: myapp/views/view_etl_pipeline_azkaban.py:373
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:373
+msgid "出库文件分隔符，填ascii字符对应的数字。默认TAB：9"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:378
+#: myapp/views/view_etl_pipeline_airflow.py:384
+#: myapp/views/view_etl_pipeline_azkaban.py:379
+#: myapp/views/view_etl_pipeline_azkaban.py:385
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:379
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:385
+msgid "出库文件路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:390
+#: myapp/views/view_etl_pipeline_airflow.py:396
+#: myapp/views/view_etl_pipeline_azkaban.py:391
+#: myapp/views/view_etl_pipeline_azkaban.py:397
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:391
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:397
+msgid "源SQL"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:401
+#: myapp/views/view_etl_pipeline_airflow.py:402
+#: myapp/views/view_etl_pipeline_azkaban.py:402
+#: myapp/views/view_etl_pipeline_azkaban.py:403
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:402
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:403
+msgid "hive出库至hdfs任务"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:409
+#: myapp/views/view_etl_pipeline_azkaban.py:410
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:410
+msgid "hdfs导入cos"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:415
+#: myapp/views/view_etl_pipeline_airflow.py:464
+#: myapp/views/view_etl_pipeline_azkaban.py:416
+#: myapp/views/view_etl_pipeline_azkaban.py:465
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:416
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:465
+msgid "hdfs文件路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:421
+#: myapp/views/view_etl_pipeline_azkaban.py:422
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:422
+#, python-brace-format
+msgid "源hdfs文件路径，包括文件名，支持通配符*，支持${YYYYMMDD}等的日期变量。如果没hdfs路径权限，联系平台管理员。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:427
+#: myapp/views/view_etl_pipeline_azkaban.py:428
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:428
+msgid "目标cos文件路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:433
+#: myapp/views/view_etl_pipeline_azkaban.py:434
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:434
+#, python-brace-format
+msgid "目标cos文件路径，需包括文件名，支持${YYYYMMDD}等的日期变量，如果有多个文件上传，会在自动在cos文件名后面添加一个随机串。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:439
+#: myapp/views/view_etl_pipeline_azkaban.py:440
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:440
+msgid "是否需要压缩"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:445
+#: myapp/views/view_etl_pipeline_azkaban.py:446
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:446
+#, python-brace-format
+msgid "是否需要压缩 {0:不需要,1:需要}。压缩会压缩成单个文件。压缩方式为.tar.gz"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:450
+#: myapp/views/view_etl_pipeline_azkaban.py:451
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:451
+msgid "hdfs导入cos/oss/obs"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:451
+#: myapp/views/view_etl_pipeline_azkaban.py:452
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:452
+msgid "hdfs导入cos/oss/obs，基于us的调用shell脚本任务类型实现"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:458
+#: myapp/views/view_etl_pipeline_azkaban.py:459
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:459
+msgid "cos导入hdfs"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:470
+#: myapp/views/view_etl_pipeline_azkaban.py:471
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:471
+#, python-brace-format
+msgid "目标hdfs文件路径，不包括文件名，支持${YYYYMMDD}等的日期变量。如果没hdfs路径权限，先联系平台管理员。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:476
+#: myapp/views/view_etl_pipeline_azkaban.py:477
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:477
+msgid "源cos文件路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:482
+#: myapp/views/view_etl_pipeline_azkaban.py:483
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:483
+#, python-brace-format
+msgid "源cos文件路径，需包括文件名，支持${YYYYMMDD}等的日期变量。如果有多个文件上传，先打成一个.tar.gz压缩包。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:488
+#: myapp/views/view_etl_pipeline_azkaban.py:489
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:489
+msgid "是否需要解压缩"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:494
+#: myapp/views/view_etl_pipeline_azkaban.py:495
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:495
+#, python-brace-format
+msgid "是否需要解压缩 {0:不需要,1:需要}。解压方式为tar zcvf。解压后文件会放在目标文件夹。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:499
+#: myapp/views/view_etl_pipeline_azkaban.py:500
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:500
+msgid "cos/oss/obs导入hdfs"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:500
+#: myapp/views/view_etl_pipeline_azkaban.py:501
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:501
+msgid "cos/oss/obs导入hdfs，基于us的调用shell脚本任务类型实现"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:507
+#: myapp/views/view_etl_pipeline_azkaban.py:508
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:508
+msgid "数据计算"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:509
+#: myapp/views/view_etl_pipeline_airflow.py:666
+#: myapp/views/view_etl_pipeline_azkaban.py:510
+#: myapp/views/view_etl_pipeline_azkaban.py:667
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:510
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:667
+msgid "SparkScala"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:515
+#: myapp/views/view_etl_pipeline_azkaban.py:516
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:516
+msgid "jar包路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:521
+#: myapp/views/view_etl_pipeline_azkaban.py:522
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:522
+msgid "填写jar包在notebook里的路径，示例/mnt/admin/pipeline_test.py"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:527
+#: myapp/views/view_etl_pipeline_airflow.py:533
+#: myapp/views/view_etl_pipeline_azkaban.py:528
+#: myapp/views/view_etl_pipeline_azkaban.py:534
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:528
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:534
+msgid "jar包中主类的名字"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:539
+#: myapp/views/view_etl_pipeline_azkaban.py:540
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:540
+msgid "资源文件列表(--files or --archieves)"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:545
+#: myapp/views/view_etl_pipeline_airflow.py:761
+#: myapp/views/view_etl_pipeline_airflow.py:773
+#: myapp/views/view_etl_pipeline_azkaban.py:546
+#: myapp/views/view_etl_pipeline_azkaban.py:762
+#: myapp/views/view_etl_pipeline_azkaban.py:774
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:546
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:762
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:774
+msgid "暂未支持"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:551
+#: myapp/views/view_etl_pipeline_airflow.py:779
+#: myapp/views/view_etl_pipeline_azkaban.py:552
+#: myapp/views/view_etl_pipeline_azkaban.py:780
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:552
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:780
+msgid "传递给程序的参数"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:557
+#: myapp/views/view_etl_pipeline_airflow.py:785
+#: myapp/views/view_etl_pipeline_azkaban.py:558
+#: myapp/views/view_etl_pipeline_azkaban.py:786
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:558
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:786
+msgid "传递给程序的参数,空格分隔,不要换行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:563
+#: myapp/views/view_etl_pipeline_airflow.py:791
+#: myapp/views/view_etl_pipeline_azkaban.py:564
+#: myapp/views/view_etl_pipeline_azkaban.py:792
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:564
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:792
+msgid "spark扩展参数"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:569
+#: myapp/views/view_etl_pipeline_azkaban.py:570
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:570
+msgid ""
+"\n"
+"选项（spark-submit的--conf参数)。不带分号，使用换行分隔(例如):\n"
+"spark.driver.maxResultSize=15G\n"
+"spark.driver.cores=4\n"
+"spark支持一系列--conf扩展属性，此处可以直接填写。例如：spark.yarn.am.waitTime=100s。\n"
+"提交任务时后台会将参数带上提交。换行分隔！！\n"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:581
+#: myapp/views/view_etl_pipeline_airflow.py:803
+#: myapp/views/view_etl_pipeline_azkaban.py:582
+#: myapp/views/view_etl_pipeline_azkaban.py:804
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:582
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:804
+msgid "是否动态资源分配"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:587
+#: myapp/views/view_etl_pipeline_airflow.py:809
+#: myapp/views/view_etl_pipeline_azkaban.py:588
+#: myapp/views/view_etl_pipeline_azkaban.py:810
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:588
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:810
+msgid "是否动态资源分配，是：1；否：0"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:593
+#: myapp/views/view_etl_pipeline_airflow.py:599
+#: myapp/views/view_etl_pipeline_airflow.py:815
+#: myapp/views/view_etl_pipeline_airflow.py:821
+#: myapp/views/view_etl_pipeline_azkaban.py:594
+#: myapp/views/view_etl_pipeline_azkaban.py:600
+#: myapp/views/view_etl_pipeline_azkaban.py:816
+#: myapp/views/view_etl_pipeline_azkaban.py:822
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:594
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:600
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:816
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:822
+msgid "driver内存大小"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:605
+#: myapp/views/view_etl_pipeline_airflow.py:611
+#: myapp/views/view_etl_pipeline_airflow.py:827
+#: myapp/views/view_etl_pipeline_airflow.py:833
+#: myapp/views/view_etl_pipeline_azkaban.py:606
+#: myapp/views/view_etl_pipeline_azkaban.py:612
+#: myapp/views/view_etl_pipeline_azkaban.py:828
+#: myapp/views/view_etl_pipeline_azkaban.py:834
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:606
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:612
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:828
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:834
+msgid "executor数量"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:617
+#: myapp/views/view_etl_pipeline_airflow.py:623
+#: myapp/views/view_etl_pipeline_airflow.py:840
+#: myapp/views/view_etl_pipeline_airflow.py:846
+#: myapp/views/view_etl_pipeline_azkaban.py:618
+#: myapp/views/view_etl_pipeline_azkaban.py:624
+#: myapp/views/view_etl_pipeline_azkaban.py:841
+#: myapp/views/view_etl_pipeline_azkaban.py:847
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:618
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:624
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:841
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:847
+msgid "executor内存大小"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:630
+#: myapp/views/view_etl_pipeline_airflow.py:636
+#: myapp/views/view_etl_pipeline_airflow.py:853
+#: myapp/views/view_etl_pipeline_airflow.py:859
+#: myapp/views/view_etl_pipeline_azkaban.py:631
+#: myapp/views/view_etl_pipeline_azkaban.py:637
+#: myapp/views/view_etl_pipeline_azkaban.py:854
+#: myapp/views/view_etl_pipeline_azkaban.py:860
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:631
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:637
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:854
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:860
+msgid "executor核心数"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:643
+#: myapp/views/view_etl_pipeline_airflow.py:866
+#: myapp/views/view_etl_pipeline_azkaban.py:644
+#: myapp/views/view_etl_pipeline_azkaban.py:867
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:644
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:867
+msgid "超时时间，单位分钟"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:649
+#: myapp/views/view_etl_pipeline_airflow.py:872
+#: myapp/views/view_etl_pipeline_azkaban.py:650
+#: myapp/views/view_etl_pipeline_azkaban.py:873
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:650
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:873
+msgid "超时时间，单位分钟：480 (代表8小时)"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:655
+#: myapp/views/view_etl_pipeline_airflow.py:661
+#: myapp/views/view_etl_pipeline_airflow.py:878
+#: myapp/views/view_etl_pipeline_airflow.py:884
+#: myapp/views/view_etl_pipeline_azkaban.py:656
+#: myapp/views/view_etl_pipeline_azkaban.py:662
+#: myapp/views/view_etl_pipeline_azkaban.py:879
+#: myapp/views/view_etl_pipeline_azkaban.py:885
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:656
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:662
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:879
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:885
+msgid "check超时时间，单位分钟"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:667
+#: myapp/views/view_etl_pipeline_azkaban.py:668
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:668
+msgid "SparkScala计算"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:674
+#: myapp/views/view_etl_pipeline_azkaban.py:675
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:675
+msgid "SQL"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:680
+#: myapp/views/view_etl_pipeline_azkaban.py:681
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:681
+msgid "计算加工逻辑"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:684
+#: myapp/views/view_etl_pipeline_azkaban.py:685
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:685
+#, python-brace-format
+msgid ""
+"\n"
+"--库名，替换下面的demo_database\n"
+"use demo_database;\n"
+"\n"
+"--建表语句，替换下面的demo_table，修改字段。一定要加“if not exists”，这样使只在第一次运行时建表\n"
+"CREATE TABLE if not exists demo_table(\n"
+"    qimei36 STRING COMMENT '唯一设备ID',\n"
+"    userid_id STRING COMMENT '用户id（各app的用户id）',\n"
+"    device_id STRING COMMENT '设备id（各app的device_id）',\n"
+"    ftime INT COMMENT '数据分区时间 格式：yyyymmdd'\n"
+")\n"
+"PARTITION BY LIST( ftime )          --定义分区字段，替换掉ftime。\n"
+"(\n"
+"    PARTITION p_20220323 VALUES IN ( 20220323 ),       "
+"--初始分区，分区名替换p_20220323，分区值替换20220323\n"
+"    PARTITION default\n"
+")\n"
+"STORED AS ORCFILE COMPRESS;\n"
+"\n"
+"-- 分区，根据时间参数新建分区。\n"
+"alter table demo_table drop partition (p_${YYYYMMDD});\n"
+"alter table demo_table add partition p_${YYYYMMDD} values in "
+"(${YYYYMMDD});\n"
+"\n"
+"-- 写入，用你的sql逻辑替换。\n"
+"insert table demo_table\n"
+"select * from other_db::other_table partition(p_${YYYYMMDD}) t;\n"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:711
+#: myapp/views/view_etl_pipeline_azkaban.py:712
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:712
+#, python-brace-format
+msgid ""
+"从hive导出数据的sql，比如 select a,b,c FROM table where imp_date='${YYYYMMDD}' "
+";sql末尾不要用分号结尾"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:718
+#: myapp/views/view_etl_pipeline_airflow.py:724
+#: myapp/views/view_etl_pipeline_azkaban.py:719
+#: myapp/views/view_etl_pipeline_azkaban.py:725
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:719
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:725
+msgid "hive特殊参数"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:729
+#: myapp/views/view_etl_pipeline_airflow.py:730
+#: myapp/views/view_etl_pipeline_azkaban.py:730
+#: myapp/views/view_etl_pipeline_azkaban.py:731
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:730
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:731
+msgid "sql执行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:737
+#: myapp/views/view_etl_pipeline_airflow.py:889
+#: myapp/views/view_etl_pipeline_azkaban.py:738
+#: myapp/views/view_etl_pipeline_azkaban.py:890
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:738
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:890
+msgid "pyspark"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:743
+#: myapp/views/view_etl_pipeline_azkaban.py:744
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:744
+msgid "pyspark脚本路径"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:749
+#: myapp/views/view_etl_pipeline_azkaban.py:750
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:750
+msgid "填写pyspark脚本在notebook里的路径，示例/mnt/admin/pipeline_test.py"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:755
+#: myapp/views/view_etl_pipeline_azkaban.py:756
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:756
+msgid "资源文件列表"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:767
+#: myapp/views/view_etl_pipeline_azkaban.py:768
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:768
+msgid "执行脚本依赖文件列表(spark-submit中的--py-files)"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:797
+#: myapp/views/view_etl_pipeline_azkaban.py:798
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:798
+msgid "选项（spark-submit的--conf参数)。例如：spark.yarn.am.waitTime=100s。换行分隔！！"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:890
+#: myapp/views/view_etl_pipeline_azkaban.py:891
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:891
+msgid "pyspark脚本执行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:897
+#: myapp/views/view_etl_pipeline_azkaban.py:898
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:898
+msgid "脚本执行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:899
+#: myapp/views/view_etl_pipeline_airflow.py:916
+#: myapp/views/view_etl_pipeline_azkaban.py:900
+#: myapp/views/view_etl_pipeline_azkaban.py:917
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:900
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:917
+msgid "shell"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:905
+#: myapp/views/view_etl_pipeline_azkaban.py:906
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:906
+msgid "执行命令"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:911
+#: myapp/views/view_etl_pipeline_azkaban.py:912
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:912
+msgid "执行的命令"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:917
+#: myapp/views/view_etl_pipeline_azkaban.py:918
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:918
+msgid "shell脚本执行"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:933
+#: myapp/views/view_etl_pipeline_azkaban.py:934
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:934
+msgid "任务流负责人"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:938
+msgid "任务流负责人，逗号分隔"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:939
+#: myapp/views/view_etl_pipeline_azkaban.py:940
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:940
+msgid "任务流负责人，逗号分隔。会添加到每个任务的负责人。"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:949
+#: myapp/views/view_etl_pipeline_azkaban.py:950
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:950
+msgid "调度实例"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_airflow.py:966
+#: myapp/views/view_etl_pipeline_azkaban.py:965
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:965
+msgid "提交"
+msgstr ""
+
+#: myapp/views/view_etl_pipeline_azkaban.py:134
+#: myapp/views/view_etl_pipeline_azkaban.py:140
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:134
+#: myapp/views/view_etl_pipeline_dolphinscheduler.py:140
+msgid "已存在任务的task id"
+msgstr ""
+
+#: myapp/views/view_images.py:57
+msgid "服务地址"
+msgstr ""
+
+#: myapp/views/view_images.py:62
+msgid "镜像仓库地址，示例："
+msgstr ""
+
+#: myapp/views/view_images.py:69
+msgid "镜像仓库的用户名"
+msgstr ""
+
+#: myapp/views/view_images.py:76
+msgid "镜像仓库的链接密码"
+msgstr ""
+
+#: myapp/views/view_images.py:89
+msgid "仓库名称"
+msgstr ""
+
+#: myapp/views/view_images.py:97
+msgid "在k8s中创建的hub secret，英文名(小写字母、数字、-组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_images.py:166 myapp/views/view_images.py:167
+#: myapp/views/view_images.py:174
+msgid "镜像分类"
+msgstr ""
+
+#: myapp/views/view_images.py:175
+msgid "不同的镜像类型，可在不同的模块选择使用"
+msgstr ""
+
+#: myapp/views/view_images.py:182
+msgid "镜像的构建Dockerfile全部内容，/mnt/$username/是个人存储目录，可以从此目录下复制文件到镜像中"
+msgstr ""
+
+#: myapp/views/view_images.py:188
+msgid "镜像名称全称，例如ubuntu:20.04"
+msgstr ""
+
+#: myapp/views/view_images.py:195 myapp/views/view_job_template.py:118
+msgid "镜像的入口命令，直接写成单行字符串，例如python xx.py，无需添加[]"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:164
+msgid "服务资源监控"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:177
+msgid "域名:需要泛域名支持，调试时域名(debug.xx.xx.xx.xx)"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:197 myapp/views/view_serving.py:92
+msgid "内存的资源使用配置，示例1G，10G， 最大100G，如需更多联系管路员"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:198 myapp/views/view_serving.py:93
+msgid "cpu的资源使用配置(单位核)，示例 0.4，10，最大50核，如需更多联系管路员"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:199
+msgid "最小副本数，用来配置高可用，流量变动自动伸缩"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:201
+msgid "最大副本数，用来配置高可用，流量变动自动伸缩"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:203
+msgid "访问域名，"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:204
+msgid "前后置处理"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:204
+msgid "前后置处理逻辑，用于原生开源框架的请求预处理和响应预处理，目前仅支持kfserving下框架"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:207 myapp/views/view_serving.py:89
+msgid "工作目录，容器进程启动目录，不填默认使用Dockerfile内定义的工作目录。"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:207 myapp/views/view_nni.py:215
+#: myapp/views/view_serving.py:89
+msgid "打开目录"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:210
+msgid "sidecar"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:212
+msgid "容器的agent代理,istio用于服务网格，jwt用于统一认证(需要客户端在请求头中添加开发者生成的token)"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:218
+msgid "服务优先级"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:221
+msgid "优先满足高优先级的资源需求，同时保证每个服务的最低pod副本数"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:222
+msgid "高优先级"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:222
+msgid "低优先级"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:233
+msgid "模型版本号"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:235
+msgid "版本号，时间格式"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:241
+#: myapp/views/view_inferenceserving.py:243 myapp/views/view_train_model.py:152
+msgid "推理框架类型"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:250
+#, python-format
+msgid "xx模型，%s框架，xx版"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:251 myapp/views/view_nni.py:106
+#: myapp/views/view_notebook.py:96
+msgid "中文描述"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:256
+msgid "弹性伸缩"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:258
+msgid "弹性伸缩容的触发条件：可以使用cpu/mem/gpu/qps等信息，可以使用其中一个指标或者多个指标，示例：cpu:50%,mem:50%,gpu:50%"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:263
+msgid "定时伸缩"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:265
+msgid "根据时间定时伸缩容，定时伸缩时，弹性伸缩容失效。24小时制，示例：9~21:1,21~9:0，表示9点到21点使用一个副本。21点到第二天9点为0个副本"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:275
+msgid "扩展字段，json格式，目前支持help_url帮助文档的地址，disable_load_balancer是否禁用服务的负载均衡"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:280
+msgid "流量分流"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:282
+msgid ""
+"流量分流，将该服务的所有请求，按比例分流到目标服务上。格式 "
+"service1:20%,service2:30%，表示分流20%流量到service1，30%到service2"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:289
+msgid ""
+"流量复制，将该服务的所有请求，按比例复制到目标服务上，格式 "
+"service1:20%,service2:30%，表示复制20%流量到service1，30%到service2"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:294
+#: myapp/views/view_job_template.py:104 myapp/views/view_nni.py:227
+#: myapp/views/view_notebook.py:142 myapp/views/view_serving.py:88
+#: myapp/views/view_task.py:111 myapp/views/view_team.py:285
+msgid "挂载"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:296 myapp/views/view_nni.py:228
+#: myapp/views/view_notebook.py:144 myapp/views/view_serving.py:88
+#: myapp/views/view_task.py:112
+msgid "外部挂载，格式:<br>$pvc_name1(pvc):/$container_path1,$hostpath1(hostpath):/$container_path2<br>注意pvc会自动挂载对应目录下的个人username子目录"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:303 myapp/views/view_train_model.py:104
+msgid "模型文件的容器地址或下载地址，格式参考详情。"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:303 myapp/views/view_train_model.py:104
+msgid "导入模型"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:318
+msgid "启动命令，<font color=\"#FF0000\">留空时将被自动重置</font>"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:324 myapp/views/view_serving.py:97
+msgid "使用模板的task自动添加的环境变量，支持模板变量。书写格式:每行一个环境变量env_key=env_value"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:330
+msgid "监听端口号，逗号分隔"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:335
+msgid "指标地址"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:337
+msgid "请求指标采集，配置端口+url，示例：8080:/metrics"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:344
+msgid "健康检查接口，使用http接口，示例：8080:/health"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:350
+msgid "推理配置文件"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:352
+msgid ""
+"会配置文件的形式挂载到容器/config/目录下。<font "
+"color=\"#FF0000\">留空时将被自动重置</font>，格式：<br>---文件名<br>多行文件内容<br>---文件名<br>多行文件内容"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:396
+msgid "模型配置"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:404
+msgid "管理员配置"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:745
+msgid "检测到模型地址为网络压缩文件，需压缩文件名和解压后文件夹名相同"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:783 myapp/views/view_serving.py:172
+msgid "发现集群更换，启动清理服务"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:792
+msgid "发现模型服务变更，启动清理服务"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:802
+#: myapp/views/view_inferenceserving.py:817 myapp/views/view_serving.py:181
+#: myapp/views/view_serving.py:192
+msgid "服务清理完成"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:1175
+#: myapp/views/view_inferenceserving.py:1205 myapp/views/view_serving.py:325
+msgid "端口已耗尽，后续请使用泛域名访问服务"
+msgstr ""
+
+#: myapp/views/view_inferenceserving.py:1268
+msgid "服务部署完成，正在进行同域名服务版本切换"
+msgstr ""
+
+#: myapp/views/view_job_template.py:60
+msgid "功能分类"
+msgstr ""
+
+#: myapp/views/view_job_template.py:91
+msgid "模板的描述将直接显示在pipeline编排界面"
+msgstr ""
+
+#: myapp/views/view_job_template.py:98
+msgid "job模板的版本，release版本的模板才能被所有用户看到"
+msgstr ""
+
+#: myapp/views/view_job_template.py:106
+msgid "使用该模板的task，会在添加时，自动添加该挂载。格式示例:<br>$pvc_name1(pvc):/$container_path1,$hostpath1(hostpath):/$container_path2<br>注意pvc会自动挂载对应目录下的个人username子目录"
+msgstr ""
+
+#: myapp/views/view_job_template.py:112
+msgid "工作目录，不填写将直接使用镜像默认的工作目录"
+msgstr ""
+
+#: myapp/views/view_job_template.py:124
+msgid "参数定义"
+msgstr ""
+
+#: myapp/views/view_job_template.py:125
+msgid "使用job模板参数的标准填写方式"
+msgstr ""
+
+#: myapp/views/view_job_template.py:131
+msgid "使用模板的task自动添加的环境变量，支持模板变量。<br>书写格式:每行一个环境变量env_key=env_value"
+msgstr ""
+
+#: myapp/views/view_job_template.py:135
+msgid "域名解析"
+msgstr ""
+
+#: myapp/views/view_job_template.py:137
+msgid ""
+"添加到容器内的host映射。<br>书写格式:每行一个dns解析记录，ip host1 host2，<br>示例：1.1.1.1 "
+"example1.oa.com example2.oa.com"
+msgstr ""
+
+#: myapp/views/view_job_template.py:142
+msgid "demo"
+msgstr ""
+
+#: myapp/views/view_job_template.py:143
+msgid "填写demo"
+msgstr ""
+
+#: myapp/views/view_job_template.py:149
+msgid "k8s的ServiceAccount，在此类任务运行时会自动挂载此账号，多用于任务操作k8s pod时使用"
+msgstr ""
+
+#: myapp/views/view_job_template.py:154
+msgid "超级权限"
+msgstr ""
+
+#: myapp/views/view_job_template.py:155
+msgid "是否启动超级权限"
+msgstr ""
+
+#: myapp/views/view_job_template.py:160
+msgid ""
+"json格式的扩展字段，支持<br> "
+"\"index\":\"$模板展示顺序号\"，<br>\"help_url\":\"$帮助文档地址\"，<br>\"HostNetwork\":true"
+" 启动主机端口监听"
+msgstr ""
+
+#: myapp/views/view_job_template.py:170
+msgid "参数分组1"
+msgstr ""
+
+#: myapp/views/view_job_template.py:173
+msgid "参数1"
+msgstr ""
+
+#: myapp/views/view_job_template.py:175
+msgid "这里是这个参数的描述和备注"
+msgstr ""
+
+#: myapp/views/view_job_template.py:179
+msgid "json格式，此类task使用时需要填写的参数"
+msgstr ""
+
+#: myapp/views/view_k8s.py:51 myapp/views/view_k8s.py:118
+msgid "您暂无权限查看此pod日志，进管理员和创建者可以查看"
+msgstr ""
+
+#: myapp/views/view_k8s.py:241
+msgid "pod不存在"
+msgstr ""
+
+#: myapp/views/view_k8s.py:317
+msgid "您暂无权限删除此pod，仅管理员和创建者可以查看"
+msgstr ""
+
+#: myapp/views/view_k8s.py:324
+msgid "删除完成。查看被删除pod是否完成。"
+msgstr ""
+
+#: myapp/views/view_k8s.py:352 myapp/views/view_k8s.py:415
+#: myapp/views/view_k8s.py:460
+msgid "您暂无权限查看此pod日志，仅管理员和创建者可以查看"
+msgstr ""
+
+#: myapp/views/view_k8s.py:369 myapp/views/view_k8s.py:379
+#: myapp/views/view_k8s.py:381
+msgid "当前pod状态："
+msgstr ""
+
+#: myapp/views/view_k8s.py:410
+msgid "pod已结束，不可进入"
+msgstr ""
+
+#: myapp/views/view_k8s.py:412
+msgid "pod 尚未启动完成或已结束，刷新当前页面重新进入"
+msgstr ""
+
+#: myapp/views/view_log.py:20
+msgid "函数"
+msgstr ""
+
+#: myapp/views/view_log.py:22
+msgid "时间"
+msgstr ""
+
+#: myapp/views/view_log.py:23
+msgid "响应延迟"
+msgstr ""
+
+#: myapp/views/view_log.py:24
+msgid "相关人"
+msgstr ""
+
+#: myapp/views/view_metadata.py:40
+msgid "列名描述"
+msgstr ""
+
+#: myapp/views/view_metadata.py:58
+msgid "列分区类型"
+msgstr ""
+
+#: myapp/views/view_metadata.py:59
+msgid "字段分区类型"
+msgstr ""
+
+#: myapp/views/view_metadata.py:68
+msgid "元数据 表"
+msgstr ""
+
+#: myapp/views/view_metadata.py:82 myapp/views/view_metadata.py:140
+msgid "数据域"
+msgstr ""
+
+#: myapp/views/view_metadata.py:113
+msgid ""
+"数据表 格式：dwd_[产品]_[数据域]_[数据域描述]_[刷新周期d/w/m/y][存储策略i(增量)/和f(全量)]  "
+"例如，dwd_qq_common_click_di; 表名由字母数组下划线组成 "
+msgstr ""
+
+#: myapp/views/view_metadata.py:166 myapp/views/view_metadata.py:168
+msgid "数仓等级"
+msgstr ""
+
+#: myapp/views/view_metadata.py:187
+msgid "保留周期"
+msgstr ""
+
+#: myapp/views/view_metadata.py:195
+msgid "sql 示例"
+msgstr ""
+
+#: myapp/views/view_metadata.py:196
+msgid "建表sql 示例"
+msgstr ""
+
+#: myapp/views/view_metadata.py:213
+msgid "建表sql语句"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:45
+msgid "起点时间"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:47
+msgid "起点时间精确到天"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:51
+msgid "终点时间"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:86
+msgid "指标模块"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:102
+msgid "指标英文名"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:108
+msgid "指标中文名"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:114
+msgid "指标描述"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:120
+msgid "指标备注"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:127
+msgid "原子指标"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:132
+msgid "归属模块"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:133
+msgid "指标归属模块"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:138
+msgid "指标等级"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:139
+msgid "指标重要级别"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:152
+msgid "指标责任人"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:153
+msgid "指标负责人，逗号分隔"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:159
+msgid "指标状态"
+msgstr ""
+
+#: myapp/views/view_metadata_metric.py:165
+msgid "指标口径描述，代码和计算公式"
+msgstr ""
+
+#: myapp/views/view_nni.py:69
+msgid "nni超参搜索"
+msgstr ""
+
+#: myapp/views/view_nni.py:90 myapp/views/view_pipeline.py:685
+msgid "监听状态"
+msgstr ""
+
+#: myapp/views/view_nni.py:95 myapp/views/view_pipeline.py:689
+msgid "选择通知状态"
+msgstr ""
+
+#: myapp/views/view_nni.py:121
+msgid "可并行的计算实例数目"
+msgstr ""
+
+#: myapp/views/view_nni.py:126
+msgid "最大任务数"
+msgstr ""
+
+#: myapp/views/view_nni.py:128
+msgid "最大并行的计算实例数目"
+msgstr ""
+
+#: myapp/views/view_nni.py:133
+msgid "最大失败次数"
+msgstr ""
+
+#: myapp/views/view_nni.py:135
+msgid "最大失败的计算实例数目"
+msgstr ""
+
+#: myapp/views/view_nni.py:142
+msgid "目标函数类型（和自己代码中对应）"
+msgstr ""
+
+#: myapp/views/view_nni.py:149 myapp/views/view_nni.py:151
+msgid "目标门限"
+msgstr ""
+
+#: myapp/views/view_nni.py:156
+msgid "目标指标名"
+msgstr ""
+
+#: myapp/views/view_nni.py:158
+msgid "目标指标名（和自己代码中对应）"
+msgstr ""
+
+#: myapp/views/view_nni.py:163
+msgid "其他目标指标名"
+msgstr ""
+
+#: myapp/views/view_nni.py:165
+msgid "其他目标指标名（和自己代码中对应）"
+msgstr ""
+
+#: myapp/views/view_nni.py:202
+msgid "超参数示例"
+msgstr ""
+
+#: myapp/views/view_nni.py:203
+msgid "搜索参数示例，标准json格式，注意：所有整型、浮点型都写成字符串型"
+msgstr ""
+
+#: myapp/views/view_nni.py:208 myapp/views/view_notebook.py:130
+#: myapp/views/view_pipeline.py:628 myapp/views/view_serving.py:91
+#: myapp/views/view_task.py:132
+msgid "机器选择"
+msgstr ""
+
+#: myapp/views/view_nni.py:209 myapp/views/view_pipeline.py:629
+msgid "部署task所在的机器(目前无需填写)"
+msgstr ""
+
+#: myapp/views/view_nni.py:215
+#, python-brace-format
+msgid "代码所在目录，nni代码、配置和log都将在/mnt/${username}/nni/目录下进行。"
+msgstr ""
+
+#: myapp/views/view_nni.py:221 myapp/views/view_notebook.py:136
+#: myapp/views/view_pipeline.py:634
+msgid "拉取策略"
+msgstr ""
+
+#: myapp/views/view_nni.py:222 myapp/views/view_pipeline.py:635
+msgid "镜像拉取策略(always为总是拉取远程镜像，IfNotPresent为若本地存在则使用本地镜像)"
+msgstr ""
+
+#: myapp/views/view_nni.py:234 myapp/views/view_serving.py:92
+#: myapp/views/view_task.py:139
+msgid "memory"
+msgstr ""
+
+#: myapp/views/view_nni.py:236
+msgid "内存的资源使用配置(每个测试实例)，示例：1G，20G"
+msgstr ""
+
+#: myapp/views/view_nni.py:243
+msgid "cpu的资源使用配置(每个测试实例)(单位：核)，示例：2"
+msgstr ""
+
+#: myapp/views/view_nni.py:264
+msgid "超参数"
+msgstr ""
+
+#: myapp/views/view_nni.py:266
+msgid "搜索参数，注意：所有整型、浮点型都写成字符串型,示例："
+msgstr ""
+
+#: myapp/views/view_nni.py:272
+msgid "任务镜像"
+msgstr ""
+
+#: myapp/views/view_nni.py:274
+msgid "工作节点镜像"
+msgstr ""
+
+#: myapp/views/view_nni.py:279
+msgid "任务启动命令"
+msgstr ""
+
+#: myapp/views/view_nni.py:281
+msgid "工作节点启动命令"
+msgstr ""
+
+#: myapp/views/view_nni.py:291
+msgid "common"
+msgstr ""
+
+#: myapp/views/view_nni.py:297
+msgid "task args"
+msgstr ""
+
+#: myapp/views/view_nni.py:304
+msgid "run experiment"
+msgstr ""
+
+#: myapp/views/view_nni.py:537 myapp/views/view_notebook.py:873
+#: myapp/views/view_workflow.py:181
+msgid "清理完成"
+msgstr ""
+
+#: myapp/views/view_nni.py:591
+msgid "nni服务部署完成，打开容器查看分布式集群的运行状态，容器运行正常后可进入web界面。运行结束后记得主动清理"
+msgstr ""
+
+#: myapp/views/view_nni.py:646
+msgid "未检测到当前搜索实验正在运行的容器"
+msgstr ""
+
+#: myapp/views/view_nni.py:736
+msgid "发现集群更换，已帮你删除之前启动的超参任务"
+msgstr ""
+
+#: myapp/views/view_notebook.py:55
+msgid "notebook"
+msgstr ""
+
+#: myapp/views/view_notebook.py:89 myapp/views/view_team.py:87
+msgid "英文名(小写字母、数字、-组成)，最长50个字符"
+msgstr ""
+
+#: myapp/views/view_notebook.py:104
+msgid "部署项目组，在切换项目组前注意先停止当前notebook"
+msgstr ""
+
+#: myapp/views/view_notebook.py:113 myapp/views/view_notebook.py:121
+msgid "notebook基础环境镜像，如果显示不准确，请删除新建notebook"
+msgstr ""
+
+#: myapp/views/view_notebook.py:132
+msgid "部署task所在的机器"
+msgstr ""
+
+#: myapp/views/view_notebook.py:137
+msgid "镜像拉取策略(Always为总是拉取远程镜像，IfNotPresent为若本地存在则使用本地镜像)"
+msgstr ""
+
+#: myapp/views/view_notebook.py:151
+msgid "工作目录，如果为空，则使用Dockerfile中定义的workingdir"
+msgstr ""
+
+#: myapp/views/view_notebook.py:263
+msgid "发现集群更换，已帮你删除之前启动的notebook"
+msgstr ""
+
+#: myapp/views/view_notebook.py:271
+msgid "start fail, please reset notebook: "
+msgstr ""
+
+#: myapp/views/view_notebook.py:274
+msgid "自动reset 一分钟后生效"
+msgstr ""
+
+#: myapp/views/view_notebook.py:278
+msgid "reset以后配置方可生效"
+msgstr ""
+
+#: myapp/views/view_notebook.py:297
+msgid "注意：个人重要文件本地git保存，notebook会定时清理，如要运行长期任务请在pipeline中创建任务流进行。<br>个人持久化目录在/mnt/"
+msgstr ""
+
+#: myapp/views/view_notebook.py:396
+msgid "删除成功"
+msgstr ""
+
+#: myapp/views/view_notebook.py:558
+msgid "notebook未就绪，刷新此页面。<br> notebook状态：<br><br>"
+msgstr ""
+
+#: myapp/views/view_notebook.py:754
+msgid "端口已耗尽，ssh连接notebook请通过跳板机连接"
+msgstr ""
+
+#: myapp/views/view_notebook.py:790
+msgid "已重置，Running状态后可进入。注意：notebook会定时清理，如要运行长期任务请在pipeline中创建任务流进行。"
+msgstr ""
+
+#: myapp/views/view_notebook.py:792
+msgid "重置失败，稍后重试。"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:578 myapp/views/view_pipeline.py:698
+msgid "后端扩展"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:579 myapp/views/view_pipeline.py:704
+msgid "前端扩展"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:616
+msgid "上下游关系"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:618
+msgid "任务的上下游关系，目前不需要手动修改"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:623
+msgid "部署task所在的命名空间(目前无需填写)"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:643
+msgid "任务运行是否依赖上一次的示例状态"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:647
+msgid "最大激活数"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:648
+msgid "当前pipeline可同时运行的任务流实例数目"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:654
+msgid "过期保留数"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:655
+msgid "定时调度最新实例限制数目，0表示不限制"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:661
+msgid "并发数"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:662
+msgid "一个任务流实例中可同时运行的task数目"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:669
+msgid ""
+"公共环境变量会以环境变量的形式传递给每个task，可以配置多个公共环境变量，每行一个，支持datetime/creator/runner/uuid/pipeline_id等变量"
+" 例如：USERNAME={{creator}}"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:675
+msgid "调度类型，once仅运行一次，crontab周期运行，crontab配置保存一个小时候后才生效"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:681
+msgid "周期任务的时间设定 * * * * * 表示为 minute hour day month week"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:695
+msgid "选择通知用户，每个用户使用逗号分隔"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:700
+msgid "后端扩展参数，用于配置是否为demo或固化任务流"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:706
+msgid "前端扩展参数，前端用于记录任务流节点位置和连线关系"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:806
+msgid "dag pipeline 存在循环或未知上游"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:856 myapp/views/view_pipeline.py:909
+msgid "crontab 格式错误"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:863 myapp/views/view_task.py:260
+#: myapp/views/view_task.py:293 myapp/views/view_task.py:402
+msgid "示例pipeline，不允许修改，请复制后编辑"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:913
+msgid "无法保障公共集群的稳定性，定时任务请选择专门的日更集群项目组"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:925 myapp/views/view_pipeline.py:926
+msgid "(废弃)"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:1092
+msgid "仅管理员或创建者，可运行该任务流"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:1123
+msgid "请先编排任务，并进行保存后再运行整个任务流"
+msgstr ""
+
+#: myapp/views/view_pipeline.py:1184
+msgid "未发现之前启动的任务流实例，请先运行该实例"
+msgstr ""
+
+#: myapp/views/view_runhistory.py:44
+msgid "定时调度历史"
+msgstr ""
+
+#: myapp/views/view_runhistory.py:59
+msgid "状态comed为已识别未提交，created为已提交"
+msgstr ""
+
+#: myapp/views/view_serving.py:60 myapp/views/view_serving.py:115
+msgid "首页路径"
+msgstr ""
+
+#: myapp/views/view_serving.py:76
+msgid "云原生服务"
+msgstr ""
+
+#: myapp/views/view_serving.py:87
+msgid "镜像全称"
+msgstr ""
+
+#: myapp/views/view_serving.py:90
+msgid "启动命令，支持多行命令"
+msgstr ""
+
+#: myapp/views/view_serving.py:91
+msgid "运行当前服务所在的机器"
+msgstr ""
+
+#: myapp/views/view_serving.py:94
+msgid "gpu的资源使用配置(单位卡)，示例:1，2，训练任务每个容器独占整卡"
+msgstr ""
+
+#: myapp/views/view_serving.py:95
+msgid "pod副本数，用来配置高可用"
+msgstr ""
+
+#: myapp/views/view_serving.py:96
+msgid "进程端口号，逗号分隔"
+msgstr ""
+
+#: myapp/views/view_serving.py:115
+msgid "首页路径，例如/index.html"
+msgstr ""
+
+#: myapp/views/view_serving.py:177
+msgid "检测到修改名称，旧服务已清理完成"
+msgstr ""
+
+#: myapp/views/view_serving.py:330
+msgid "服务部署完成，可点击服务名称，查看服务启动进度。服务启动完成后，点击ip或域名访问"
+msgstr ""
+
+#: myapp/views/view_sqllab.py:56
+msgid "添加任务参数缺失"
+msgstr ""
+
+#: myapp/views/view_sqllab.py:61 myapp/views/view_sqllab.py:85
+msgid "引擎未实现"
+msgstr ""
+
+#: myapp/views/view_sqllab.py:80
+msgid "任务数据库记录不存在，id:"
+msgstr ""
+
+#: myapp/views/view_sqllab.py:93
+msgid "返回值异常，检查引擎实现，需包含："
+msgstr ""
+
+#: myapp/views/view_sqllab.py:124
+msgid "引擎"
+msgstr ""
+
+#: myapp/views/view_task.py:119
+msgid "工作目录，容器启动的初始所在目录，不填默认使用Dockerfile内定义的工作目录"
+msgstr ""
+
+#: myapp/views/view_task.py:128
+msgid "覆盖入口点"
+msgstr ""
+
+#: myapp/views/view_task.py:129
+msgid "启动命令是否覆盖Dockerfile中ENTRYPOINT，不覆盖则叠加。"
+msgstr ""
+
+#: myapp/views/view_task.py:133
+msgid "运行当前task所在的机器"
+msgstr ""
+
+#: myapp/views/view_task.py:141
+msgid "内存的资源使用配置，示例1G，10G， 最大100G，如需更多联系管理员"
+msgstr ""
+
+#: myapp/views/view_task.py:148
+msgid "cpu的资源使用配置(单位核)，示例 0.4，10，最大50核，如需更多联系管理员"
+msgstr ""
+
+#: myapp/views/view_task.py:153
+msgid "超时"
+msgstr ""
+
+#: myapp/views/view_task.py:159
+msgid "重试"
+msgstr ""
+
+#: myapp/views/view_task.py:161
+msgid "task重试次数"
+msgstr ""
+
+#: myapp/views/view_task.py:167
+msgid "task输出文件，支持容器目录文件和minio存储路径"
+msgstr ""
+
+#: myapp/views/view_task.py:172
+msgid "gpu的资源使用配置(单位卡)，示例:1，2，训练任务每个容器独占整卡。申请具体的卡型号，可以类似 1(V100)"
+msgstr ""
+
+#: myapp/views/view_task.py:263 myapp/views/view_task.py:306
+msgid "Job Template 为必选"
+msgstr ""
+
+#: myapp/views/view_task.py:537
+msgid "仅管理员或创建者，可debug该任务"
+msgstr ""
+
+#: myapp/views/view_task.py:543
+msgid "当前任务类型不允许进行调试"
+msgstr ""
+
+#: myapp/views/view_task.py:551
+msgid "仅管理员或当前任务模板创建者，可启动debug模式"
+msgstr ""
+
+#: myapp/views/view_task.py:617
+msgid "启动时间过长，一分钟后刷新此页面"
+msgstr ""
+
+#: myapp/views/view_task.py:658
+msgid "仅管理员或创建者，可运行该任务"
+msgstr ""
+
+#: myapp/views/view_task.py:664
+msgid "当前任务类型不允许进行运行"
+msgstr ""
+
+#: myapp/views/view_task.py:673
+msgid "包含接收上游输出，不允许单任务运行"
+msgstr ""
+
+#: myapp/views/view_task.py:701
+msgid "超时，请稍后重试"
+msgstr ""
+
+#: myapp/views/view_task.py:778
+msgid "启动时间过长，一分钟后重试"
+msgstr ""
+
+#: myapp/views/view_task.py:829
+msgid "仅管理员或创建者，可清理该任务"
+msgstr ""
+
+#: myapp/views/view_task.py:851
+msgid "未检测到当前task正在运行的容器"
+msgstr ""
+
+#: myapp/views/view_team.py:69 myapp/views/view_team.py:76
+msgid "只有creator可以添加修改组成员，可以添加多个creator"
+msgstr ""
+
+#: myapp/views/view_team.py:72
+msgid "成员角色"
+msgstr ""
+
+#: myapp/views/view_team.py:200 myapp/views/view_team.py:203
+msgid "模板分组"
+msgstr ""
+
+#: myapp/views/view_team.py:210
+msgid "扩展参数。示例参数：<br>\"index\": 0   表示在pipeline编排中的模板列表的排序位置"
+msgstr ""
+
+#: myapp/views/view_team.py:253 myapp/views/view_team.py:298
+#: myapp/views/view_total_resource.py:64 myapp/views/view_total_resource.py:293
+msgid "资源组"
+msgstr ""
+
+#: myapp/views/view_team.py:267
+msgid ""
+"扩展参数。示例参数：<br>\"cluster\": \"dev\"<br>\"org\": "
+"\"public\"<br>\"volume_mount\": \"kubeflow-user-"
+"workspace(pvc):/mnt/;/data/k8s/../group1(hostpath):/group1\"<br>\"SERVICE_EXTERNAL_IP\":\"xx.内网.xx.xx|xx.公网.xx.xx\""
+msgstr ""
+
+#: myapp/views/view_team.py:280
+msgid "使用该项目组的所有任务部署到的目的集群"
+msgstr ""
+
+#: myapp/views/view_team.py:287
+msgid ""
+"<span style=\"word-break: break-"
+"all;\">使用该项目组新增的所有pod会自动添加该挂载，格式:<br>$pvc_name1(pvc):/$container_path1,$hostpath1(hostpath):/$container_path2,$storage_name(storage):/$container_path3"
+" <br>注意pvc会自动挂载对应目录下的个人username子目录。示例：<br>kubeflow-user-"
+"workspace(pvc):/mnt/,/data/k8s/kubeflow/group1(hostpath):/group1</span>"
+msgstr ""
+
+#: myapp/views/view_team.py:292
+msgid "服务代理ip"
+msgstr ""
+
+#: myapp/views/view_team.py:294
+msgid "服务的代理ip，xx.内网.xx.xx|xx.公网.xx.xx"
+msgstr ""
+
+#: myapp/views/view_team.py:302
+msgid "使用该项目组的所有任务部署到的目的资源组，通过机器label org=xx决定"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:64
+msgid "机器"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:64
+msgid "机型"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:64
+msgid "cpu占用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:64 myapp/views/view_total_resource.py:383
+msgid "内存占用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:65
+msgid "AI加速卡"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:162
+msgid "机器负载"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:296
+msgid "容器(资源使用)"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:298
+msgid "节点(资源使用)"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:301
+msgid "AI卡"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:306
+msgid "gpu资源监控"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:310
+msgid "集群负载"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:315
+msgid "运行中资源列表"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:376
+msgid "内存总量(G)"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:377
+msgid "CPU总量(核)"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:378
+msgid "GPU总量(卡)"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:384
+msgid "CPU占用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:385
+msgid "GPU占用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:390
+msgid "内存利用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:391
+msgid "CPU利用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:392
+msgid "GPU利用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:425
+msgid "集群信息"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:425
+msgid "资源占用率"
+msgstr ""
+
+#: myapp/views/view_total_resource.py:425
+msgid "资源利用率"
+msgstr ""
+
+#: myapp/views/view_train_model.py:82
+msgid "模型文件"
+msgstr ""
+
+#: myapp/views/view_train_model.py:83
+msgid "训练框架"
+msgstr ""
+
+#: myapp/views/view_train_model.py:84
+msgid "推理框架"
+msgstr ""
+
+#: myapp/views/view_train_model.py:85
+msgid "发布"
+msgstr ""
+
+#: myapp/views/view_train_model.py:88
+msgid "模型"
+msgstr ""
+
+#: myapp/views/view_train_model.py:102
+msgid "模型文件地址"
+msgstr ""
+
+#: myapp/views/view_train_model.py:110
+msgid "模型描述"
+msgstr ""
+
+#: myapp/views/view_train_model.py:115
+msgid "任务流的id，0表示非任务流产生模型"
+msgstr ""
+
+#: myapp/views/view_train_model.py:126
+msgid "run id"
+msgstr ""
+
+#: myapp/views/view_train_model.py:128
+msgid "pipeline 训练的run id"
+msgstr ""
+
+#: myapp/views/view_train_model.py:132
+msgid "保存时间"
+msgstr ""
+
+#: myapp/views/view_train_model.py:134
+msgid "模型的保存时间"
+msgstr ""
+
+#: myapp/views/view_train_model.py:138
+msgid "模型名"
+msgstr ""
+
+#: myapp/views/view_train_model.py:140
+msgid "模型名(a-z0-9-字符组成，最长54个字符)"
+msgstr ""
+
+#: myapp/views/view_train_model.py:144
+msgid "算法框架"
+msgstr ""
+
+#: myapp/views/view_train_model.py:145
+msgid "选项xgb、tf、pytorch、onnx、tensorrt等"
+msgstr ""
+
+#: myapp/views/view_train_model.py:151
+msgid "部署类型"
+msgstr ""
+
+#: myapp/views/view_train_model.py:216
+msgid "未发现模型存储地址"
+msgstr ""
+
+#: myapp/views/view_train_model.py:247
+msgid "新服务版本创建完成"
+msgstr ""
+
+#: myapp/views/view_train_model.py:249
+msgid "服务版本已存在"
+msgstr ""
+
+#: myapp/views/view_user_role.py:99
+msgid "用户名或邮箱已存在"
+msgstr ""
+
+#: myapp/views/view_workflow.py:91
+msgid "删除前状态"
+msgstr ""
+
+#: myapp/views/view_workflow.py:183
+msgid "no permission"
+msgstr ""
+
+#: myapp/views/view_workflow.py:289
+msgid "终止"
+msgstr ""
+
+#: myapp/views/view_workflow.py:324 myapp/views/view_workflow.py:670
+#: myapp/views/view_workflow.py:672
+msgid "消息"
+msgstr ""
+
+#: myapp/views/view_workflow.py:337
+msgid "开始时间"
+msgstr ""
+
+#: myapp/views/view_workflow.py:342
+msgid "结束时间"
+msgstr ""
+
+#: myapp/views/view_workflow.py:354
+msgid "创建人"
+msgstr ""
+
+#: myapp/views/view_workflow.py:359
+msgid "执行人"
+msgstr ""
+
+#: myapp/views/view_workflow.py:365
+msgid "进度"
+msgstr ""
+
+#: myapp/views/view_workflow.py:410
+#, python-format
+msgid "(第%s次重试)"
+msgstr ""
+
+#: myapp/views/view_workflow.py:414
+#, python-format
+msgid "(有%s次重试机会)"
+msgstr ""
+
+#: myapp/views/view_workflow.py:577
+msgid "pod未发现"
+msgstr ""
+
+#: myapp/views/view_workflow.py:667
+msgid "输入输出"
+msgstr ""
+
+#: myapp/views/view_workflow.py:673
+msgid "运行正常"
+msgstr ""
+
+#: myapp/views/view_workflow.py:678 myapp/views/view_workflow.py:680
+msgid "任务详情"
+msgstr ""
+
+#: myapp/views/view_workflow.py:700 myapp/views/view_workflow.py:702
+msgid "挂载详情"
+msgstr ""
+
+#: myapp/views/view_workflow.py:704
+msgid "容器路径"
+msgstr ""
+
+#: myapp/views/view_workflow.py:704
+msgid "主机路径"
+msgstr ""
+
+#: myapp/views/view_workflow.py:716
+msgid "在线日志"
+msgstr ""
+
+#: myapp/views/view_workflow.py:721
+msgid "在线调试"
+msgstr ""
+
+#: myapp/views/view_workflow.py:726
+msgid "相关容器"
+msgstr ""
+
+#: myapp/views/view_workflow.py:731
+msgid "资源使用"
+msgstr ""
+
+#: myapp/views/view_workflow.py:736
+msgid "离线日志"
+msgstr ""
+
+#: myapp/views/view_workflow.py:742 myapp/views/view_workflow.py:745
+msgid "pod信息"
+msgstr ""
+
+#: myapp/views/view_workflow.py:756
+msgid "提示：仅商业版支持任务结果、模型指标、数据集可视化预览"
+msgstr ""
+
+#: myapp/views/view_workflow.py:759
+msgid "结果可视化"
+msgstr ""
+
+#: myapp/views/view_workflow.py:790
+msgid "任务结果示例："
+msgstr ""
+
+#: myapp/views/view_workflow.py:790
+msgid "类型图表"
+msgstr ""
+
+#: myapp/views/view_workflow.py:800
+msgid "workflow信息"
+msgstr ""
+
+#: myapp/views/view_workflow.py:803
+msgid "json信息"
+msgstr ""
+
