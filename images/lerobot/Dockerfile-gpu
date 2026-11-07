@@ -8,4 +8,5 @@ RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple \
 COPY job-template/job/lerobot_shared /opt/lerobot_shared
 COPY job-template/job/lerobot_train /opt/lerobot_train
 COPY job-template/job/lerobot_eval /opt/lerobot_eval
+WORKDIR /opt/lerobot_train
 ENV MUJOCO_GL=egl HF_HOME=/mnt/.cache/huggingface

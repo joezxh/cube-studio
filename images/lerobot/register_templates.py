@@ -36,6 +36,7 @@ def main():
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-import",
             "job_template_volume": "",
+            "job_template_workdir": "/opt/lerobot_import",
             "project_name": "数据导入导出"},
         "lerobot-train": {
             "gitpath": "/job-template/job/lerobot_train",
@@ -66,6 +67,7 @@ def main():
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-train",
             "job_template_volume": "",
+            "job_template_workdir": "/opt/lerobot_train",
             "project_name": "深度学习"},
         "lerobot-eval": {
             "gitpath": "/job-template/job/lerobot_eval",
@@ -90,6 +92,7 @@ def main():
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-eval",
             "job_template_volume": "",
+            "job_template_workdir": "/opt/lerobot_eval",
             "project_name": "深度学习"},
     }
     changed = False

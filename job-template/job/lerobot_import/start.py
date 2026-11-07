@@ -41,7 +41,7 @@ def main(argv=None):
     p.add_argument("--target_name", required=True)
     p.add_argument("--target_version", default="v1")
     p.add_argument("--hub_endpoint", default="")
-    p.add_argument("--link_mode", default="false")
+    p.add_argument("--link_mode", nargs="?", const="true", default="false")
     p.add_argument("--base_dir", default=import_cmd.BASE_DIR)
     a = p.parse_args(argv)
     dry = os.environ.get("ROBOT_DRYRUN") == "1"
