@@ -44,3 +44,4 @@ compile.py
 /images/ai-doc/
 
 .worktrees/
+.pytest-tmp/
