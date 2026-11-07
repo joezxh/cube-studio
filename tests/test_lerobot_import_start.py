@@ -89,15 +89,17 @@ def test_link_mode_no_source_pollution(tmp_path):
     else:
         _link.unlink()
     src = _make_src(tmp_path)
+    # 预置：源目录自带同名派生文件（模拟对一个已导入过的数据集目录再 link 接入）
+    (src / ".cube_dataset_meta").write_text('{"sentinel": true}', encoding="utf-8")
     base = tmp_path / "b"
     r = _run(["--source_type", "local_path", "--source", str(src), "--target_name", "n",
               "--target_version", "v", "--base_dir", str(base), "--link_mode", "true"])
     assert r.returncode == 0, r.stderr
     dst = base / "n" / "v"
-    # 派生文件落在 dst（真实文件），未写进源目录
+    # 派生文件落在 dst（真实文件），未写进源目录；且源哨兵未被覆写
     assert (dst / ".cube_dataset_meta").is_file()
     assert (dst / "lerobot_profile.json").is_file()
-    assert not (src / ".cube_dataset_meta").exists()
+    assert json.loads((src / ".cube_dataset_meta").read_text(encoding="utf-8")) == {"sentinel": True}
     assert not (src / "lerobot_profile.json").exists()
     assert not (src / "manifest.json").exists()
     # 源数据仅被链接而非拷贝：dst/meta 是指向 src 的链接目录结构

@@ -19,6 +19,11 @@ def _bool(s):
     return str(s).lower() in ("true", "1", "yes")
 
 
+# 算子派生产物名，link 模式下不得从源目录符号链接过来
+_DERIVED = {".cube_dataset_meta", "lerobot_profile.json",
+            "manifest.json", "import_plan.json"}
+
+
 def _task_counts(dst):
     """v3 任务分布在 meta/tasks.parquet；pyarrow/pandas 缺失或文件不存在时返回 None。"""
     p = pathlib.Path(dst) / "meta" / "tasks.parquet"
@@ -113,6 +118,9 @@ def main(argv=None):
             # 派生产物(profile/meta/manifest)落 dst 本身而非经符号链接写穿源目录。
             dst.mkdir(parents=True, exist_ok=True)
             for entry in src.iterdir():
+                # 跳过源目录可能自带的同名派生文件，避免链接后 write_text 跟随写穿源
+                if entry.name in _DERIVED:
+                    continue
                 os.symlink(str(entry.resolve()), str(dst / entry.name))
         else:
             shutil.copytree(str(src), str(dst))
