@@ -1,0 +1,33 @@
+# 企业版 #9：pipeline 任务流优先级 PriorityClass 三档清单（opt-in）
+# 启用步骤：
+#   1) kubectl apply -f priorityclass.yaml
+#   2) myapp 配置中设置：
+#      PIPELINE_PRIORITY_CLASS = {'high': 'pipeline-high', 'mid': 'pipeline-mid', 'low': 'pipeline-low'}
+# 未配置映射时平台不注入 priorityClassName，本清单存在与否不影响存量行为。
+# preemptionPolicy: Never —— 高档位不参与抢占，防止杀死运行中训练任务（母文档 A9 风险条目）。
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: pipeline-high
+value: 200000
+preemptionPolicy: Never
+globalDefault: false
+description: "Cube Studio pipeline priority: high"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: pipeline-mid
+value: 100000
+preemptionPolicy: Never
+globalDefault: false
+description: "Cube Studio pipeline priority: mid"
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: pipeline-low
+value: 0
+preemptionPolicy: Never
+globalDefault: false
+description: "Cube Studio pipeline priority: low"

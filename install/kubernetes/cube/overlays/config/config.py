@@ -745,6 +745,12 @@ NOTEBOOK_EXCLUSIVE = False   # notebook 启动是否独占资源
 SERVICE_EXCLUSIVE = False   # 内部服务 启动是否独占资源
 
 MINIO_HOST = 'minio.kubeflow:9000'
+MINIO_ACCESS_KEY = 'minio'
+MINIO_SECRET_KEY = 'minio123'
+
+# pipeline 优先级档位 -> 集群 PriorityClass 名映射（企业版 #9）。
+# 先 kubectl apply priorityclass.yaml，再按需放开下行配置；注释状态 = 不启用优先级注入。
+# PIPELINE_PRIORITY_CLASS = {'high': 'pipeline-high', 'mid': 'pipeline-mid', 'low': 'pipeline-low'}
 
 # 多行分割内网特定host
 HOSTALIASES='''
