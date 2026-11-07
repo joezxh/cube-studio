@@ -43,3 +43,4 @@ _load_module('lerobot_manifest_util', 'job-template/job/lerobot_shared/manifest_
 _load_module('lerobot_import_cmd', 'job-template/job/lerobot_import/import_cmd.py')
 _load_module('lerobot_profile', 'job-template/job/lerobot_import/lerobot_profile.py')
 _load_module('lerobot_train_cmd', 'job-template/job/lerobot_train/train_cmd.py')
+_load_module('lerobot_train_metrics', 'job-template/job/lerobot_train/metrics_parser.py')
