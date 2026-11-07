@@ -113,3 +113,62 @@ def test_missing_status_is_never_deleted():
         {'id': 2, 'execution_date': '2026-11-09 00:00:00', 'status': 'Succeeded'},
     ]
     assert ps.expired_run_ids_to_delete(records, 1) == []
+
+
+# ---------- py_minio（同文件承载，另一自包含模块的加载器） ----------
+
+_MINIO_MOD_PATH = pathlib.Path(__file__).resolve().parents[1] / 'myapp' / 'utils' / 'py' / 'py_minio.py'
+_minio_spec = importlib.util.spec_from_file_location('py_minio_under_test', _MINIO_MOD_PATH)
+py_minio = importlib.util.module_from_spec(_minio_spec)
+_minio_spec.loader.exec_module(py_minio)
+
+
+class _Obj:
+    def __init__(self, name):
+        self.object_name = name
+
+
+class FakeMinioClient:
+    """duck-type mock：只实现 remove_object_prefix 用到的两个方法"""
+
+    def __init__(self, object_names=None, list_fail=False, delete_fail_names=()):
+        self._object_names = object_names or []
+        self._list_fail = list_fail
+        self._delete_fail_names = set(delete_fail_names)
+        self.deleted = []
+
+    def list_objects(self, bucket, prefix=None, recursive=False):
+        if self._list_fail:
+            raise RuntimeError('connection refused')
+        return [_Obj(n) for n in self._object_names]
+
+    def remove_object(self, bucket, name):
+        if name in self._delete_fail_names:
+            raise RuntimeError('delete denied')
+        self.deleted.append(name)
+
+
+def test_remove_prefix_deletes_all_and_counts():
+    client = FakeMinioClient(['wf-1/a.log', 'wf-1/b.log'])
+    removed, errors = py_minio.remove_object_prefix(client, 'mlpipeline', 'wf-1/')
+    assert (removed, errors) == (2, [])
+    assert client.deleted == ['wf-1/a.log', 'wf-1/b.log']
+
+
+def test_remove_prefix_empty_list():
+    client = FakeMinioClient([])
+    assert py_minio.remove_object_prefix(client, 'mlpipeline', 'wf-2/') == (0, [])
+
+
+def test_remove_prefix_list_failure_swallowed():
+    client = FakeMinioClient(list_fail=True)
+    removed, errors = py_minio.remove_object_prefix(client, 'mlpipeline', 'wf-3/')
+    assert removed == 0
+    assert len(errors) == 1 and 'connection refused' in errors[0]
+
+
+def test_remove_prefix_single_delete_error_collected():
+    client = FakeMinioClient(['x/1', 'x/2', 'x/3'], delete_fail_names={'x/2'})
+    removed, errors = py_minio.remove_object_prefix(client, 'mlpipeline', 'x/')
+    assert removed == 2
+    assert len(errors) == 1 and 'x/2' in errors[0]

@@ -494,14 +494,9 @@ class Workflow_ModelView_Base():
         if '127.0.0.1' in request.host:
             return
         content = ''
-        from minio import Minio
+        from myapp.utils.py.py_minio import make_minio_client
         try:
-            minioClient = Minio(
-                endpoint=conf.get('MINIO_HOST','minio.kubeflow:9000'),  # minio.kubeflow:9000    '9.135.92.226:9944'
-                access_key='minio',
-                secret_key='minio123',
-                secure=False
-            )
+            minioClient = make_minio_client(conf.get)
             if download:
                 save_path = "/mlpipeline/" + key
                 os.makedirs(os.path.dirname(save_path), exist_ok=True)
