@@ -31,6 +31,9 @@ from flask_appbuilder import expose
 from myapp.views.view_team import Project_Join_Filter, filter_join_org_project
 from myapp.models.model_dataset import Dataset
 from myapp.utils import core
+import math
+from myapp.utils.dataset_reader import DatasetReadError, load_dataframe, resolve_dataset_path
+from myapp.utils.dataset_profile import profile_dataframe
 conf = app.config
 
 
@@ -398,26 +401,33 @@ example：
     def preview(self):
         _args = request.get_json(silent=True) or {}
         _args.update(request.args)
-        _args.update(json.loads(request.args.get('form_data', {})))
-        info = {}
-        info.update(
-            {
-                "rows": [
-                    {
-                        "row_idx": 0,
-                        "row": {
-                            "col1": "",
-                            "col2": "",
-                            "col3": "",
-                            "label1": [""],
-                            "no_answer": False
-                        },
-                        "truncated_cells": []
-                    }
-                ]
-            }
-        )
-        return jsonify(info)
+        _args.update(json.loads(request.args.get('form_data', '{}')))
+        view_args = request.view_args or {}
+        dataset_name = view_args.get('dataset_name', '')
+        dataset_version = view_args.get('dataset_version', '')
+        dataset_segment = view_args.get('dataset_segment', '')
+        query = db.session.query(Dataset).filter_by(name=dataset_name)
+        if dataset_version:
+            query = query.filter_by(version=dataset_version)
+        dataset = query.order_by(Dataset.id.desc()).first()
+        if not dataset:
+            return jsonify({'status': 1, 'result': {}, 'message': '数据集不存在'})
+        try:
+            path = resolve_dataset_path(dataset)
+            df, _bad, _truncated = load_dataframe(path, segment=dataset_segment, rows=50)
+        except DatasetReadError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        rows = []
+        for idx, record in enumerate(df.to_dict(orient='records')):
+            row = {}
+            for key, value in record.items():
+                if hasattr(value, 'item'):       # numpy 标量 -> Python 原生
+                    value = value.item()
+                if value is None or (isinstance(value, float) and math.isnan(value)):
+                    value = ''
+                row[str(key)] = value
+            rows.append({'row_idx': idx, 'row': row, 'truncated_cells': []})
+        return jsonify({'status': 0, 'message': 'success', 'result': {'rows': rows}})
 
 
 
@@ -455,6 +465,29 @@ example：
 class Dataset_ModelView_Api(Dataset_ModelView_base, MyappModelRestApi):
     datamodel = SQLAInterface(Dataset)
     route_base = '/dataset_modelview/api'
+
+    @expose_api(description="探索指定数据集", url="/explore/<dataset_name>/<dataset_version>", methods=["GET", "POST"])
+    @expose_api(description="探索指定数据集指定分片", url="/explore/<dataset_name>/<dataset_version>/<dataset_segment>", methods=["GET", "POST"])
+    def explore(self, dataset_name, dataset_version, dataset_segment=''):
+        query = db.session.query(Dataset).filter_by(name=dataset_name)
+        if dataset_version and dataset_version != 'latest':
+            query = query.filter_by(version=dataset_version)
+        dataset = query.order_by(Dataset.id.desc()).first()
+        if not dataset:
+            return jsonify({'status': 1, 'result': {}, 'message': '数据集不存在'})
+        try:
+            path = resolve_dataset_path(dataset)
+            df, bad_rows, truncated = load_dataframe(path, segment=dataset_segment)
+        except DatasetReadError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        result = {
+            'row_count': int(len(df)),
+            'sampled_rows': int(len(df)),
+            'truncated': truncated,
+            'bad_rows': bad_rows,
+            'columns': profile_dataframe(df),
+        }
+        return jsonify({'status': 0, 'message': 'success', 'result': result})
 
 
 appbuilder.add_api(Dataset_ModelView_Api)
