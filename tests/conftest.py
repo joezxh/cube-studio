@@ -45,3 +45,4 @@ _load_module('lerobot_profile', 'job-template/job/lerobot_import/lerobot_profile
 _load_module('lerobot_train_cmd', 'job-template/job/lerobot_train/train_cmd.py')
 _load_module('lerobot_train_metrics', 'job-template/job/lerobot_train/metrics_parser.py')
 _load_module('lerobot_eval_cmd', 'job-template/job/lerobot_eval/eval_cmd.py')
+_load_module('lerobot_metrics_contract', 'job-template/job/lerobot_eval/metrics_contract.py')
