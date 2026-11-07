@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.less';
 import zhCN from 'antd/lib/locale/zh_CN';
+import enUS from 'antd/lib/locale/en_US';
 import { ConfigProvider, Spin } from 'antd';
 import './store/index'
 
@@ -29,15 +30,28 @@ if (!!userName) {
   handleTips.gotoLogin()
 }
 
-ReactDOM.render(
-  isLogin ?
-    <ConfigProvider locale={zhCN}>
-      <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTER || '/'}>
-        <App />
-      </BrowserRouter>
-    </ConfigProvider> : <></>,
-  document.getElementById('root')
-);
+const renderApp = (locale: any) => {
+  ReactDOM.render(
+    isLogin ?
+      <ConfigProvider locale={locale}>
+        <BrowserRouter basename={process.env.REACT_APP_BASE_ROUTER || '/'}>
+          <App />
+        </BrowserRouter>
+      </ConfigProvider> : <></>,
+    document.getElementById('root')
+  );
+}
+
+if (isLogin) {
+  fetch('/userinfo/api/current/userinfo', { credentials: 'same-origin' })
+    .then(res => res.json())
+    .then((res: any) => {
+      renderApp(res?.locale === 'en' ? enUS : zhCN)
+    })
+    .catch(() => renderApp(zhCN))
+} else {
+  renderApp(zhCN)
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
