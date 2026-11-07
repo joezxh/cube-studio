@@ -30,6 +30,8 @@ from myapp.models.model_job import (
 from myapp.models.model_notebook import Notebook
 from myapp.models.model_serving import InferenceService, Service
 from myapp.views.view_pipeline import run_pipeline,dag_to_pipeline
+from myapp.utils.py.pipeline_schedule import expired_run_ids_to_delete
+from myapp.utils.py.py_minio import make_minio_client, remove_object_prefix
 from sqlalchemy import or_
 from myapp import security_manager
 
@@ -554,6 +556,14 @@ def upload_timerun(pipeline_id,stop_time):
                                 # 也更新timeruns的状态
                                 pass_run.status = 'Deleted'
                                 dbsession.commit()
+                                # 企业版 #8：按 workflow_name 前缀回收该实例在 minio 的日志/产物，失败只记日志不阻塞调度
+                                try:
+                                    if workflow:
+                                        removed, errors = remove_object_prefix(make_minio_client(conf.get), 'mlpipeline', workflow.name + '/')
+                                        if errors:
+                                            logging.error('artifact cleanup errors for %s: %s', workflow.name, errors)
+                                except Exception as cleanup_error:
+                                    logging.error('artifact cleanup fail for %s: %s', workflow.name, cleanup_error)
 
 
                     # 如果有新的还没运行的，就运行
@@ -564,6 +574,16 @@ def upload_timerun(pipeline_id,stop_time):
                                 "pipeline_id": pipeline_id
                             }
                             upload_workflow.apply_async(kwargs=kwargs, expires=120, retry=False)
+
+                    # 企业版 #8：清理超出保留窗的过期终态 RunHistory 记录（pipeline_file 为 640K Text 大字段，
+                    # 定时记录累积是 DB 膨胀主因）；仅删终态，comed/created 记录参与调度链路必须保留
+                    all_runs = dbsession.query(RunHistory).filter(RunHistory.pipeline_id == pipeline.id).all()
+                    run_records = [{'id': r.id, 'execution_date': r.execution_date or '', 'status': r.status or ''} for r in all_runs]
+                    stale_ids = expired_run_ids_to_delete(run_records, pipeline.expired_limit)
+                    if stale_ids:
+                        dbsession.query(RunHistory).filter(RunHistory.id.in_(stale_ids)).delete(synchronize_session=False)
+                        dbsession.commit()
+                        logging.info('pipeline %s expired cleanup: %s run records deleted', pipeline.name, len(stale_ids))
 
 
 

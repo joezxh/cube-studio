@@ -233,14 +233,17 @@ const Setting: React.FC = () => {
             label={'调度优先级'}
             options={[
               { key: "high", text: 'high' },
+              { key: "mid", text: 'mid' },
               { key: "low", text: 'low' },
             ]}
             selectedKey={current?.priority || "high"}
             onChange={(event: FormEvent, option?: IDropdownOption) => {
               handleOnChange('priority', `${option?.text}` || '');
             }}
-            disabled
           />
+          <div className={style.desc}>
+            仅当集群预装 PriorityClass 并配置 PIPELINE_PRIORITY_CLASS 映射时影响调度，否则只登记档位
+          </div>
           <div className={style.splitLine}></div>
           <Dropdown
             label={'调度类型'}

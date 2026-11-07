@@ -169,12 +169,24 @@ def test_unordered_input_sorted_by_execution_date_desc():
 
 def test_missing_fields_tolerated():
     records = [
-        {'id': 1},
+        {'id': 1, 'status': 'Succeeded'},
         {'id': 2, 'execution_date': '2026-11-09 00:00:00', 'status': 'Succeeded'},
         {'id': 3, 'execution_date': '2026-11-08 00:00:00', 'status': 'Succeeded'},
     ]
+    # 缺 execution_date 的终态记录排到最旧，超出保留窗 → 被删（缺字段不崩溃）
     assert ps.expired_run_ids_to_delete(records, 2) == [1]
+
+
+def test_missing_status_is_never_deleted():
+    # 状态未知的记录按非终态处理，宁可不删（仅删终态的安全红线优先于清理率）
+    records = [
+        {'id': 1},
+        {'id': 2, 'execution_date': '2026-11-09 00:00:00', 'status': 'Succeeded'},
+    ]
+    assert ps.expired_run_ids_to_delete(records, 1) == []
 ```
+
+> **计划修正（执行时回填）：** 原计划该用例首条记录为 `{'id': 1}`（缺 status）却断言被删，与实现「仅删终态」矛盾（实际返回 `[]`）。已按安全红线优先改写：缺 `execution_date` 的终态记录排最旧被删，另加 `test_missing_status_is_never_deleted` 守住「状态未知永不删」。Task 1 用例数 12 → 13。
 
 - [ ] **Step 3: 跑测试确认失败**
 
@@ -240,12 +252,14 @@ def expired_run_ids_to_delete(records, limit, terminal_states=TERMINAL_RUN_STATU
 - [ ] **Step 5: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_pipeline_schedule.py -v`
-Expected: 12 passed
+Expected: 13 passed
 
 - [ ] **Step 6: 全量回归 + 提交**
 
 Run: `python -m pytest`
-Expected: 全部通过（既有 65 + 新增 12 = 77）
+Expected: 全部通过（既有 65 + 新增 13 = 78）
+
+> 回归命令修正：仓库根 `python -m pytest` 会误收集 `myapp/example/pipeline/llamafactory`（本机无 llamafactory 依赖，collection error），统一改用 `python -m pytest tests -q`。
 
 ```bash
 git add myapp/utils/py/pipeline_schedule.py tests/test_pipeline_schedule.py tests/conftest.py
@@ -396,7 +410,7 @@ def remove_object_prefix(client, bucket, prefix):
 - [ ] **Step 5: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_pipeline_schedule.py -v`
-Expected: 16 passed（12 + 4）
+Expected: 17 passed（13 + 4）
 
 - [ ] **Step 6: view_workflow.py 收敛内联构造**
 
@@ -765,31 +779,54 @@ git commit -m "feat: PriorityClass 三档安装清单与 PIPELINE_PRIORITY_CLASS
 **Files:**
 - 无新改动；验证 + 计划文档勾选状态回写
 
-- [ ] **Step 1: 后端全量**
+> **执行完成记录（2026-11-08，feature/pipeline-schedule-enhance，6 个实现 commit）：**
+>
+> - 后端全量：`python -m pytest tests -q` → **82 passed**（基线 65 + Task1 13 + Task2 4）；6 个改动文件 `py_compile` exit 0。
+> - 前端：`myapp/vision` 无 node_modules（本机未装依赖），无法跑真实 `tsc --noEmit`；改用仓库内已有的 `myapp/frontend/node_modules/typescript` 以 `--noResolve --noEmit` 做语法校验 → **无 parse/JSX 语法错误**，改动区（Setting/index.tsx L232-250）无诊断；其余 16 条均为 `--noResolve` 导致的 TS2792 模块解析噪声。
+> - schedules.py 改动面：`git diff c43bc90..HEAD -- myapp/tasks/schedules.py` 仅 2 行 import + expired_limit 分支内 2 处插入（artifact 回收 8 行 + RunHistory 清理 10 行），#5 涉及的补录/超时/并发/依赖逻辑零改动。凭证 grep：`minio123` 仅出现于 `py_minio.py` 的 conf 缺省值。
+> - **两处与计划的偏差**（执行时取证修正）：
+>   1. Task 5 未采用 `Dropdown description=` 属性——`@fluentui/react` v8 `IDropdownProps`（继承 `ISelectableDroppableTextProps`）无法在本环境确认存在 `description`，且仓内 `<Dropdown description=>` 零先例；改为 Dropdown 仅用已验证属性 + 新增 `style.desc` 说明行（字号/颜色对齐 fluentui TextField description）。
+>   2. Task 1 测试用例计数 12→13（原计划用例与实现自矛盾，已按安全红线修正）。
+> - **待决项：spec A5 的 visionPlus UI 增量未执行**（计划已主动收窄，但母文档 §1-A5 字面仍要求）。见下方验收清单最后两项。
 
-Run: `python -m pytest`
-Expected: 77 passed（65 既有 + 12 pipeline_schedule + 4 py_minio... 注意：Task 1 的 12 条与 Task 2 的 4 条同文件，总数 81？以实际运行为准——计划基数：既有 65 + 新增 16 = 81 passed）
+- [x] **Step 1: 后端全量**
+
+Run: `python -m pytest tests -q`
+实测：**82 passed**（基线 65 + 13 pipeline_schedule + 4 py_minio）；计到计划基线 81 为估算偏差，以实际为准
 
 Run: `python -m py_compile myapp/views/view_pipeline.py myapp/tasks/schedules.py myapp/views/view_workflow.py myapp/config.py myapp/utils/py/pipeline_schedule.py myapp/utils/py/py_minio.py`
 Expected: 无输出
 
-- [ ] **Step 2: 前端类型检查**
+- [x] **Step 2: 前端类型检查**
 
 vision：`cd myapp/vision; npx tsc --noEmit` → exit 0
 （visionPlus 本轮无改动，跳过）
 
 - [ ] **Step 3: spec 验收清单核对（对照母文档 §1-A5/A8/A9 修订文本逐项打勾）**
 
-- [ ] #9：conf 缺省时 `make_workflow_yaml` 输出不含任何 priority 键（用 Task 3 Step 5 的 python -c 断言 `{}` 佐证）
-- [ ] #9：档位+映射双命中时注入 `spec.priority` 与 `templateDefaults.priorityClassName`（Task 1 测试 1/6 覆盖）
-- [ ] #9：PriorityClass 清单三档且全部 `preemptionPolicy: Never`（Task 6 文件）
-- [ ] #9：表单/列清单/前端下拉三处 priority 可达（Task 3/5）
-- [ ] #8：RunHistory 仅删终态、保留窗、limit=0 不限制（Task 1 测试 8/9 覆盖；Task 4 接入）
-- [ ] #8：artifact 按 workflow_name 前缀回收、失败不阻塞（Task 2 测试 + Task 4 接入）
-- [ ] #5：补录/超时/并发/依赖后端逻辑零改动（`git diff main~6 -- myapp/tasks/schedules.py` 仅含 expired_limit 分支两处插入）
-- [ ] 凭证：新代码零硬编码 access/secret（Task 2/6）
+- [x] #9：conf 缺省时 `make_workflow_yaml` 输出不含任何 priority 键（用 Task 3 Step 5 的 python -c 断言 `{}` 佐证）——已验证：`priority_spec_patch('high', {})` → `{}`
+- [x] #9：档位+映射双命中时注入 `spec.priority` 与 `templateDefaults.priorityClassName`（Task 1 测试 1/6 覆盖）——已验证：`('mid', {'mid':'pipeline-mid'})` → `{'priority': 100, 'templateDefaults': {'priorityClassName': 'pipeline-mid'}}`
+- [x] #9：PriorityClass 清单三档且全部 `preemptionPolicy: Never`（Task 6 文件）
+- [x] #9：表单/列清单/前端下拉三处 priority 可达（Task 3/5）
+- [x] #8：RunHistory 仅删终态、保留窗、limit=0 不限制（Task 1 测试 8/9 覆盖；Task 4 接入）
+- [x] #8：artifact 按 workflow_name 前缀回收、失败不阻塞（Task 2 测试 + Task 4 接入）
+- [x] #5：补录/超时/并发/依赖后端逻辑零改动（diff 仅 expired_limit 分支两处插入）；vision 侧 `cronjob_start_time`(L331 DatePicker) 与 `expired_limit`(L380) 入口已存在
+- [x] 凭证：新代码零硬编码 access/secret（Task 2/6）
+- [x] #5（已裁决）：用户选择补 Task 8 复活 visionPlus 面板→**取证后取消**：visionPlus 面向 ETL_Pipeline（scenes=etl_pipeline，模型无 schedule/expired_limit/priority 列，savePipeline 不发面板 changed），该需求前提不成立；已回写母文档 §1-A5 三轮校正。pipeline 调度 UI 唯一归属 vision（cronjob_start_time L331 / expired_limit L380 / priority 本轮启用）。
+- [x] #8（已裁决）：终态集合**维持 spec 三态** `Deleted/Succeeded/Failed`；argo 的 `Error`/`Terminated` 本轮不纳入（宁可少删，不误删），已记录为后续可选项。
 
-- [ ] **Step 4: 汇报结果，进入 finishing-a-development-branch**
+- [x] **Step 4: 汇报结果，进入 finishing-a-development-branch**（已汇报：8 项验收全绿 + Task 8 取证取消；用户选定本地合并回 main）
+
+---
+
+### Task 8（已取消）：复活 visionPlus pipeline 调度面板
+
+用户初始选择补做本 Task；实施前取证发现前提不成立，按“阻塞即停”原则回报并改判为取消：
+
+- visionPlus 由后端以 `scenes=etl_pipeline` 打开（`myapp/views/view_etl_pipeline.py:460`），detail/save 走 `/etl_pipeline_modelview/api/config/<id>`，操作对象是 **ETL_Pipeline** 而非 argo `Pipeline`。
+- `ETL_Pipeline` 模型列：`id/name/describe/project_id/workflow/dag_json/config/expand`——无 `expired_limit`/`priority`/`schedule_type`/`cron_time`/`cronjob_start_time`；其 Setting 面板 L306-417 被注释的字段块引用的是 `Pipeline` 列（vision 复制的死代码）。
+- visionPlus `savePipeline`（`src/models/pipeline/index.ts:187`）载荷仅 `{...initProject, dag_json, config}`，面板 `changed` 不进请求体——即“复活 UI 也不会保存”。
+- 处置：本轮无 visionPlus 代码改动；母文档 §1-A5 已回写三轮校正；如需 ETL_Pipeline 的保留数/优先级，拆为独立主题（跨模型 + 跨调度引擎 + 迁移）单独立项。
 
 ---
 
