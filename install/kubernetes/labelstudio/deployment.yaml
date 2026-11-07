@@ -1,0 +1,40 @@
+# LabelStudio CE 部署（与 virtual.yaml 的 /labelstudio/ 路由对齐）
+# 镜像 tag 记录：heartexlabs/label-studio:latest（上线前固定为具体版本号并回填注释）
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: labelstudio
+  namespace: kubeflow
+  labels:
+    app: labelstudio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: labelstudio
+  template:
+    metadata:
+      labels:
+        app: labelstudio
+    spec:
+      containers:
+        - name: labelstudio
+          image: heartexlabs/label-studio:latest
+          ports:
+            - containerPort: 8080
+          env:
+            # 子路径反代（istio /labelstudio/ -> 本服务），LS 以此生成静态资源前缀
+            - name: LABEL_STUDIO_HOST
+              value: /labelstudio
+            # 数据目录（任务/标注/上传物持久化）
+            - name: LABEL_STUDIO_DATA
+              value: /label-studio/data
+          volumeMounts:
+            - name: labelstudio-data
+              mountPath: /label-studio/data
+      volumes:
+        - name: labelstudio-data
+          hostPath:
+            # 与 init_node.sh 创建的目录一致
+            path: /data/k8s/kubeflow/labelstudio/
+            type: DirectoryOrCreate

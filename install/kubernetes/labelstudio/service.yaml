@@ -1,0 +1,15 @@
+# 服务名/端口必须与 virtual.yaml 的 destination 保持一致
+apiVersion: v1
+kind: Service
+metadata:
+  name: labelstudio
+  namespace: kubeflow
+  labels:
+    app: labelstudio
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: labelstudio
