@@ -32,6 +32,7 @@ from flask_appbuilder.fieldwidgets import BS3TextFieldWidget, Select2ManyWidget,
 from myapp.forms import MyBS3TextAreaFieldWidget, MySelectMultipleField
 from myapp.models.model_job import Repository
 from myapp.utils.py import py_k8s
+from myapp.utils.py.pipeline_schedule import priority_spec_patch
 import re, copy
 from kubernetes.client.models import (
     V1EnvVar, V1SecurityContext
@@ -119,6 +120,10 @@ def make_workflow_yaml(pipeline,workflow_label,hubsecret_list,dag_templates,cont
             ]
         }
     }
+    # 企业版 #9：任务流优先级双注入（spec.priority 提交排序 + templateDefaults.priorityClassName Pod 级调度）。
+    # 双闸门：仅当档位命中 conf PIPELINE_PRIORITY_CLASS 映射时才注入，缺省空 dict = 行为与历史完全一致。
+    workflow_crd_json['spec'].update(priority_spec_patch(
+        getattr(pipeline, 'priority', ''), conf.get('PIPELINE_PRIORITY_CLASS', {})))
     return workflow_crd_json
 
 
@@ -580,10 +585,10 @@ class Pipeline_ModelView_Base():
     }
     add_columns = ['project', 'name', 'describe']
     edit_columns = ['project', 'name', 'describe', 'schedule_type', 'cron_time', 'depends_on_past', 'max_active_runs',
-                    'expired_limit', 'parallelism', 'global_env', 'alert_status', 'alert_user', 'parameter',
+                    'expired_limit', 'priority', 'parallelism', 'global_env', 'alert_status', 'alert_user', 'parameter',
                     'cronjob_start_time']
     show_columns = ['project', 'name', 'describe', 'schedule_type', 'cron_time', 'depends_on_past', 'max_active_runs',
-                    'expired_limit', 'parallelism', 'global_env', 'dag_json', 'pipeline_file', 'pipeline_argo_id',
+                    'expired_limit', 'priority', 'parallelism', 'global_env', 'dag_json', 'pipeline_file', 'pipeline_argo_id',
                     'run_id', 'created_by', 'changed_by', 'created_on', 'changed_on', 'expand',
                     'parameter', 'alert_status', 'alert_user', 'cronjob_start_time']
     # show_columns = ['project','name','describe','schedule_type','cron_time','depends_on_past','max_active_runs','parallelism','global_env','dag_json','pipeline_file_html','pipeline_argo_id','version_id','run_id','created_by','changed_by','created_on','changed_on','expand']
@@ -656,6 +661,14 @@ class Pipeline_ModelView_Base():
             widget=BS3TextFieldWidget(),
             default=1,
             validators=[DataRequired()]
+        ),
+        "priority": SelectField(
+            _('调度优先级'),
+            description= _("任务流优先级档位，仅当集群预装 PriorityClass（install/kubernetes/cube/priorityclass.yaml）"
+                          "并配置 PIPELINE_PRIORITY_CLASS 映射时生效；未配置时不影响运行，仅登记档位"),
+            widget=Select2Widget(),
+            default='high',
+            choices=[['high', 'high'], ['mid', 'mid'], ['low', 'low']]
         ),
         "parallelism": IntegerField(
             _('并发数'),
@@ -1307,7 +1320,7 @@ class Pipeline_ModelView_Api(Pipeline_ModelView_Base, MyappModelRestApi):
     list_columns = ['id', 'project', 'pipeline_url', 'creator', 'modified']
     add_columns = ['project', 'name', 'describe']
     edit_columns = ['project', 'name', 'describe', 'schedule_type', 'cron_time', 'depends_on_past', 'max_active_runs',
-                    'expired_limit', 'parallelism', 'dag_json', 'global_env', 'alert_status', 'alert_user', 'expand',
+                    'expired_limit', 'priority', 'parallelism', 'dag_json', 'global_env', 'alert_status', 'alert_user', 'expand',
                     'parameter','cronjob_start_time']
 
     related_views = [Task_ModelView_Api, ]
