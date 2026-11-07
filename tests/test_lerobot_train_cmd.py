@@ -50,3 +50,19 @@ def test_extra_args_rejected():
         with pytest.raises(ValueError):
             tc.build_train_cmd(policy_type="act", dataset_ref="d:v1",
                                output_dir="/o", extra_args=bad)
+
+
+def test_metachar_in_flag_and_unsafe_names_rejected():
+    # flag 位元字符同样拒绝（train_cmd.sh 可被 bash 重放的注入面）
+    with pytest.raises(ValueError):
+        tc.build_train_cmd(policy_type="act", dataset_ref="d:v1",
+                           output_dir="/o", extra_args="--a;rm=1 x")
+    # dataset name/version 与 policy_path 字符集白名单
+    with pytest.raises(ValueError):
+        tc.build_train_cmd(policy_type="act", dataset_ref="na;me:v1", output_dir="/o")
+    with pytest.raises(ValueError):
+        tc.build_train_cmd(policy_path="../../etc/x", dataset_ref="d:v1", output_dir="/o")
+    # hub repo id 形态合法
+    cmd = tc.build_train_cmd(policy_path="lerobot/smolvla_base",
+                             dataset_ref="d:v1", output_dir="/o")
+    assert cmd[cmd.index("--policy.path") + 1] == "lerobot/smolvla_base"

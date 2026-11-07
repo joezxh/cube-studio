@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 import pathlib
+import shlex
 import subprocess
 import sys
 
@@ -51,24 +52,29 @@ def main(argv=None):
         print(str(e), file=sys.stderr)
         return 2
 
-    (out / "train_cmd.sh").write_text(" ".join(cmd) + "\n", encoding="utf-8")
+    cmd_line = shlex.join(cmd)
+    (out / "train_cmd.sh").write_text("#!/bin/sh\n" + cmd_line + "\n", encoding="utf-8")
     name, version = train_cmd.parse_dataset_ref(a.dataset_ref)
     dataset_meta = pathlib.Path(a.base_dir) / name / version / ".cube_dataset_meta"
     parents = [{"path": str(dataset_meta), "digest": sha256_file(dataset_meta)}]
 
     if dry:
-        stats = {"dry_run": True, "train_cmd": " ".join(cmd)}
+        stats = {"dry_run": True, "train_cmd": cmd_line}
         files = ["train_cmd.sh"]
     else:
         with open(out / "train.log", "w", encoding="utf-8") as log:
-            proc = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, text=True)
+            try:
+                proc = subprocess.run(cmd, stdout=log, stderr=subprocess.STDOUT, text=True)
+                rc = proc.returncode
+            except OSError as e:  # 镜像内无 lerobot-train 等拉起失败：显式记录并留血缘
+                log.write("launch failed: %s\n" % e)
+                rc = 127
         text = (out / "train.log").read_text(encoding="utf-8")
         metrics = parse_train_metrics(text)
         metrics.update({"policy_type": a.policy_type, "dataset_ref": a.dataset_ref})
         (out / "metrics.json").write_text(
             json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8")
-        stats = {"dry_run": False, "train_cmd": " ".join(cmd),
-                 "exit_code": proc.returncode}
+        stats = {"dry_run": False, "train_cmd": cmd_line, "exit_code": rc}
         files = ["train_cmd.sh", "metrics.json", "train.log"]
 
     write_manifest(out, op="lerobot-train",

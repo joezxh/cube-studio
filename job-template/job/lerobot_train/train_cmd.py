@@ -1,9 +1,23 @@
 """lerobot-train 命令组装纯函数（spec §4；本地数据集默认 --dataset.repo_id + --dataset.root，
 spec §4.3 实测锁定项，如需改形态只改本函数拼装两处）。"""
+import re
 import shlex
 
 BASE_DIR = "/data/k8s/kubeflow/global/dataset"
 _META_CHARS = set(";|&$<>`\n'\"")
+_SAFE_PART = re.compile(r"^[A-Za-z0-9._-]+$")
+_SAFE_PATH = re.compile(r"^[A-Za-z0-9._/-]+$")  # policy_path 允许 /（hub repo id 与容器内绝对路径），逐字符集已排除 shell 元字符
+
+
+def _check_safe_part(value, what):
+    if not _SAFE_PART.match(str(value)) or str(value) == "." or ".." in str(value):
+        raise ValueError("unsafe %s: %r" % (what, value))
+
+
+def _check_safe_path(value, what):
+    v = str(value)
+    if not _SAFE_PATH.match(v) or ".." in v:
+        raise ValueError("unsafe %s: %r" % (what, value))
 
 
 def parse_dataset_ref(ref):
@@ -18,10 +32,10 @@ def _validate_extra(extra_args):
     if len(tokens) % 2 != 0:
         raise ValueError("extra_args must be flag-value pairs")
     for i, tok in enumerate(tokens):
+        if _META_CHARS & set(tok):
+            raise ValueError("shell metacharacters forbidden in token: %r" % (tok,))
         if i % 2 == 0 and not tok.startswith("--"):
             raise ValueError("extra flag must start with --: %r" % (tok,))
-        if i % 2 == 1 and _META_CHARS & set(tok):
-            raise ValueError("shell metacharacters forbidden in value: %r" % (tok,))
     return tokens
 
 
@@ -32,10 +46,13 @@ def build_train_cmd(*, dataset_ref, output_dir, policy_type=None, policy_path=No
     if bool(policy_type) == bool(policy_path):
         raise ValueError("exactly one of policy_type/policy_path required")
     name, version = parse_dataset_ref(dataset_ref)
+    _check_safe_part(name, "dataset name")
+    _check_safe_part(version, "dataset version")
     cmd = ["lerobot-train"]
     if policy_type:
         cmd += ["--policy.type", str(policy_type)]
     else:
+        _check_safe_path(policy_path, "policy_path")
         cmd += ["--policy.path", str(policy_path)]
     cmd += ["--dataset.repo_id", "local/%s_%s" % (name, version),
             "--dataset.root", "%s/%s/%s" % (str(base_dir).rstrip("/"), name, version),
