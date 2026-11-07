@@ -42,6 +42,7 @@
 
 1. **开源代码实际能力**：`myapp/views/view_pipeline.py` 已存在 `schedule_type/cron_time/depends_on_past/max_active_runs` 等字段；`myapp/models/model_nni.py` 与 `images/nni/Dockerfile` 表明 NNI 超参搜索底座在开源代码中已有痕迹。`job-template/job/` 实际包含：dataset、datax、demo、deploy-service、model_download、model_offline_predict、model_register、pytorch、ray、ray_sklearn、tf、volcano、xgb、yolov8、video-audio。
 2. **定位口径修正**：凡 wiki 文档标注企业版但开源代码已有基础的条目，本文定位为「复用 + 增强」而非「新增」；此类条目在正文中以 ⚠️ 显式标注。
+3. **二轮校验（2026-11-08，序 3 spec 设计前复核）**：深入 `myapp/tasks/schedules.py` 调度逻辑与 `view_pipeline.py::make_workflow_yaml` 合成链路后修正两处判断——① **补录**（`cronjob_start_time` → RunHistory 逐时间点生成 + execution_date 去重）与**任务级超时**（`Task.timeout` → `activeDeadlineSeconds`）开源版**均已实现**，A5 的「缺口」判断失准（首轮仅核对字段存在，未核对逻辑）；② A8 的 expired_limit 删旧实例已实现但清理不完备（RunHistory 记录不删、artifact 不回收）；③ A9 的 priority 为**纯字段壳**（表单/合成/前端链路零使用），定位从「扩展」改判「新增」。修正已回写至 A5/A8/A9 各小节。
 
 ### 0.3 主题分组
 
@@ -79,8 +80,8 @@
 ### A5. Pipeline 调度增强：定时/补录/并发限制/超时/实例依赖（#5）
 - **定义与用户价值**：pipeline 具备生产级调度语义——crontab 定时、错过的周期补录（backfill）、并发实例上限、任务级超时、上游实例依赖（depends_on_past），支撑数仓式日常批处理场景。
 - **实现思路**：复用 argo workflow 的 cron 与 activeDeadlineSeconds；补录逻辑在平台层遍历时间窗生成实例；max_active_runs 用平台锁或 argo 并发策略实现。
-- **与开源版关系**：⚠️ 复用 + 增强——开源代码已有 schedule_type/cron_time/depends_on_past/max_active_runs 字段，本项重点是补齐补录与任务级超时的缺口。
-- **难点与风险**：补录与实时调度冲突时的实例去重；argo 版本升级对 cron API 的兼容。
+- **与开源版关系**：⚠️ 复用 + 增强（二轮校验修正）——定时触发、补录、并发限制、实例依赖、任务级超时**五要素开源版均已全部实现**（schedules.py `make_timerun_config`/`upload_timerun` + `Task.timeout`→`activeDeadlineSeconds`），本项企业版增量收敛为前端入口：双 Setting 面板补 `cronjob_start_time`（crontab 时展示，描述“可设为更早时间，自动补录错过的周期实例”）、visionPlus 补 `expired_limit` 字段；后端调度逻辑不动，以回归护栏验证。
+- **难点与风险**：补录与实时调度冲突时的实例去重（开源已用 execution_date 查重缓解）；argo 版本升级对 cron API 的兼容。
 
 ### A6. 任务输入输出 / 全局常量 / 结果可视化 / workflow 暂停恢复（#6）
 - **定义与用户价值**：任务间传递结构化产物（文件/指标），DAG 级全局常量统一注入，任务运行后输出文本/图片/CSV/JSON/表格/ECharts 直接在 UI 渲染；workflow 可暂停/恢复，节省长链路调试成本。
@@ -97,17 +98,17 @@
 ### A8. 定时调度最大保留实例数（#8）
 - **定义与用户价值**：限制定时调度保留的历史实例数量，防止高频调度撑爆实例列表与 etcd。
 - **实现思路**：调度触发时按保留数清理最旧实例（含 argo wf 删除）。
-- **与开源版关系**：⚠️ 复用 + 增强——开源代码已有该字段及描述文案，企业版重点是清理策略完备性（联动日志/产物清理）。
+- **与开源版关系**：⚠️ 复用 + 增强——expired_limit 删旧实例逻辑已实现（argo wf 删除 + 表状态标记）；企业版补两层清理完备性：① RunHistory 终态记录清理（`pipeline_file` 为 Text(655360)，定时记录累积是 DB 膨胀主因；保留最新 expired_limit 条，仅删终态 Deleted/Succeeded/Failed，非终态保留以免干扰调度链路）；② minio `mlpipeline` bucket 按 workflow_name 前缀回收旧实例 artifact。已定边界：DB + artifact 两层，共享存储工作目录不动留 v2；清理失败 logging 不阻塞主流程。
 - **难点与风险**：实例删除连带 artifact 清理的事务一致性。
 
 ### A9. 任务流优先级（#9）
 - **定义与用户价值**：pipeline 整体设置优先级，资源紧张时高优任务流优先获得排队资源，保障核心业务 SLA。
 - **实现思路**：映射 k8s PriorityClass / volcano 的 job priority + 队列权重；argo wf 模板注入 priority；前端 pipeline 表单加优先级档位（高/中/低）。
-- **与开源版关系**：扩展——开源版 volcano 模板已有队列概念，缺 pipeline 级优先级抽象。
+- **与开源版关系**：新增（二轮校验改判，原「扩展」）——`Pipeline.priority` 为纯字段壳（表单/合成/前端链路零使用），本项为全链路新建。技术路线已定：**双注入 + 双闸门**——档位命中时同时注入 argo `spec.priority` 数值（high=200/mid=100/low=0，controller 提交排序）与 `spec.templateDefaults.priorityClassName`（Pod 级调度优先级）；平台提供三档 PriorityClass 安装清单（**preemptionPolicy: Never** 防杀运行中训练任务），类名经 conf `PIPELINE_PRIORITY_CLASS` 映射，**缺省空 = 功能关闭不注入**，存量记录（含 default='high'）行为完全不变。volcano 队列权重不选：pipeline workflow 不走 volcano gang scheduling，改造面过大。
 - **难点与风险**：抢占（preemption）可能杀死运行中训练任务，需默认仅排队序优先、抢占可配置；与多资源组配额（计量计费域）叠加时的语义冲突需定义清楚。
 
 ### 主题 A 小结
-9 项中 #5、#8 实为「复用+增强」（文档标注偏保守），#1–#4、#7 为调度资源侧硬能力，#6、#9 为编排体验层。A2/A3（异构资源抽象）是 A4 透传的前提，建议 spec 拆分时归入同一实施批次。
+9 项中 #5、#8 实为「复用+增强」且程度超出预估（二轮校验：补录/超时/保留数均已实现，增量收敛为入口与清理完备性）；#9 虽标注扩展实为纯字段壳，是全主题唯一主体新增。#1–#4、#7 为调度资源侧硬能力，#6 为编排体验层。A2/A3（异构资源抽象）是 A4 透传的前提，建议 spec 拆分时归入同一实施批次。
 
 ---
 
@@ -293,7 +294,7 @@
 
 | 定位 | 条目 | 说明 |
 |---|---|---|
-| 复用 + 增强（⚠️ 文档标注偏保守） | #5、#8、#24 | 开源代码已有定时调度字段、NNI 底座 |
+| 复用 + 增强（⚠️ 文档标注偏保守） | #5、#8、#24 | 调度五要素均已实现（仅余入口与清理完备性增量）、NNI 底座；#9 经二轮校验改判纯壳新建 |
 | 扩展（开源底座已有，补链路） | #1、#3、#4、#13、#12/#14、#19、#22、#23 | 卡型/GPU 语义、HF 模型导入、datax import、ray-sklearn、参数类型、导入导出协议 |
 | 新增 | #2、#6、#7、#9、#10、#11、#15、#16、#17、#18、#20、#21 | RDMA、编排体验层、控制流算子、特征处理、hadoop、文本/图像算子、ML 算法集、模型评估/转换 |
 
