@@ -1,0 +1,53 @@
+{% extends 'appbuilder/baselayout.html' %}
+{% block content %}
+<div style="padding:16px">
+  <h3>数据集探索：{{ dataset.label or dataset.name }}（{{ dataset.version or 'latest' }}）</h3>
+  {% if error %}
+  <div class="alert alert-warning">{{ error }}</div>
+  {% else %}
+  <p>
+    采样行数 <b>{{ row_count }}</b>
+    {% if truncated %}（已达采样上限，统计基于采样非全量）{% endif %}
+    {% if bad_rows %}，跳过坏行 {{ bad_rows }}{% endif %}
+  </p>
+  <div>
+    {% for col in columns %}
+    <div class="panel panel-default" style="display:inline-block;vertical-align:top;width:360px;margin:8px">
+      <div class="panel-heading">
+        <b>{{ col.name }}</b>
+        <span class="label label-default">{{ col.dtype }}</span>
+        <span style="float:right">空值率 {{ col.null_rate }}</span>
+      </div>
+      <div class="panel-body">
+        {% if col.dtype == 'numeric' %}
+          <p>最小 {{ col.min }} ／ 最大 {{ col.max }} ／ 唯一值 {{ col.unique_count }}</p>
+          <p>分位数：p25={{ col.quantiles.p25 }} p50={{ col.quantiles.p50 }} p75={{ col.quantiles.p75 }}</p>
+          {% set max_count = col.histogram.counts | max %}
+          {% for count in col.histogram.counts %}
+            {% if max_count > 0 %}
+            <div style="height:10px;margin:2px 0;background:#337ab7;width:{{ (100 * count / max_count) | round(1) }}%"></div>
+            {% endif %}
+          {% endfor %}
+          <p style="color:#999">直方图（{{ col.histogram.counts | length }} 桶）</p>
+        {% elif col.dtype == 'boolean' %}
+          <p>True: {{ col.counts.get('True', 0) }} ／ False: {{ col.counts.get('False', 0) }}</p>
+        {% elif col.dtype == 'datetime' %}
+          <p>{{ col.min }} ~ {{ col.max }}（唯一值 {{ col.unique_count }}）</p>
+        {% else %}
+          {% set max_count = col.top_values[0].count if col.top_values else 0 %}
+          {% for item in col.top_values %}
+          <div style="margin:2px 0">
+            <span style="display:inline-block;width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle">{{ item.value }}</span>
+            <span style="display:inline-block;height:12px;background:#5cb85c;vertical-align:middle;width:{{ (90 * item.count / max_count) | round(1) }}%"></span>
+            <span>{{ item.count }}</span>
+          </div>
+          {% endfor %}
+          {% if not col.top_values %}<p style="color:#999">无数据</p>{% endif %}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

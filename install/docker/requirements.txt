@@ -18,7 +18,7 @@ werkzeug==2.3.7
 wtforms==2.3.3
 wtforms-json==0.3.5
 Flask-Cors==3.0.10          # Flask跨域资源共享（CORS）库
-# Flask-Babel==4.0.0          # 翻译专用
+Flask-Babel==4.0.0          # 翻译专用（pybabel 随 Babel 依赖提供 CLI）
 
 celery==5.2.2               # 异步任务队列库,5.2.2
 gunicorn==21.2.0            # Python WSGI HTTP服务器
@@ -36,6 +36,7 @@ sseclient-py==1.8.0         # openai 流式客户端
 simplejson==3.19.1          # 是一个处理JSON数据的库
 PySnooper==1.2.0            # 函数调用跟踪
 kubernetes==28.1.0          #  Kubernetes Python客户端库
+requests==2.31.0            # LabelStudio 桥接 REST 客户端（kubernetes 客户端传递依赖，显式声明）
 statsd==4.0.1               # 是一个用于发送统计数据到StatsD服务器的库。
 redis==5.0.1                # redis数据库连接
 pymysql==1.1.0              # 连接mysql数据库

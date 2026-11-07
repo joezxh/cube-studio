@@ -16,7 +16,7 @@ from myapp.forms import MyBS3TextAreaFieldWidget, MySelect2Widget, MyCommaSepara
 from flask import jsonify, Markup, make_response, flash
 from .baseApi import MyappModelRestApi
 from flask import g, request, redirect
-import json, os, sys
+import json, os, sys, time
 from werkzeug.utils import secure_filename
 import pysnooper
 from sqlalchemy import or_
@@ -31,6 +31,16 @@ from flask_appbuilder import expose
 from myapp.views.view_team import Project_Join_Filter, filter_join_org_project
 from myapp.models.model_dataset import Dataset
 from myapp.utils import core
+import math
+from myapp.utils.dataset_reader import DatasetReadError, load_dataframe, resolve_dataset_path
+from myapp.utils.dataset_profile import profile_dataframe
+from myapp.utils.labelstudio_bridge import (
+    LsApiError,
+    create_or_get_project,
+    fetch_export,
+    ls_export_to_records,
+    rows_to_ls_tasks,
+)
 conf = app.config
 
 
@@ -398,26 +408,33 @@ example：
     def preview(self):
         _args = request.get_json(silent=True) or {}
         _args.update(request.args)
-        _args.update(json.loads(request.args.get('form_data', {})))
-        info = {}
-        info.update(
-            {
-                "rows": [
-                    {
-                        "row_idx": 0,
-                        "row": {
-                            "col1": "",
-                            "col2": "",
-                            "col3": "",
-                            "label1": [""],
-                            "no_answer": False
-                        },
-                        "truncated_cells": []
-                    }
-                ]
-            }
-        )
-        return jsonify(info)
+        _args.update(json.loads(request.args.get('form_data', '{}')))
+        view_args = request.view_args or {}
+        dataset_name = view_args.get('dataset_name', '')
+        dataset_version = view_args.get('dataset_version', '')
+        dataset_segment = view_args.get('dataset_segment', '')
+        query = db.session.query(Dataset).filter_by(name=dataset_name)
+        if dataset_version:
+            query = query.filter_by(version=dataset_version)
+        dataset = query.order_by(Dataset.id.desc()).first()
+        if not dataset:
+            return jsonify({'status': 1, 'result': {}, 'message': '数据集不存在'})
+        try:
+            path = resolve_dataset_path(dataset)
+            df, _bad, _truncated = load_dataframe(path, segment=dataset_segment, rows=50)
+        except DatasetReadError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        rows = []
+        for idx, record in enumerate(df.to_dict(orient='records')):
+            row = {}
+            for key, value in record.items():
+                if hasattr(value, 'item'):       # numpy 标量 -> Python 原生
+                    value = value.item()
+                if value is None or (isinstance(value, float) and math.isnan(value)):
+                    value = ''
+                row[str(key)] = value
+            rows.append({'row_idx': idx, 'row': row, 'truncated_cells': []})
+        return jsonify({'status': 0, 'message': 'success', 'result': {'rows': rows}})
 
 
 
@@ -455,6 +472,118 @@ example：
 class Dataset_ModelView_Api(Dataset_ModelView_base, MyappModelRestApi):
     datamodel = SQLAInterface(Dataset)
     route_base = '/dataset_modelview/api'
+
+    @expose_api(description="探索指定数据集", url="/explore/<dataset_name>/<dataset_version>", methods=["GET", "POST"])
+    @expose_api(description="探索指定数据集指定分片", url="/explore/<dataset_name>/<dataset_version>/<dataset_segment>", methods=["GET", "POST"])
+    def explore(self, dataset_name, dataset_version, dataset_segment=''):
+        query = db.session.query(Dataset).filter_by(name=dataset_name)
+        if dataset_version and dataset_version != 'latest':
+            query = query.filter_by(version=dataset_version)
+        dataset = query.order_by(Dataset.id.desc()).first()
+        if not dataset:
+            return jsonify({'status': 1, 'result': {}, 'message': '数据集不存在'})
+        try:
+            path = resolve_dataset_path(dataset)
+            df, bad_rows, truncated = load_dataframe(path, segment=dataset_segment)
+        except DatasetReadError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        result = {
+            'row_count': int(len(df)),
+            'sampled_rows': int(len(df)),
+            'truncated': truncated,
+            'bad_rows': bad_rows,
+            'columns': profile_dataframe(df),
+        }
+        return jsonify({'status': 0, 'message': 'success', 'result': result})
+
+    @action("explore_dataset", "一键探索", "对表格数据集执行一键探索统计?", "fa-bar-chart", single=True, multiple=False)
+    def explore_dataset_action(self, dataset):
+        return redirect('/dataset_modelview/api/explore_html/%s' % dataset.id)
+
+    @expose_api(description="数据集探索页面", url="/explore_html/<dataset_id>", methods=["GET"])
+    def explore_html(self, dataset_id):
+        dataset = db.session.query(Dataset).filter_by(id=dataset_id).first()
+        if not dataset:
+            flash('数据集不存在', 'warning')
+            return redirect('/dataset_modelview/api/')
+        row_count, bad_rows, truncated, columns, error = 0, 0, False, [], ''
+        try:
+            path = resolve_dataset_path(dataset)
+            df, bad_rows, truncated = load_dataframe(path)
+            columns = profile_dataframe(df)
+            row_count = int(len(df))
+        except DatasetReadError as e:
+            error = str(e)
+        return self.render_template('myapp/dataset_explore.html', dataset=dataset,
+                                    row_count=row_count, bad_rows=bad_rows,
+                                    truncated=truncated, columns=columns, error=error)
+
+    @expose_api(description="推送数据集到标注平台", url="/push_to_labelstudio/<dataset_id>", methods=["POST"])
+    def push_to_labelstudio(self, dataset_id):
+        args = request.get_json(silent=True) or {}
+        ls_token = args.get('ls_token') or conf.get('LABELSTUDIO_TOKEN', '')
+        task_type = args.get('task_type', '')
+        dataset = db.session.query(Dataset).filter_by(id=dataset_id).first()
+        if not dataset:
+            return jsonify({'status': 1, 'result': {}, 'message': '数据集不存在'})
+        if task_type not in ('text_classification', 'image_classification'):
+            return jsonify({'status': 1, 'result': {}, 'message': 'task_type 仅支持 text_classification/image_classification'})
+        try:
+            path = resolve_dataset_path(dataset)
+            df, _bad, _truncated = load_dataframe(path)
+            tasks = rows_to_ls_tasks(df, task_type,
+                                     text_col=args.get('text_col', ''),
+                                     image_col=args.get('image_col', ''),
+                                     dataset_name=dataset.name or str(dataset.id))
+            project_id = create_or_get_project(args.get('ls_url', ''), ls_token,
+                                               'cube-studio-%s-%s' % (dataset.name, dataset.version or 'latest'),
+                                               args.get('label_config', ''))
+            res = push_tasks(args.get('ls_url', ''), ls_token, project_id, tasks)
+            pushed = len(res.get('task_ids', [])) if isinstance(res, dict) else len(tasks)
+            return jsonify({'status': 0, 'message': 'success',
+                            'result': {'project_id': project_id, 'pushed': pushed}})
+        except DatasetReadError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        except (LsApiError, ValueError) as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+
+    @expose_api(description="从标注平台回存标注结果为数据集", url="/import_from_labelstudio", methods=["POST"])
+    def import_from_labelstudio(self):
+        args = request.get_json(silent=True) or {}
+        ls_token = args.get('ls_token') or conf.get('LABELSTUDIO_TOKEN', '')
+        project_id = args.get('ls_project_id')
+        dataset_name = args.get('dataset_name', '')
+        dataset_version = args.get('dataset_version', '')
+        if not project_id or not dataset_name or not dataset_version:
+            return jsonify({'status': 1, 'result': {}, 'message': 'ls_project_id/dataset_name/dataset_version 均必填'})
+        exists = db.session.query(Dataset).filter_by(name=dataset_name, version=dataset_version).first()
+        if exists:
+            return jsonify({'status': 1, 'result': {}, 'message': '同名同版本数据集已存在，请更换 dataset_version'})
+        try:
+            export = fetch_export(args.get('ls_url', ''), ls_token, int(project_id))
+        except LsApiError as e:
+            return jsonify({'status': 1, 'result': {}, 'message': str(e)})
+        records = ls_export_to_records(export)
+        if not records:
+            return jsonify({'status': 1, 'result': {}, 'message': 'LS 项目无任务数据'})
+        remote_dir = os.path.join('/data/k8s/kubeflow/global/', 'dataset/%s/%s/' % (dataset_name, dataset_version))
+        os.makedirs(remote_dir, exist_ok=True)
+        filename = 'labelstudio_%s.jsonl' % project_id
+        file_path = os.path.join(remote_dir, filename)
+        if os.path.exists(file_path):
+            filename = 'labelstudio_%s_%s.jsonl' % (project_id, time.strftime('%Y%m%d%H%M%S'))
+            file_path = os.path.join(remote_dir, filename)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            for record in records:
+                f.write(json.dumps(record, ensure_ascii=False) + '\n')
+        dataset = Dataset(name=dataset_name, label=dataset_name,
+                          version=dataset_version, file_type='jsonl',
+                          path=file_path,
+                          describe='来自标注平台项目 %s 的回存' % project_id)
+        db.session.add(dataset)
+        db.session.commit()
+        return jsonify({'status': 0, 'message': 'success',
+                        'result': {'file': file_path, 'record_count': len(records)}})
 
 
 appbuilder.add_api(Dataset_ModelView_Api)

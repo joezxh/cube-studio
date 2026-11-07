@@ -12,6 +12,9 @@ ENV PYTHONPATH=/home/myapp:${PYTHONPATH:-}
 COPY install/docker/entrypoint.sh /entrypoint.sh
 RUN chmod +x /home/myapp/myapp/bin/myapp /entrypoint.sh
 
+# 编译 i18n 翻译目录（.po -> .mo）；translations 尚无 po 时构建不失败
+RUN pybabel compile -d /home/myapp/myapp/translations || true
+
 # ENTRYPOINT ["bash","/entrypoint.sh"]
 
 # HEALTHCHECK CMD ["curl", "-f", "http://localhost:80/health"]

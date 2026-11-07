@@ -6,7 +6,7 @@ from myapp.views.baseSQLA import MyappSQLAInterface as SQLAInterface
 from flask_babel import gettext as __
 from flask_babel import lazy_gettext as _
 from wtforms import SelectField, StringField
-from myapp import appbuilder, conf
+from myapp import app, appbuilder, conf
 from flask_appbuilder.fieldwidgets import Select2Widget, BS3TextFieldWidget, Select2ManyWidget
 from flask_appbuilder.baseviews import expose_api
 from wtforms.validators import DataRequired, Regexp
@@ -88,7 +88,8 @@ class UserInfo_ModelView_Api(User_ModelView_Base, MyappModelRestApi):
                 "secret": g.user.secret,
                 "created_on": g.user.created_on,
                 "changed_on": g.user.changed_on,
-                "wechat": g.user.wechat
+                "wechat": g.user.wechat,
+                "locale": app.config.get('BABEL_DEFAULT_LOCALE', 'zh')
             })
         elif request.method == "POST":
             json_data = request.get_json(silent=True)
