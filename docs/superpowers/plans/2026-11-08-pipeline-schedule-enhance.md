@@ -169,12 +169,24 @@ def test_unordered_input_sorted_by_execution_date_desc():
 
 def test_missing_fields_tolerated():
     records = [
-        {'id': 1},
+        {'id': 1, 'status': 'Succeeded'},
         {'id': 2, 'execution_date': '2026-11-09 00:00:00', 'status': 'Succeeded'},
         {'id': 3, 'execution_date': '2026-11-08 00:00:00', 'status': 'Succeeded'},
     ]
+    # 缺 execution_date 的终态记录排到最旧，超出保留窗 → 被删（缺字段不崩溃）
     assert ps.expired_run_ids_to_delete(records, 2) == [1]
+
+
+def test_missing_status_is_never_deleted():
+    # 状态未知的记录按非终态处理，宁可不删（仅删终态的安全红线优先于清理率）
+    records = [
+        {'id': 1},
+        {'id': 2, 'execution_date': '2026-11-09 00:00:00', 'status': 'Succeeded'},
+    ]
+    assert ps.expired_run_ids_to_delete(records, 1) == []
 ```
+
+> **计划修正（执行时回填）：** 原计划该用例首条记录为 `{'id': 1}`（缺 status）却断言被删，与实现「仅删终态」矛盾（实际返回 `[]`）。已按安全红线优先改写：缺 `execution_date` 的终态记录排最旧被删，另加 `test_missing_status_is_never_deleted` 守住「状态未知永不删」。Task 1 用例数 12 → 13。
 
 - [ ] **Step 3: 跑测试确认失败**
 
@@ -240,12 +252,14 @@ def expired_run_ids_to_delete(records, limit, terminal_states=TERMINAL_RUN_STATU
 - [ ] **Step 5: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_pipeline_schedule.py -v`
-Expected: 12 passed
+Expected: 13 passed
 
 - [ ] **Step 6: 全量回归 + 提交**
 
 Run: `python -m pytest`
-Expected: 全部通过（既有 65 + 新增 12 = 77）
+Expected: 全部通过（既有 65 + 新增 13 = 78）
+
+> 回归命令修正：仓库根 `python -m pytest` 会误收集 `myapp/example/pipeline/llamafactory`（本机无 llamafactory 依赖，collection error），统一改用 `python -m pytest tests -q`。
 
 ```bash
 git add myapp/utils/py/pipeline_schedule.py tests/test_pipeline_schedule.py tests/conftest.py
@@ -396,7 +410,7 @@ def remove_object_prefix(client, bucket, prefix):
 - [ ] **Step 5: 跑测试确认通过**
 
 Run: `python -m pytest tests/test_pipeline_schedule.py -v`
-Expected: 16 passed（12 + 4）
+Expected: 17 passed（13 + 4）
 
 - [ ] **Step 6: view_workflow.py 收敛内联构造**
 
