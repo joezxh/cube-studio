@@ -12,6 +12,13 @@
 
 > 修订记录： 2026-11-06 执行前评审修正——①Task8 GOOD 样本 args 改合规键（否则违反自身规则 3）；②Task2 提交步骤改为 git add（untracked 文件 -am 不覆盖）；③Task5 测试删除未用的 filter3 导入。
 
+> **✅ 完成状态（2026-11-07）：全部 9 个 Task（51 个 Step）已执行完毕并验证。**
+> 交付于分支 `gov-social-llm-p0-p2`（10 个提交），已 fast-forward 合并入本地 `main`（HEAD=`62c611c`，65 文件 +2562 行）；
+> 合并后全量回归 **pytest 36 passed**、`validate_pipelines.py` 三档 Pipeline 全部 `[ OK ]`（exit 0）。
+> 执行中的 4 处计划偏差已在对应提交说明中记录：macro_f1 断言 0.5→0.4、metrics 自实现 parse_output 去跨算子耦合、
+> 算子 CLI 统一扁平 `--flag` 形式、Task8 GOOD 样例补全 dag_json 的 a 节点。worktree 与 feature 分支已清理。
+> 注：P4 GPU 实跑、P5 量化、P6 部署不在本计划范围（见文末 Self-Review 结论）。
+
 ## Global Constraints
 
 - 所有代码位于 `gov-social-llm/`，**不得修改** cube-studio 上游任何文件（spec §1.3 原则 3）
@@ -67,7 +74,7 @@ tests/（与上分离，均在 gov-social-llm/tests/）
 **Interfaces:**
 - Produces: schema 文件路径常量 `DOCS_ROOT`；`kev-questions.json` 结构被 Task 4 `to_kev()` 消费；prompt 文件名模式 `distill-{task}-v{version}.md` 被 Task 3 `load_prompt()` 消费。
 
-- [ ] **Step 1: 写失败测试** `tests/test_schemas.py`
+- [x] **Step 1: 写失败测试** `tests/test_schemas.py`
 
 ```python
 import json, pathlib, pytest
@@ -87,9 +94,9 @@ def test_kev_questions_shape():
     assert {"department", "escalate", "frustration"} <= set(q["questions"])
 ```
 
-- [ ] **Step 2: 运行确认失败** — `pytest gov-social-llm/tests/test_schemas.py -v` → FAIL（文件不存在）
+- [x] **Step 2: 运行确认失败** — `pytest gov-social-llm/tests/test_schemas.py -v` → FAIL（文件不存在）
 
-- [ ] **Step 3: 写 5 个 schema 文件**（要点完整，标签枚举用社会治理示例值，后续与业务方替换仅改此目录）
+- [x] **Step 3: 写 5 个 schema 文件**（要点完整，标签枚举用社会治理示例值，后续与业务方替换仅改此目录）
 
 `T1.json`（事件/工单分类）:
 ```json
@@ -117,7 +124,7 @@ def test_kev_questions_shape():
 }}
 ```
 
-- [ ] **Step 4: 写 5 个 prompt 模板文件**，统一结构（Task 3 按此提取 system 与 few-shot）：
+- [x] **Step 4: 写 5 个 prompt 模板文件**，统一结构（Task 3 按此提取 system 与 few-shot）：
 
 `docs/prompts/distill-T1-v1.md`:
 ````markdown
@@ -132,7 +139,7 @@ def test_kev_questions_shape():
 ````
 `distill-T2-v1.md`（风险预警，输出 T2 schema）、`distill-T3-v1.md`（调解辅助）、`distill-T4-v1.md`（要素抽取）同构；`judge-fact-v1.md` 为事实一致性评审模板（输入案情+候选答案，输出 `{"consistent": true/false, "issue": ""}`）。
 
-- [ ] **Step 5: 写脚手架**
+- [x] **Step 5: 写脚手架**
 
 `requirements-dev.txt`: `pytest>=8.0` `requests>=2.31` `jsonschema>=4.21`
 `pytest.ini`: `testpaths = tests`（工作目录为 `gov-social-llm/`）
@@ -147,9 +154,9 @@ for p in [ROOT / "ops" / "gov-manifest" / "lib",
     sys.path.insert(0, str(p))
 ```
 
-- [ ] **Step 6: 运行通过** — `pytest gov-social-llm/tests/test_schemas.py -v` → 5 个测试 PASS
+- [x] **Step 6: 运行通过** — `pytest gov-social-llm/tests/test_schemas.py -v` → 5 个测试 PASS
 
-- [ ] **Step 7: Commit** — `git add gov-social-llm; git commit -m "feat(gov-llm): 目录骨架、T1-T4 schema 与蒸馏 prompt v1"`
+- [x] **Step 7: Commit** — `git add gov-social-llm; git commit -m "feat(gov-llm): 目录骨架、T1-T4 schema 与蒸馏 prompt v1"`
 
 ---
 
@@ -169,7 +176,7 @@ for p in [ROOT / "ops" / "gov-manifest" / "lib",
   - `seal(dir_) -> dict`（置 `sealed=true`、重写 manifest，并对数据文件 `os.chmod(0o444)`）
 - Consumes: 无（纯标准库）
 
-- [ ] **Step 1: 写失败测试** `tests/test_manifest.py`
+- [x] **Step 1: 写失败测试** `tests/test_manifest.py`
 
 ```python
 import json, hashlib, pathlib, pytest
@@ -217,9 +224,9 @@ def test_sealed_detect_in_verify(tmp_path):
     assert ok, problems
 ```
 
-- [ ] **Step 2: 运行** — `pytest gov-social-llm/tests/test_manifest.py -v` → FAIL（模块不存在）
+- [x] **Step 2: 运行** — `pytest gov-social-llm/tests/test_manifest.py -v` → FAIL（模块不存在）
 
-- [ ] **Step 3: 实现 `gov_manifest/__init__.py`**（要点）:
+- [x] **Step 3: 实现 `gov_manifest/__init__.py`**（要点）:
 
 ```python
 import hashlib, json, os, stat, pathlib, datetime
@@ -297,9 +304,9 @@ def seal(dir_):
     return m
 ```
 
-- [ ] **Step 4: 运行通过** — `pytest gov-social-llm/tests/test_manifest.py -v` → 5 PASS
+- [x] **Step 4: 运行通过** — `pytest gov-social-llm/tests/test_manifest.py -v` → 5 PASS
 
-- [ ] **Step 5: 写 CLI `start.py`**（argparse 子命令 `generate <dir> --files a.jsonl --op NAME` / `verify <dir> --parents ...` / `seal <dir>`；失败 exit 2 并打印 problems）与 **Dockerfile**：
+- [x] **Step 5: 写 CLI `start.py`**（argparse 子命令 `generate <dir> --files a.jsonl --op NAME` / `verify <dir> --parents ...` / `seal <dir>`；失败 exit 2 并打印 problems）与 **Dockerfile**：
 
 ```dockerfile
 # 纯 CPU 算子；python:3.10-slim（无 CUDA 需求）
@@ -311,9 +318,9 @@ COPY . .
 ENTRYPOINT ["python", "start.py"]
 ```
 
-- [ ] **Step 6: 手工冒烟** — `python gov-social-llm/ops/gov-manifest/start.py verify gov-social-llm/tests/tmp_manual` 输出可读（无 traceback）；删除临时目录
+- [x] **Step 6: 手工冒烟** — `python gov-social-llm/ops/gov-manifest/start.py verify gov-social-llm/tests/tmp_manual` 输出可读（无 traceback）；删除临时目录
 
-- [ ] **Step 7: Commit** — `git add gov-social-llm/ops/gov-manifest gov-social-llm/tests/test_manifest.py; git commit -m "feat(gov-llm): gov-manifest 血缘库与 CLI（digest/verify/seal）"`
+- [x] **Step 7: Commit** — `git add gov-social-llm/ops/gov-manifest gov-social-llm/tests/test_manifest.py; git commit -m "feat(gov-llm): gov-manifest 血缘库与 CLI（digest/verify/seal）"`
 
 ---
 
@@ -327,7 +334,7 @@ ENTRYPOINT ["python", "start.py"]
 - Consumes: Task 1 的 prompt 文件名模式与 `{{state}}` 占位；Task 2 `write_manifest`
 - Produces: `load_prompt(docs_dir, task, version) -> dict{system, fewshot, tail}`；`build_messages(prompt, state) -> list[dict]`；`call_teacher(endpoint, model, messages, *, temperature, top_p, max_tokens, timeout=60, retries=3) -> str`（OpenAI `/v1/chat/completions`）；`gen_batch(seeds, prompt, endpoint, model, n_candidates, temperature, top_p, max_tokens, out_path, resume=True, concurrency=4) -> int`；raw.jsonl 行结构 `{"seed_id","task","prompt_version","candidate_id","messages","output","meta":{"temperature","top_p","max_tokens","endpoint","ts"}}`
 
-- [ ] **Step 1: 写失败测试**（HTTP 用 monkeypatch 假 `requests.post`，含重试与断点用例）
+- [x] **Step 1: 写失败测试**（HTTP 用 monkeypatch 假 `requests.post`，含重试与断点用例）
 
 ```python
 import json, pathlib, pytest
@@ -382,15 +389,15 @@ def test_retry_then_fail(monkeypatch):
     assert state["n"] == 3   # 1+2 次重试
 ```
 
-- [ ] **Step 2: 运行** → FAIL（`No module named gen`）
+- [x] **Step 2: 运行** → FAIL（`No module named gen`）
 
-- [ ] **Step 3: 实现 `gen.py`**：`load_prompt` 按 `## system/## fewshot/## input` 分节解析；`call_teacher` 循环 `retries+1` 次请求 `{"model","messages","temperature","top_p","max_tokens"}`；`gen_batch` 用 `concurrent.futures.ThreadPoolExecutor(concurrency)`，resume 读已有 out 的 `(seed_id,candidate_id)` 集合跳过；每行 flush 落盘（断点安全）。实现 `start.py`：argparse 全部参数（spec §2.2 表）→ 调用 → `gen_report.json`（成功/失败种子计数）→ `write_manifest(..., op="gov-distill-gen", files=["raw.jsonl","gen_report.json"], parents=[seed manifest 引用], stats={total_rows})`；教师 5xx 超过重试的种子记入 `gen_report.failed[]` 不中断整体。
+- [x] **Step 3: 实现 `gen.py`**：`load_prompt` 按 `## system/## fewshot/## input` 分节解析；`call_teacher` 循环 `retries+1` 次请求 `{"model","messages","temperature","top_p","max_tokens"}`；`gen_batch` 用 `concurrent.futures.ThreadPoolExecutor(concurrency)`，resume 读已有 out 的 `(seed_id,candidate_id)` 集合跳过；每行 flush 落盘（断点安全）。实现 `start.py`：argparse 全部参数（spec §2.2 表）→ 调用 → `gen_report.json`（成功/失败种子计数）→ `write_manifest(..., op="gov-distill-gen", files=["raw.jsonl","gen_report.json"], parents=[seed manifest 引用], stats={total_rows})`；教师 5xx 超过重试的种子记入 `gen_report.failed[]` 不中断整体。
 
-- [ ] **Step 4: 运行通过** → 4 PASS
+- [x] **Step 4: 运行通过** → 4 PASS
 
-- [ ] **Step 5: Dockerfile**（`FROM python:3.10-slim`，同 Task 2 骨架；README 记录注册为平台算子后的示例 args）
+- [x] **Step 5: Dockerfile**（`FROM python:3.10-slim`，同 Task 2 骨架；README 记录注册为平台算子后的示例 args）
 
-- [ ] **Step 6: Commit** — `"feat(gov-llm): gov-distill-gen 教师蒸馏批量生成算子(限流/断点续跑)"`
+- [x] **Step 6: Commit** — `"feat(gov-llm): gov-distill-gen 教师蒸馏批量生成算子(限流/断点续跑)"`
 
 ---
 
@@ -404,7 +411,7 @@ def test_retry_then_fail(monkeypatch):
 - Consumes: Task 1 schema 文件、`kev-questions.json`；Task 2 `write_manifest`
 - Produces: `parse_output(text) -> dict|None`；`gate_format(rows, schema) -> (ok_rows, dropped)`；`gate_consistency(ok_rows, k=2) -> (ok_rows, dropped)`（同 `seed_id` 候选按 `label` 众数 ≥k 票保留，T3/T4 无 label 时按 schema 全字段等值）；`gate_rules(row, max_len=4096) -> bool`（长度、重复片段 >30%、控制字符）；`to_alpaca/to_sharegpt/to_kev(row, kev_q)`；输出三文件 + `filter_report.json` `{"gate1_pass":n,"gate2_pass":n,"gate3_pass":n,"label_dist":{},"pass_rate":f}`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 import json, pathlib, pytest
@@ -435,13 +442,13 @@ def test_outputs_three_formats(tmp_path):
     assert k["state"] == "s" and set(k["questions"]) == {"department", "escalate", "frustration"}
 ```
 
-- [ ] **Step 2: 运行** → FAIL
+- [x] **Step 2: 运行** → FAIL
 
-- [ ] **Step 3: 实现 `filter3.py`**：`parse_output` 剥离 ```json 围栏后 `json.loads`；三闸与导出函数按上述签名（alpaca 行 `{"instruction":messages[0].content,"input":state,"output":json字符串}`；sharegpt 行 `{"conversations":[{"from":"human","value":...},{"from":"gpt","value":...}]}`；kev 行 `{"state","questions":KEV_Q["questions"],"answers":{"department":label 映射,"escalate":false,"frustration":"平静"}}`——label→department 的映射表从 `docs/task-spec/kev-mapping.md` 的 JSON 块读取，本任务先在 `docs/task-spec/` 建 `kev-mapping.json`：`{"矛盾纠纷/邻里纠纷":"城管执法","治安":"公安"}` 示例两行并在 README 标注"待业务方补全"）；`start.py` 汇总三闸产出 `filter_report.json` + `write_manifest`（parents 引用 raw manifest）。
+- [x] **Step 3: 实现 `filter3.py`**：`parse_output` 剥离 ```json 围栏后 `json.loads`；三闸与导出函数按上述签名（alpaca 行 `{"instruction":messages[0].content,"input":state,"output":json字符串}`；sharegpt 行 `{"conversations":[{"from":"human","value":...},{"from":"gpt","value":...}]}`；kev 行 `{"state","questions":KEV_Q["questions"],"answers":{"department":label 映射,"escalate":false,"frustration":"平静"}}`——label→department 的映射表从 `docs/task-spec/kev-mapping.md` 的 JSON 块读取，本任务先在 `docs/task-spec/` 建 `kev-mapping.json`：`{"矛盾纠纷/邻里纠纷":"城管执法","治安":"公安"}` 示例两行并在 README 标注"待业务方补全"）；`start.py` 汇总三闸产出 `filter_report.json` + `write_manifest`（parents 引用 raw manifest）。
 
-- [ ] **Step 4: 运行通过** → 2 PASS
+- [x] **Step 4: 运行通过** → 2 PASS
 
-- [ ] **Step 5: Commit** — `"feat(gov-llm): gov-distill-filter 三闸过滤与 alpaca/sharegpt/kev 三格式导出"`
+- [x] **Step 5: Commit** — `"feat(gov-llm): gov-distill-filter 三闸过滤与 alpaca/sharegpt/kev 三格式导出"`
 
 ---
 
@@ -455,7 +462,7 @@ def test_outputs_three_formats(tmp_path):
 - Consumes: Task 2 `write_manifest`
 - Produces: `macro_f1(y_true, y_pred) -> float`；`precision_recall(y_true, y_pred, pos) -> (p, r)`；`high_risk_recall(gold, pred) -> float`（risk=="高" 召回）；`format_compliance(pred_rows, schema) -> float`；`refusal_rate(pred_rows) -> float`（`output` 含 `"无法回答"` 计数）；`redteam_violation(rows) -> float`；`load_jsonl(path) -> list[dict]`；`score_all(gold, pred, *, schema, risk_pos="高") -> dict`（汇总以上为 metrics.json 结构：`{"macro_f1","per_class_p","per_class_r","high_risk_recall","false_alarm_rate","format_compliance","refusal_rate"}`）
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 from metrics import macro_f1, high_risk_recall, score_all, format_compliance, refusal_rate
@@ -478,13 +485,13 @@ def test_format_and_refusal():
     assert refusal_rate(rows) == 1/3
 ```
 
-- [ ] **Step 2: 运行** → FAIL
+- [x] **Step 2: 运行** → FAIL
 
-- [ ] **Step 3: 实现 `metrics.py`**：纯函数按签名实现（`macro_f1` 对每类算 P=R=TP/(TP+FP)、TP/(TP+FN) 后取 F1 平均）。`start.py` 五模式：`--mode smoke`（`load_jsonl(--eval-set)` 前 10 条逐条调 `--endpoint` chat/completions，输出可解析率）；`dev/blind`（gold vs 模型输出跑 `score_all` + `--redteam` 违规率 + `--judge` 可选事实一致性抽检 20 条）；`safety`（仅红队集）；`bench`（`--endpoint` 上并发 `--concurrency 20` 压测 P50/P95——本任务实现为 `time.perf_counter` 简单统计，不做流式 token 计量）。**blind 留痕**：`--eval-set` 路径含 `/blind/` 时，`write_manifest` 的 `stats` 增加 `"blind_touched_at": <utc iso>`。输出 `metrics.json` + `report.md`。
+- [x] **Step 3: 实现 `metrics.py`**：纯函数按签名实现（`macro_f1` 对每类算 P=R=TP/(TP+FP)、TP/(TP+FN) 后取 F1 平均）。`start.py` 五模式：`--mode smoke`（`load_jsonl(--eval-set)` 前 10 条逐条调 `--endpoint` chat/completions，输出可解析率）；`dev/blind`（gold vs 模型输出跑 `score_all` + `--redteam` 违规率 + `--judge` 可选事实一致性抽检 20 条）；`safety`（仅红队集）；`bench`（`--endpoint` 上并发 `--concurrency 20` 压测 P50/P95——本任务实现为 `time.perf_counter` 简单统计，不做流式 token 计量）。**blind 留痕**：`--eval-set` 路径含 `/blind/` 时，`write_manifest` 的 `stats` 增加 `"blind_touched_at": <utc iso>`。输出 `metrics.json` + `report.md`。
 
-- [ ] **Step 4: 运行通过** → 3 PASS
+- [x] **Step 4: 运行通过** → 3 PASS
 
-- [ ] **Step 5: Commit** — `"feat(gov-llm): gov-eval 指标核心(smoke/dev/blind/safety/bench)"`
+- [x] **Step 5: Commit** — `"feat(gov-llm): gov-eval 指标核心(smoke/dev/blind/safety/bench)"`
 
 ---
 
@@ -498,7 +505,7 @@ def test_format_and_refusal():
 - Consumes: Task 2 `write_manifest`（写 `train_manifest.json`：parents=[数据集 manifest 引用]，`extra={"hyper":..., "base_sha256":...}`）
 - Produces: `build_dataset_info(dataset_path: str, name: str) -> dict`（LLaMA-Factory `dataset_info.json` 条目：sharegpt 用 `{"formatting":"sharegpt","columns":{"messages":"conversations"}}`；alpaca 用 `"formatting":"alpaca"` 三列映射）；`build_train_cmd(*, method, base, dataset_name, lora_r, lr, epochs, seq_len, output, deepspeed=None) -> list[str]`；`merge_cmd(base, adapter, output) -> list[str]`
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 from sft_cmd import build_dataset_info, build_train_cmd, merge_cmd
@@ -526,13 +533,13 @@ def test_merge_cmd():
     assert merge_cmd("/b", "/o/v1", "/o/v1-merged")[-1] == "--export_dir /o/v1-merged"
 ```
 
-- [ ] **Step 2: 运行** → FAIL
+- [x] **Step 2: 运行** → FAIL
 
-- [ ] **Step 3: 实现 `sft_cmd.py`**（`build_train_cmd` 返回 `["llama-cli","train","--model_name_or_path",base,"--stage","sft","--do_train","--dataset",dataset_name,"--template","default","--finetuning_type", "lora"/"qlora"→"lora", …按测试逐参数产出]`）；`start.py`：解析 spec §2.2 参数 → 写 `dataset_info.json` 到 output → 打印并将 `build_train_cmd` 结果经 `subprocess.run` 执行（**环境变量 `GOV_SFT_DRYRUN=1` 时跳过 subprocess，仅将命令写入 `output/train_cmd.sh` 并照常 write_manifest**——P4 平台实跑时用真实模式）；训练后若 `--merge` 则执行 `merge_cmd`。
+- [x] **Step 3: 实现 `sft_cmd.py`**（`build_train_cmd` 返回 `["llama-cli","train","--model_name_or_path",base,"--stage","sft","--do_train","--dataset",dataset_name,"--template","default","--finetuning_type", "lora"/"qlora"→"lora", …按测试逐参数产出]`）；`start.py`：解析 spec §2.2 参数 → 写 `dataset_info.json` 到 output → 打印并将 `build_train_cmd` 结果经 `subprocess.run` 执行（**环境变量 `GOV_SFT_DRYRUN=1` 时跳过 subprocess，仅将命令写入 `output/train_cmd.sh` 并照常 write_manifest**——P4 平台实跑时用真实模式）；训练后若 `--merge` 则执行 `merge_cmd`。
 
-- [ ] **Step 4: 运行通过** → 4 PASS
+- [x] **Step 4: 运行通过** → 4 PASS
 
-- [ ] **Step 5: Dockerfile**（要点，注释记录版本决策）:
+- [x] **Step 5: Dockerfile**（要点，注释记录版本决策）:
 ```dockerfile
 # 基础=LLaMA-Factory 官方镜像（开源），CUDA≥12.8 支持 sm_89/sm_120；
 # 教师/底座权重不打入镜像，运行时从 /mnt/gov/models 挂载读取（spec §3.4 选型规则：权重定版入就绪单）
@@ -542,7 +549,7 @@ COPY . .
 ENTRYPOINT ["python", "start.py"]
 ```
 
-- [ ] **Step 6: Commit** — `"feat(gov-llm): gov-sft LLaMA-Factory 封装与 train_manifest 血缘"`
+- [x] **Step 6: Commit** — `"feat(gov-llm): gov-sft LLaMA-Factory 封装与 train_manifest 血缘"`
 
 ---
 
@@ -556,7 +563,7 @@ ENTRYPOINT ["python", "start.py"]
 - Consumes: Task 4 产出的 `kev_format.jsonl`；Task 2 `write_manifest`
 - Produces: `build_kev_train_cmd(*, data, base, init_from, epochs, lr, batch, accum, output) -> list[str]`（`python -m kev.train --data … --base … --init_from … --epochs 2 --lr 2e-5 --batch 1 --accum 8 --output_dir …`）；`build_kev_serve_cmd(run, port=8009) -> list[str]`（`uv run --extra serve python -m kev.serve --run <ckpt|jaredpalmer/kev-0.8b> --port 8009`）
 
-- [ ] **Step 1: 写失败测试**
+- [x] **Step 1: 写失败测试**
 
 ```python
 from kev_cmd import build_kev_train_cmd, build_kev_serve_cmd
@@ -572,11 +579,11 @@ def test_serve_cmd_systemone():
     assert "kev.serve" in cmd and "--port 8009" in cmd and "--run /o/kev-v1" in cmd
 ```
 
-- [ ] **Step 2: 运行** → FAIL；**Step 3: 实现**（同上两个纯函数 + `start.py`：dry-run 环境变量 `GOV_KEV_DRYRUN=1` 写 `train_cmd.sh`，真实模式 `subprocess`；完成后 `write_manifest(op="gov-kev", extra={"hyper":..., "license":"Apache-2.0"})`）
+- [x] **Step 2: 运行** → FAIL；**Step 3: 实现**（同上两个纯函数 + `start.py`：dry-run 环境变量 `GOV_KEV_DRYRUN=1` 写 `train_cmd.sh`，真实模式 `subprocess`；完成后 `write_manifest(op="gov-kev", extra={"hyper":..., "license":"Apache-2.0"})`）
 
-- [ ] **Step 4: 运行通过** → 2 PASS
+- [x] **Step 4: 运行通过** → 2 PASS
 
-- [ ] **Step 5: Dockerfile**：
+- [x] **Step 5: Dockerfile**：
 ```dockerfile
 # kev 上游 Apache-2.0；镜像构建期 clone 并 uv sync 锁定依赖（P0 验证内网可达 github/PyPI）
 FROM python:3.11-slim
@@ -588,7 +595,7 @@ ENTRYPOINT ["uv", "run", "--project", "/work/kev", "python", "/app/start.py"]
 ```
 README 注明：指针头不受 LLaMA-Factory 支持、不可用 gov-sft 替代（spec §3.4 约束提醒）。
 
-- [ ] **Step 6: Commit** — `"feat(gov-llm): gov-kev 封装(kev.train/kev.serve 命令生成)"`
+- [x] **Step 6: Commit** — `"feat(gov-llm): gov-kev 封装(kev.train/kev.serve 命令生成)"`
 
 ---
 
@@ -613,7 +620,7 @@ README 注明：指针头不受 LLaMA-Factory 支持、不可用 gov-sft 替代�
 7. `volume_mount` 匹配正则 `^[\w\-.]+\((pvc|hostPath|memory)\):/.+`；资源串匹配 `^\d+G$` / cpu `^\d+$` / gpu `^\d+(\.\d+)?$`
 8. `global_env` 包含 `DATA_ROOT=/mnt/gov`
 
-- [ ] **Step 1: 写失败测试**（构造合法最小文档 + 7 种违规变体，逐一断言 `validate` 返回对应关键词；再加载 `pipelines/` 三个真实文件断言 `validate(doc) == []`）
+- [x] **Step 1: 写失败测试**（构造合法最小文档 + 7 种违规变体，逐一断言 `validate` 返回对应关键词；再加载 `pipelines/` 三个真实文件断言 `validate(doc) == []`）
 
 ```python
 import json, pathlib, copy, pytest
@@ -649,18 +656,18 @@ def test_real_pipelines_valid(f):
     assert validate(doc) == []
 ```
 
-- [ ] **Step 2: 运行** → FAIL
+- [x] **Step 2: 运行** → FAIL
 
-- [ ] **Step 3: 实现 `validate_pipelines.py`**（按 8 条规则；规则 4 的 DAG 键==task 名集合在 `tasks.pop` 场景自然报 `dag_json` 不一致；CLI `main()`：`glob(pipelines/*.json)` 逐档打印问题并 exit 1）
+- [x] **Step 3: 实现 `validate_pipelines.py`**（按 8 条规则；规则 4 的 DAG 键==task 名集合在 `tasks.pop` 场景自然报 `dag_json` 不一致；CLI `main()`：`glob(pipelines/*.json)` 逐档打印问题并 exit 1）
 
-- [ ] **Step 4: 编写三条 Pipeline JSON**（结构与 `myapp/init/init-pipeline.json` deepseek 条目逐字段同构；args 为 `{"--flag": "value"}`，路径值用 `/mnt/gov/...` 字面量，`expand` 的 position 按 DAG 从左到右 x=200 递增、y 分层）。内容对齐 spec §2.3：
+- [x] **Step 4: 编写三条 Pipeline JSON**（结构与 `myapp/init/init-pipeline.json` deepseek 条目逐字段同构；args 为 `{"--flag": "value"}`，路径值用 `/mnt/gov/...` 字面量，`expand` 的 position 按 DAG 从左到右 x=200 递增、y 分层）。内容对齐 spec §2.3：
   - **gov-p0-env-check**：`env-selfcheck`(python 算子: `{"--command": "nvidia-smi; df -h /mnt; python -c \"import torch;print(torch.version.cuda)"}`) → `serve-teacher`(deploy-service: `{"--service_type": "serving", "--images": "…/gov-teacher-serve:v1", "--command": "python3 -m vllm.entrypoints.openai.api_server --model /mnt/gov/models/Qwen3.8-27B-AWQ --quantization awq --max-model-len 8192 --gpu-memory-utilization 0.85 --port 8000", "--port": "8000", "--health_port": "8000", "--health_pattern": "/health", "--resource": "1"}`) → `smoke-eval`(gov-eval `--mode smoke --eval-set /mnt/gov/eval/smoke/v1/smoke.jsonl --endpoint http://serve-teacher-svc:8000/v1`)
   - **gov-p1-eval-build**：`import-eval`(dataset) → `mask-eval`(nlp-replace-private-data) → `split-eval`(python: eval-split 脚本入 `scripts/eval_split.py`，本步一并创建，argparse `--input --dev-out --blind-out --redteam-out --ratio 0.7 --seed 42`) → `seal-blind`(gov-manifest `--cmd seal --dir /mnt/gov/eval/blind/v1`)
   - **gov-p2-distill-line**：`import-seeds`(dataset) → `clean-seeds`(nlp-clean-data) → `filter-seeds`(nlp-filter-data `--max 500`) → `teacher-probe`(gov-eval dev 模式, 闸门说明写入 task label) → `distill-gen`(gov-distill-gen) → `distill-filter`(gov-distill-filter) → `manifest-set`(gov-manifest generate)；DAG 链式 upstream 逐级声明
 
-- [ ] **Step 5: 运行通过** — `pytest gov-social-llm/tests/test_validate_pipelines.py -v` → 10 PASS（7 项违规变体 + 3 个真实 Pipeline 文件）
+- [x] **Step 5: 运行通过** — `pytest gov-social-llm/tests/test_validate_pipelines.py -v` → 10 PASS（7 项违规变体 + 3 个真实 Pipeline 文件）
 
-- [ ] **Step 6: Commit** — `"feat(gov-llm): P0-P2 三条 Pipeline JSON 与格式校验器"`
+- [x] **Step 6: Commit** — `"feat(gov-llm): P0-P2 三条 Pipeline JSON 与格式校验器"`
 
 ---
 
@@ -672,7 +679,7 @@ def test_real_pipelines_valid(f):
 - Modify: 无
 - Test: 全量套件
 
-- [ ] **Step 1: args.json**：
+- [x] **Step 1: args.json**：
 ```json
 {
   "service_type": "serving",
@@ -687,11 +694,11 @@ def test_real_pipelines_valid(f):
 }
 ```
 
-- [ ] **Step 2: README.md**（五节：①目录导览 ②P0 操作手册——6 算子 `docker build`→推 registry→平台「镜像管理」登记→「模板自定义」注册算子（参数类型对照 spec §2.2）→`pipelines/*.json` 在 Pipeline 页导入 ③数据目录规范（/mnt/gov 四子树+manifest）④两套 GPU 环境差异表（引 spec §3.2）⑤本地开发：`pip install -r requirements-dev.txt && pytest`）
+- [x] **Step 2: README.md**（五节：①目录导览 ②P0 操作手册——6 算子 `docker build`→推 registry→平台「镜像管理」登记→「模板自定义」注册算子（参数类型对照 spec §2.2）→`pipelines/*.json` 在 Pipeline 页导入 ③数据目录规范（/mnt/gov 四子树+manifest）④两套 GPU 环境差异表（引 spec §3.2）⑤本地开发：`pip install -r requirements-dev.txt && pytest`）
 
-- [ ] **Step 3: 全量回归** — `pytest gov-social-llm/tests -v` → 全部 PASS（约 24 项）；`python gov-social-llm/scripts/validate_pipelines.py` → exit 0
+- [x] **Step 3: 全量回归** — `pytest gov-social-llm/tests -v` → 全部 PASS（约 24 项）；`python gov-social-llm/scripts/validate_pipelines.py` → exit 0
 
-- [ ] **Step 4: Commit** — `"docs(gov-llm): 教师服务参数包与 P0 运行手册"`
+- [x] **Step 4: Commit** — `"docs(gov-llm): 教师服务参数包与 P0 运行手册"`
 
 ---
 
