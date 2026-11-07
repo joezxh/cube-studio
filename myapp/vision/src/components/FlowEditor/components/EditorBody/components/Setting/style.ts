@@ -55,6 +55,15 @@ const splitLine = mergeStyles({
   borderTop: '1px solid #eaeaea',
 });
 
+// 控件下方的说明文案，字号/颜色与 fluentui TextField 的 description 保持一致
+const desc = mergeStyles({
+  fontSize: 12,
+  color: 'rgb(96, 96, 96)',
+  marginTop: 4,
+  marginBottom: 4,
+  lineHeight: '18px',
+});
+
 export default {
   settingContainer,
   settingHeader,
@@ -62,4 +71,5 @@ export default {
   settingContent,
   contentWrapper,
   splitLine,
+  desc,
 };
