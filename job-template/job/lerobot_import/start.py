@@ -15,6 +15,10 @@ import lerobot_profile as profile_mod  # noqa: E402
 from manifest_util import write_manifest  # noqa: E402
 
 
+def _bool(s):
+    return str(s).lower() in ("true", "1", "yes")
+
+
 def _task_counts(dst):
     """v3 任务分布在 meta/tasks.parquet；pyarrow/pandas 缺失或文件不存在时返回 None。"""
     p = pathlib.Path(dst) / "meta" / "tasks.parquet"
@@ -37,13 +41,13 @@ def main(argv=None):
     p.add_argument("--target_name", required=True)
     p.add_argument("--target_version", default="v1")
     p.add_argument("--hub_endpoint", default="")
-    p.add_argument("--link_mode", action="store_true")
+    p.add_argument("--link_mode", default="false")
     p.add_argument("--base_dir", default=import_cmd.BASE_DIR)
     a = p.parse_args(argv)
     dry = os.environ.get("ROBOT_DRYRUN") == "1"
 
     plan = import_cmd.resolve_paths(a.source_type, a.source, a.target_name,
-                                    a.target_version, a.base_dir, a.link_mode)
+                                    a.target_version, a.base_dir, _bool(a.link_mode))
     dst = pathlib.Path(plan["dst"])
 
     if dry:
