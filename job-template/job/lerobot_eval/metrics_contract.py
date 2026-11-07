@@ -1,27 +1,41 @@
 """lerobot-eval stdout → 平台自有指标契约 v1（spec §5.2；上游漂移只改解析器）。"""
 import re
 
-_RATE = re.compile(r"success[_ ]?rate[:=\s]+([0-9]+(?:\.[0-9]+)?)\s*%?", re.I)
+_RATE = re.compile(r"success[_ ]?rate[:=\s]+([0-9]+(?:\.[0-9]+)?)\s*(%?)", re.I)
 _CNT = re.compile(r"\((\d+)\s*/\s*(\d+)\)", re.I)
 _RET = re.compile(r"(?:mean|avg)[_ ]?(?:return|reward)[:=\s]+([-+0-9.eE]+)", re.I)
 _LEN = re.compile(r"(?:mean|avg)[_ ]?ep(?:isode)[_ ]?len(?:gth)?[:=\s]+([-+0-9.eE]+)", re.I)
 
 
+def _f(s):
+    try:
+        return float(s)
+    except (TypeError, ValueError):
+        return None
+
+
 def parse_eval_summary(text):
     text = text or ""
     m = _RATE.search(text)
-    rate = float(m.group(1)) if m else None
-    if rate is not None and rate > 1:
-        rate = rate / 100.0
-    cnt = _CNT.search(text)
+    rate = None
+    if m:
+        v, pct = _f(m.group(1)), m.group(2)
+        rate = v / 100.0 if (v is not None and (pct or v > 1)) else v
+    # 计数只在 rate 匹配所在行内搜索，避免误取进度条等其他括号计数
+    if m:
+        line_end = text.find("\n", m.end())
+        scope = text[m.end():line_end if line_end != -1 else len(text)]
+    else:
+        scope = text
+    cnt = _CNT.search(scope)
     succ = int(cnt.group(1)) if cnt else None
     ev = int(cnt.group(2)) if cnt else None
     if succ is not None and rate is None and ev:
         rate = succ / ev
     m = _RET.search(text)
-    ret = float(m.group(1)) if m else None
+    ret = _f(m.group(1)) if m else None
     m = _LEN.search(text)
-    elen = float(m.group(1)) if m else None
+    elen = _f(m.group(1)) if m else None
     return {"success_rate": rate, "mean_return": ret, "mean_episode_len": elen,
             "n_evaluated": ev, "n_success": succ}
 

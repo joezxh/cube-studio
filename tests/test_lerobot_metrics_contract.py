@@ -36,3 +36,18 @@ def test_gap_recorded():
     c = mc.build_eval_metrics(s, env="pusht", n_episodes=50, seed=1, checkpoint="/ck")
     assert c["metrics"]["n_evaluated"] == 45
     assert c["policy_ref"]["train_manifest_digest"] is None
+
+
+def test_percent_unit_and_scope_and_malformed():
+    # I-1: 带 % 的 ≤1 百分比不得当作比例（旧版 100 倍错报）
+    s = mc.parse_eval_summary("Success rate: 0.5% (1/200)\n")
+    assert abs(s["success_rate"] - 0.005) < 1e-12
+    assert s["n_success"] == 1 and s["n_evaluated"] == 200
+    s = mc.parse_eval_summary("Success rate: 1%\n")
+    assert abs(s["success_rate"] - 0.01) < 1e-12
+    # I-2: 括号计数只在 rate 所在行内取，进度条计数不得污染
+    s = mc.parse_eval_summary("eval: 20%| | (10/50)\nSuccess rate: 82.0% (41/50)\n")
+    assert s["n_success"] == 41 and s["n_evaluated"] == 50
+    # Minor-3: 畸形数值 token 降级 None 而非抛异常
+    s = mc.parse_eval_summary("mean return: 1.2.3\n")
+    assert s["mean_return"] is None
