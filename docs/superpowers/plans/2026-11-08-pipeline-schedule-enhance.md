@@ -812,10 +812,21 @@ vision：`cd myapp/vision; npx tsc --noEmit` → exit 0
 - [x] #8：artifact 按 workflow_name 前缀回收、失败不阻塞（Task 2 测试 + Task 4 接入）
 - [x] #5：补录/超时/并发/依赖后端逻辑零改动（diff 仅 expired_limit 分支两处插入）；vision 侧 `cronjob_start_time`(L331 DatePicker) 与 `expired_limit`(L380) 入口已存在
 - [x] 凭证：新代码零硬编码 access/secret（Task 2/6）
-- [ ] #5（待用户裁决）：母文档 §1-A5 字面要求「双 Setting 面板补 `cronjob_start_time`、visionPlus 补 `expired_limit` 字段」——取证：visionPlus `Setting/index.tsx` L306-417 整块 pipeline 调度字段处于 JSX 注释内（`{/* ... */}`），无存活面板；计划按 YAGNI 本轮不新建，需用户确认收窄或补一个 Task 复活该面板
-- [ ] #8（待用户裁决）：终态集合当前为 `Deleted/Succeeded/Failed`（与母文档一致）；argo 另有 `Error`/`Terminated` 终态（watch_workflow.py L153 直接回写 crd status），是否一并纳入终态表需确认
+- [x] #5（已裁决）：用户选择补 Task 8 复活 visionPlus 面板→**取证后取消**：visionPlus 面向 ETL_Pipeline（scenes=etl_pipeline，模型无 schedule/expired_limit/priority 列，savePipeline 不发面板 changed），该需求前提不成立；已回写母文档 §1-A5 三轮校正。pipeline 调度 UI 唯一归属 vision（cronjob_start_time L331 / expired_limit L380 / priority 本轮启用）。
+- [x] #8（已裁决）：终态集合**维持 spec 三态** `Deleted/Succeeded/Failed`；argo 的 `Error`/`Terminated` 本轮不纳入（宁可少删，不误删），已记录为后续可选项。
 
-- [ ] **Step 4: 汇报结果，进入 finishing-a-development-branch**
+- [x] **Step 4: 汇报结果，进入 finishing-a-development-branch**（已汇报：8 项验收全绿 + Task 8 取证取消；用户选定本地合并回 main）
+
+---
+
+### Task 8（已取消）：复活 visionPlus pipeline 调度面板
+
+用户初始选择补做本 Task；实施前取证发现前提不成立，按“阻塞即停”原则回报并改判为取消：
+
+- visionPlus 由后端以 `scenes=etl_pipeline` 打开（`myapp/views/view_etl_pipeline.py:460`），detail/save 走 `/etl_pipeline_modelview/api/config/<id>`，操作对象是 **ETL_Pipeline** 而非 argo `Pipeline`。
+- `ETL_Pipeline` 模型列：`id/name/describe/project_id/workflow/dag_json/config/expand`——无 `expired_limit`/`priority`/`schedule_type`/`cron_time`/`cronjob_start_time`；其 Setting 面板 L306-417 被注释的字段块引用的是 `Pipeline` 列（vision 复制的死代码）。
+- visionPlus `savePipeline`（`src/models/pipeline/index.ts:187`）载荷仅 `{...initProject, dag_json, config}`，面板 `changed` 不进请求体——即“复活 UI 也不会保存”。
+- 处置：本轮无 visionPlus 代码改动；母文档 §1-A5 已回写三轮校正；如需 ETL_Pipeline 的保留数/优先级，拆为独立主题（跨模型 + 跨调度引擎 + 迁移）单独立项。
 
 ---
 

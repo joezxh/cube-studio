@@ -80,7 +80,8 @@
 ### A5. Pipeline 调度增强：定时/补录/并发限制/超时/实例依赖（#5）
 - **定义与用户价值**：pipeline 具备生产级调度语义——crontab 定时、错过的周期补录（backfill）、并发实例上限、任务级超时、上游实例依赖（depends_on_past），支撑数仓式日常批处理场景。
 - **实现思路**：复用 argo workflow 的 cron 与 activeDeadlineSeconds；补录逻辑在平台层遍历时间窗生成实例；max_active_runs 用平台锁或 argo 并发策略实现。
-- **与开源版关系**：⚠️ 复用 + 增强（二轮校验修正）——定时触发、补录、并发限制、实例依赖、任务级超时**五要素开源版均已全部实现**（schedules.py `make_timerun_config`/`upload_timerun` + `Task.timeout`→`activeDeadlineSeconds`），本项企业版增量收敛为前端入口：双 Setting 面板补 `cronjob_start_time`（crontab 时展示，描述“可设为更早时间，自动补录错过的周期实例”）、visionPlus 补 `expired_limit` 字段；后端调度逻辑不动，以回归护栏验证。
+- **与开源版关系**：⚠️ 复用 + 增强（二轮校验修正）——定时触发、补录、并发限制、实例依赖、任务级超时**五要素开源版均已全部实现**（schedules.py `make_timerun_config`/`upload_timerun` + `Task.timeout`→`activeDeadlineSeconds`），本项企业版增量收敛为前端入口：Setting 面板补 `cronjob_start_time`（crontab 时展示，描述“可设为更早时间，自动补录错过的周期实例”）；后端调度逻辑不动，以回归护栏验证。
+- **三轮校正（实施取证）：原“visionPlus 补 `expired_limit` 字段”为事实误判，已删除**——visionPlus 由后端以 `scenes=etl_pipeline` 打开（`view_etl_pipeline.py` L460），detail/save 走 `/etl_pipeline_modelview/api/config/<id>`，操作 **ETL_Pipeline** 模型；该模型仅 `name/describe/project_id/workflow/dag_json/config/expand` 七列，**无 `expired_limit`/`priority`/`schedule_type`/`cron_time`/`cronjob_start_time`**（其被注释的调度字段块是从 vision 复制的死代码）；且其 `savePipeline` 载荷仅 `{...initProject, dag_json, config}`，面板 `changed` 不进请求体。因此 pipeline 调度类 UI（#5/#8/#9）**唯一归属 vision 面板**；若需让 ETL_Pipeline 具备保留数/优先级，属跨模型跳调度引擎的新主题，需单独 spec。
 - **难点与风险**：补录与实时调度冲突时的实例去重（开源已用 execution_date 查重缓解）；argo 版本升级对 cron API 的兼容。
 
 ### A6. 任务输入输出 / 全局常量 / 结果可视化 / workflow 暂停恢复（#6）
