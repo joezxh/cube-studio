@@ -41,6 +41,8 @@ compile.py
 /myapp/static/appbuilder/frontend/
 /.superpowers/
 **/LC_MESSAGES/*.mo
+# i18n 编译产物 mo 需入库（镜像构建期直接 COPY，测试断言其存在）
+!myapp/translations/**/*.mo
 /images/ai-doc/
 
 .worktrees/
