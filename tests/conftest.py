@@ -32,7 +32,10 @@ def _load_module(name, relpath):
 
 _stub_package('myapp')
 _stub_package('myapp.utils')
+_stub_package('myapp.exceptions')  # args_schema 的 try-import 命中空 stub → ImportError → 兜底类，不引导真实应用
+_stub_package('myapp.utils.py')
 
 _load_module('myapp.utils.dataset_reader', 'myapp/utils/dataset_reader.py')
 _load_module('myapp.utils.dataset_profile', 'myapp/utils/dataset_profile.py')
 _load_module('myapp.utils.labelstudio_bridge', 'myapp/utils/labelstudio_bridge.py')
+_load_module('myapp.utils.py.args_schema', 'myapp/utils/py/args_schema.py')

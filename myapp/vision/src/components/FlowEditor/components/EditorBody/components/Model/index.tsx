@@ -28,6 +28,7 @@ import { useAppDispatch, useAppSelector } from '@src/models/hooks';
 import { updateTaskList, updateTaskId, selectTaskId } from '@src/models/task';
 import style from './style';
 import { Switch, Tooltip } from 'antd';
+import ArgsField from '../ArgsField';
 import { marked } from 'marked'
 import './editorbody.less';
 
@@ -621,6 +622,20 @@ const Model: React.FC<ModelProps> = props => {
 
                   </React.Fragment>
                 )
+              }
+
+              // 企业版 #22：select2/project 子类型走统一渲染器（bool/list/select-input/workdir/image 沿用原生分支，已含 tip）
+              if (['select2', 'project'].indexOf(args.item_type || '') >= 0) {
+                return (
+                  <React.Fragment key={key}>
+                    <ArgsField
+                      args={args}
+                      name={`${key}`}
+                      keyValue={keyValue}
+                      onChange={(value: any) => handleOnChange(key, value, args.type)}
+                    />
+                  </React.Fragment>
+                );
               }
 
               if (options.length > 0){

@@ -500,8 +500,8 @@ def job_template_args_definition():
 {{
     "group1":{{               # {_('参数分组，仅做web显示使用')}
        "--attr1":{{           # {_('参数名')}
-        "type":"str",         # str,text,json,int,float,bool,list
-        "item_type": "str",   # {_('在type为text，item_type可为python，java，json，sql')}
+        "type":"str",         # str,text,json,int,float,bool,list,enum,multiple,dict,file
+        "item_type": "str",   # {_('在type为text，item_type可为python，java，json，sql；type为enum,list时可为int,str,text,float,dict；子类型：select-input,select2,workdir,image,project')}
         "label":"{_('参数1')}",      # {_('中文名')}
         "require":1,         # {_('是否必须')}
         "choice":[],         # {_('设定输入的可选值，可选值')}
@@ -509,7 +509,11 @@ def job_template_args_definition():
         "default":"",        # {_('默认值')}
         "placeholder":"",    # {_('输入提示内容')}
         "describe":"{_('这里是这个参数的描述和备注')}",
-        "editable":1        # {_('是否可修改')}
+        "editable":1,        # {_('是否可修改')}
+        "tip":"",             # {_('参数提醒，web表单tooltip展示，支持html')}
+        "regex":"",           # {_('str/text参数值的正则校验')}
+        "schema":{{}},         # {_('type为json时的JSON Schema声明')}
+        "choice_url":"",      # {_('select2/project子类型的站内选项接口，必须以/开头')}
       }},
       "--attr2":{{
        ...
@@ -572,158 +576,16 @@ def validate_json(obj):
             raise MyappException("JSON is not valid :%s" % str(e))
 
 
-# 校验task args是否合法
-default_args = {
-    "type": "str",  # int,str,text,enum,float,multiple,dict,list
-    "item_type": "str",  # 在type为enum,list时每个子属性的类型
-    "label": "",  # 中文名
-    "require": 1,  # 是否必须
-    "choice": [],  # type为enum/multiple时，可选值
-    "range": "",  # 最小最大取值，在int,float时使用  [$min,$max)
-    "default": "",  # 默认值
-    "placeholder": "",  # 输入提示内容
-    "describe": "",
-    "editable": 1  # 是否可修改
-}
-
-# @pysnooper.snoop()
-def validate_job_args(args):
-    validate_json(args)
-    validate_job_args_type = ['int', 'bool', 'str', 'text', 'enum', 'float', 'multiple', 'dict', 'list', 'file', 'json']
-
-    # 校验x修复参数
-    # @pysnooper.snoop()
-    def check_attr(attr):
-        default_args_temp = copy.deepcopy(default_args)
-        default_args_temp.update(attr)
-        attr = default_args_temp
-        attr['type'] = str(attr['type'])
-        attr['item_type'] = str(attr['item_type'])
-        attr['label'] = str(attr['label'])
-        attr['require'] = int(attr['require'])
-        attr['range'] = str(attr['range'])
-        attr['default'] = attr['default']
-        attr['placeholder'] = str(attr['placeholder'])
-        attr['describe'] = str(attr['describe']) if attr['describe'] else str(attr['label'])
-        attr['editable'] = int(attr['editable'])
-
-
-        if attr['type'] not in validate_job_args_type:
-            raise MyappException("job template args type must in %s " % str(validate_job_args_type))
-        if attr['type'] == 'enum' or attr['type'] == 'multiple' or attr['type'] == 'list':
-            if attr['item_type'] not in ['int', 'str', 'text', 'float', 'dict']:
-                raise MyappException("job template args item_type must in %s " % str(['int', 'str', 'text', 'float', 'dict']))
-        if attr['type'] == 'enum' or attr['type'] == 'multiple':
-            if not attr['choice']:
-                raise MyappException("job template args choice must exist when type is enum,multiple ")
-        if attr['type'] == 'dict':
-            if not attr['sub_args']:
-                raise MyappException("job template args sub_args must exist when type is dict ")
-            for sub_attr in attr['sub_args']:
-                attr['sub_args'][sub_attr] = check_attr(attr['sub_args'][sub_attr])
-        if attr['type'] == 'list' and attr['item_type'] == 'dict':
-            if not attr['sub_args']:
-                raise MyappException("job template args sub_args must exist when type is list ")
-
-            for sub_attr in attr['sub_args']:
-                attr['sub_args'][sub_attr] = check_attr(attr['sub_args'][sub_attr])
-
-        return attr
-
-    args = json.dumps(json.loads(args), indent=4, ensure_ascii=False)
-    job_args = json.loads(args)
-
-    for group in job_args:
-        for attr_name in job_args[group]:
-            job_args[group][attr_name] = check_attr(job_args[group][attr_name])
-
-    return json.dumps(job_args, indent=4, ensure_ascii=False)
-
-import pysnooper
-# task_args 为用户填写的参数，job_args为定义的参数标准
-# @pysnooper.snoop(watch_explode=('job_arg_attr'))
-def validate_task_args(task_args, job_args):  # 两个都是字典
-    if not task_args:
-        return {}
-
-    # @pysnooper.snoop()
-    def to_value(value, value_type):
-        if value_type == 'str' or value_type == 'text':
-            return str(value).strip(' ')  # 把用户容易填错的多个空格去掉
-        if value_type == 'int':
-            return int(value)
-        if value_type == 'float':
-            return float(value)
-        if value_type == 'dict':
-            return dict(value)
-        if value_type == 'json':
-            return value
-            # try:
-            #     return json.dumps(json.loads(value),indent=4,ensure_ascii=False)
-            # except Exception as e:
-            #     raise MyappException("task args json is not valid: %s"%str(value))
-
-        raise MyappException("task args type is not valid: %s" % str(value))
-
-    # 校验 task的attr和job的attr是否符合
-    # @pysnooper.snoop()
-    def check_attr(task_arg_value, job_arg_attr):
-        validate_attr = task_arg_value
-
-        if job_arg_attr['type'] == 'str' or job_arg_attr['type'] == 'text' or job_arg_attr['type'] == 'int' or job_arg_attr['type'] == 'float':
-            validate_attr = to_value(task_arg_value, job_arg_attr['type'])
-
-        if job_arg_attr['type'] == 'json':
-            validate_attr = to_value(task_arg_value, job_arg_attr['type'])
-
-        if job_arg_attr['type'] == 'enum':
-            validate_attr = to_value(task_arg_value, job_arg_attr['item_type'])
-            if validate_attr not in job_arg_attr['choice']:
-                raise MyappException("task arg type(enum) is not in choice: %s" % job_arg_attr['choice'])
-
-        if job_arg_attr['type'] == 'multiple':
-            if type(task_arg_value) == str:
-                validate_attr = re.split(' |,|;|\n|\t', str(task_arg_value))  # 分割字符串
-            if type(validate_attr) == list:
-                for item in validate_attr:
-                    if item not in job_arg_attr['choice']:
-                        raise MyappException("task arg type(enum) is not in choice: %s" % job_arg_attr['choice'])
-        if job_arg_attr['type'] == 'dict' and type(job_arg_attr['sub_args']) != dict:
-            raise MyappException("task args type(dict) sub args must is dict")
-
-        # 校验字典的子属性
-        if job_arg_attr['type'] == 'dict':
-            for sub_attr_name in task_arg_value:
-                validate_attr[sub_attr_name] = check_attr(task_arg_value[sub_attr_name], job_arg_attr['sub_args'][sub_attr_name])
-
-        # 检验list的每个元素
-        if job_arg_attr['type'] == 'list':
-            # 使用逗号分隔的数组
-            validate_attr = task_arg_value.strip(',').split(',')
-            validate_attr = [x.strip() for x in validate_attr if x.strip()]
-            validate_attr = ','.join(validate_attr)
-
-        return validate_attr
-
-    validate_args = {}
-    try:
-        for group in job_args:
-            for arg_name in job_args[group]:
-                job_arg_attr = job_args[group][arg_name]
-                if arg_name in task_args:
-                    task_arg_value = task_args[arg_name]
-                    validate_args[arg_name] = check_attr(task_arg_value, job_arg_attr)
-                elif job_arg_attr.get('require',1) and not job_arg_attr.get('default',''):
-                    raise MyappException("task args %s must is require" % arg_name)
-                elif job_arg_attr['default']:
-                    validate_args[arg_name] = job_arg_attr['default']
-
-        return validate_args
-
-
-    except Exception as e:
-        raise MyappException("task args is not valid: %s" % str(e))
-
+# 任务模板参数类型系统（企业版 #22）：实现已抽离至自包含模块 myapp/utils/py/args_schema.py，
+# 此处 re-export 保持既有 from myapp.utils.core import xxx 调用方式兼容。
+from myapp.utils.py.args_schema import (
+    ARGS_ITEM_TYPES,
+    ARGS_TYPES,
+    default_args,
+    json_schema_check,
+    validate_job_args,
+    validate_task_args,
+)
 
 def up_word(words):
     words = re.split('_| |,|;|\n|\t', str(words))  # 分割字符串
