@@ -489,6 +489,28 @@ class Dataset_ModelView_Api(Dataset_ModelView_base, MyappModelRestApi):
         }
         return jsonify({'status': 0, 'message': 'success', 'result': result})
 
+    @action("explore_dataset", "一键探索", "对表格数据集执行一键探索统计?", "fa-bar-chart", single=True, multiple=False)
+    def explore_dataset_action(self, dataset):
+        return redirect('/dataset_modelview/api/explore_html/%s' % dataset.id)
+
+    @expose_api(description="数据集探索页面", url="/explore_html/<dataset_id>", methods=["GET"])
+    def explore_html(self, dataset_id):
+        dataset = db.session.query(Dataset).filter_by(id=dataset_id).first()
+        if not dataset:
+            flash('数据集不存在', 'warning')
+            return redirect('/dataset_modelview/api/')
+        row_count, bad_rows, truncated, columns, error = 0, 0, False, [], ''
+        try:
+            path = resolve_dataset_path(dataset)
+            df, bad_rows, truncated = load_dataframe(path)
+            columns = profile_dataframe(df)
+            row_count = int(len(df))
+        except DatasetReadError as e:
+            error = str(e)
+        return self.render_template('myapp/dataset_explore.html', dataset=dataset,
+                                    row_count=row_count, bad_rows=bad_rows,
+                                    truncated=truncated, columns=columns, error=error)
+
 
 appbuilder.add_api(Dataset_ModelView_Api)
 
