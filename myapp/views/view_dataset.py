@@ -41,6 +41,7 @@ from myapp.utils.labelstudio_bridge import (
     ls_export_to_records,
     rows_to_ls_tasks,
 )
+from myapp.utils.lerobot_dataset_meta import apply_lerobot_meta
 conf = app.config
 
 
@@ -314,6 +315,9 @@ example：
                 else:
                     flash(path+"，文件不存在，保存时已去除", "error")
             item.path = '\n'.join(new_paths)
+        # LeRobotDataset 目录登记识别：非 lerobot 目录零影响（多行 path 取首行目录）
+        if item.path:
+            apply_lerobot_meta(item, item.path.split("\n")[0])
 
 
     def pre_update(self, item):
@@ -580,6 +584,7 @@ class Dataset_ModelView_Api(Dataset_ModelView_base, MyappModelRestApi):
                           version=dataset_version, file_type='jsonl',
                           path=file_path,
                           describe='来自标注平台项目 %s 的回存' % project_id)
+        apply_lerobot_meta(dataset, file_path)   # db.session.add 之前；非 lerobot 目录零影响
         db.session.add(dataset)
         db.session.commit()
         return jsonify({'status': 0, 'message': 'success',
