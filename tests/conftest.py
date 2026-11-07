@@ -41,3 +41,4 @@ _load_module('myapp.utils.labelstudio_bridge', 'myapp/utils/labelstudio_bridge.p
 _load_module('myapp.utils.py.args_schema', 'myapp/utils/py/args_schema.py')
 _load_module('lerobot_manifest_util', 'job-template/job/lerobot_shared/manifest_util.py')
 _load_module('lerobot_import_cmd', 'job-template/job/lerobot_import/import_cmd.py')
+_load_module('lerobot_profile', 'job-template/job/lerobot_import/lerobot_profile.py')
