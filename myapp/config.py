@@ -358,7 +358,10 @@ SQLALCHEMY_TRACK_MODIFICATIONS=False
 REDIS_PASSWORD = os.getenv('REDIS_PASSWORD', 'admin')   # default must set None
 REDIS_HOST = os.getenv('REDIS_HOST', '127.0.0.1')
 REDIS_PORT = os.getenv('REDIS_PORT', '6379')
-SOCKETIO_MESSAGE_QUEUE = 'redis://:%s@%s:%s/2'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT)) if REDIS_PASSWORD else 'redis://%s:%s/2'%(REDIS_HOST,str(REDIS_PORT))
+# redis db 基数（支持共享 redis 时指定起始 db 号）：celery=REDIS_DB, cache=REDIS_DB+1, socketio=REDIS_DB+2
+# 默认 0 时与原硬编码行为完全一致；共享实例时通过环境变量 REDIS_DB 指定，避免与其它业务冲突
+REDIS_DB = int(os.getenv('REDIS_DB', '0'))
+SOCKETIO_MESSAGE_QUEUE = 'redis://:%s@%s:%s/%s'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT),str(REDIS_DB+2)) if REDIS_PASSWORD else 'redis://%s:%s/%s'%(REDIS_HOST,str(REDIS_PORT),str(REDIS_DB+2))
 
 # 数据库配置地址
 SQLALCHEMY_DATABASE_URI = os.getenv('MYSQL_SERVICE','')
@@ -373,18 +376,18 @@ CACHE_CONFIG = {
     'CACHE_TYPE': 'redis', # 使用 Redis
     'CACHE_REDIS_HOST': REDIS_HOST, # 配置域名
     'CACHE_REDIS_PORT': int(REDIS_PORT), # 配置端口号
-    'CACHE_REDIS_URL':'redis://:%s@%s:%s/1'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT)) if REDIS_PASSWORD else 'redis://%s:%s/1'%(REDIS_HOST,str(REDIS_PORT))   # 0，1为数据库编号（redis有0-16个数据库）
+    'CACHE_REDIS_URL':'redis://:%s@%s:%s/%s'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT),str(REDIS_DB+1)) if REDIS_PASSWORD else 'redis://%s:%s/%s'%(REDIS_HOST,str(REDIS_PORT),str(REDIS_DB+1))   # db 编号=REDIS_DB+1（redis有0-16个数据库）
 }
 # 异步任务和定时任务配置
 class CeleryConfig(object):
-    # 任务队列
-    broker_url = 'redis://:%s@%s:%s/0'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT)) if REDIS_PASSWORD else 'redis://%s:%s/0'%(REDIS_HOST,str(REDIS_PORT))
+    # 任务队列（db=REDIS_DB，共享 redis 时由环境变量 REDIS_DB 指定起始编号）
+    broker_url = 'redis://:%s@%s:%s/%s'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT),str(REDIS_DB)) if REDIS_PASSWORD else 'redis://%s:%s/%s'%(REDIS_HOST,str(REDIS_PORT),str(REDIS_DB))
     # celery_task的定义模块
     imports = (
         'myapp.tasks',
     )
-    # 结果存储
-    result_backend = 'redis://:%s@%s:%s/0'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT)) if REDIS_PASSWORD else 'redis://%s:%s/0'%(REDIS_HOST,str(REDIS_PORT))
+    # 结果存储（db=REDIS_DB，与任务队列同库）
+    result_backend = 'redis://:%s@%s:%s/%s'%(REDIS_PASSWORD,REDIS_HOST,str(REDIS_PORT),str(REDIS_DB)) if REDIS_PASSWORD else 'redis://%s:%s/%s'%(REDIS_HOST,str(REDIS_PORT),str(REDIS_DB))
     worker_redirect_stdouts = True
     worker_redirect_stdouts_level = 'DEBUG'
     # celery worker每次去redis取任务的数量
