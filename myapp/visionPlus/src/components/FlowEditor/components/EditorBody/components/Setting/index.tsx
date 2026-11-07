@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import { IconButton, Dropdown, IDropdownOption, TextField, ActionButton, Label } from '@fluentui/react';
+import { IconButton, Dropdown, IDropdownOption, TextField, ActionButton, Label, TooltipHost } from '@fluentui/react';
+import ArgsField from '../ArgsField';
 import { isEdge } from 'react-flow-renderer';
 import api from '@src/api';
 import { useAppDispatch, useAppSelector } from '@src/models/hooks';
@@ -214,6 +215,19 @@ const Setting: React.FC = () => {
               const keyArgs = taskArgs && taskArgs[key];
               const keyValue = args.type === 'json' ? JSON.stringify(keyArgs, undefined, 4) : keyArgs;
 
+              // 企业版 #22：bool/select-input/select2/workdir/image/project 子类型走统一渲染器
+              if (args.type === 'bool' || ['select-input', 'select2', 'workdir', 'image', 'project'].indexOf(args.item_type || '') >= 0) {
+                return (
+                  <ArgsField
+                    key={key}
+                    args={args}
+                    name={`${key}`}
+                    keyValue={keyValue}
+                    onChange={(value: any) => handleOnChange(key, value, args.type)}
+                  />
+                );
+              }
+
               if (options.length > 0) {
                 return <React.Fragment key={key}>
                   <>
@@ -258,10 +272,10 @@ const Setting: React.FC = () => {
                     }}
                     onRenderDescription={() => {
                       return (
-                        <div
-                          className={style.argsDescription}
-                          dangerouslySetInnerHTML={{ __html: args.describe }}
-                        ></div>
+                        <div className={style.argsDescription}>
+                          <span dangerouslySetInnerHTML={{ __html: args.describe }}></span>
+                          {args.tip ? <TooltipHost content={args.tip}><IconButton iconProps={{ iconName: 'Info' }} /></TooltipHost> : null}
+                        </div>
                       );
                     }}
                     multiline={args.type === 'json' || args.type === 'text'}

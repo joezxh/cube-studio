@@ -9,6 +9,7 @@ import {
   Label,
   DefaultButton,
 } from '@fluentui/react';
+import ArgsField from '../ArgsField';
 import api from '@src/api';
 import { updateErrMsg } from '@src/models/app';
 import { updateShowEditor, updateKeyValue, selectShowEditor, selectKey, selectValue } from '@src/models/editor';
@@ -371,6 +372,20 @@ const Model: React.FC<ModelProps> = props => {
 
               const keyArgs = taskArgs && taskArgs[key];
               const keyValue = args.type === 'json' ? JSON.stringify(keyArgs, undefined, 4) : keyArgs;
+
+              // 企业版 #22：bool/select-input/select2/workdir/image/project 子类型走统一渲染器
+              if (args.type === 'bool' || ['select-input', 'select2', 'workdir', 'image', 'project'].indexOf(args.item_type || '') >= 0) {
+                return (
+                  <React.Fragment key={key}>
+                    <ArgsField
+                      args={args}
+                      name={`${key}`}
+                      keyValue={keyValue}
+                      onChange={(value: any) => handleOnChange(key, value, args.type)}
+                    />
+                  </React.Fragment>
+                );
+              }
 
               return (
                 <React.Fragment key={key}>

@@ -3,6 +3,8 @@ import {
   ActionButton,
   ComboBox,
   Dropdown,
+  IComboBox,
+  IComboBoxOption,
   IDropdownOption,
   IconButton,
   TextField,
