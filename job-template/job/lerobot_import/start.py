@@ -51,10 +51,13 @@ def main(argv=None):
     dst = pathlib.Path(plan["dst"])
 
     if dry:
-        dst.mkdir(parents=True, exist_ok=True)
-        (dst / "import_plan.json").write_text(
+        # DRYRUN 不触碰共享数据集目录 dst（避免凭空建正式数据集目录/覆写真实 manifest）；
+        # 产物落同辈 .dryrun 侧目录。
+        dry_dir = dst.parent / (dst.name + ".dryrun")
+        dry_dir.mkdir(parents=True, exist_ok=True)
+        (dry_dir / "import_plan.json").write_text(
             json.dumps(plan, ensure_ascii=False, indent=2), encoding="utf-8")
-        write_manifest(dst, op="lerobot-import", args=vars(a), parents=[],
+        write_manifest(dry_dir, op="lerobot-import", args=vars(a), parents=[],
                        files=["import_plan.json"], stats={"dry_run": True})
         print(json.dumps({"dry_run": True, "plan": plan}))
         return 0
@@ -66,9 +69,29 @@ def main(argv=None):
         dst.parent.mkdir(parents=True, exist_ok=True)
         if a.hub_endpoint:
             os.environ["HF_ENDPOINT"] = a.hub_endpoint
-        from huggingface_hub import snapshot_download
-        snapshot_download(repo_id=plan["src"], repo_type="dataset",
-                          local_dir=str(dst), allow_patterns=None)
+        last_err = None
+        for _ in range(3):  # spec §3.5：Hub 拉取失败重试 3 次后退出
+            try:
+                from huggingface_hub import snapshot_download
+                snapshot_download(repo_id=plan["src"], repo_type="dataset",
+                                  local_dir=str(dst), allow_patterns=None)
+                last_err = None
+                break
+            except Exception as e:
+                last_err = e
+        if last_err is not None:
+            print("hub download failed after 3 attempts: %s" % last_err, file=sys.stderr)
+            return 3
+        info_file = dst / "meta" / "info.json"
+        if not info_file.is_file():
+            print("hub dataset missing meta/info.json", file=sys.stderr)
+            return 3
+        try:
+            info = json.loads(info_file.read_text(encoding="utf-8"))
+            import_cmd.validate_info(info)
+        except (ValueError, json.JSONDecodeError) as e:
+            print(str(e), file=sys.stderr)
+            return 3
     else:
         src = pathlib.Path(plan["src"])
         info_file = src / "meta" / "info.json"
@@ -86,7 +109,11 @@ def main(argv=None):
             return 2
         dst.parent.mkdir(parents=True, exist_ok=True)
         if plan["kind"] == "link":
-            os.symlink(str(src.resolve()), str(dst))
+            # 免拷贝：dst 建成真实目录，仅将源子项逐个符号链接进来；
+            # 派生产物(profile/meta/manifest)落 dst 本身而非经符号链接写穿源目录。
+            dst.mkdir(parents=True, exist_ok=True)
+            for entry in src.iterdir():
+                os.symlink(str(entry.resolve()), str(dst / entry.name))
         else:
             shutil.copytree(str(src), str(dst))
 

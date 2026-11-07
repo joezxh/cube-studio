@@ -3410,7 +3410,7 @@
         "job_template_env": "",
         "job_template_expand": {},
         "job_template_name": "lerobot-import",
-        "job_template_volume": "",
+        "job_template_volume": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
         "job_template_workdir": "/opt/lerobot_import",
         "project_name": "数据导入导出"
     },
@@ -3579,7 +3579,7 @@
         "job_template_env": "",
         "job_template_expand": {},
         "job_template_name": "lerobot-train",
-        "job_template_volume": "",
+        "job_template_volume": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
         "job_template_workdir": "/opt/lerobot_train",
         "project_name": "深度学习"
     },
@@ -3684,7 +3684,7 @@
         "job_template_env": "",
         "job_template_expand": {},
         "job_template_name": "lerobot-eval",
-        "job_template_volume": "",
+        "job_template_volume": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
         "job_template_workdir": "/opt/lerobot_eval",
         "project_name": "深度学习"
     }

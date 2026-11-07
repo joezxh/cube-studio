@@ -114,3 +114,14 @@ def test_bool_flags_accept_bare_form():
                     kws = kw.get(flag, set())
                     assert ("nargs" in kws and "const" in kws) or (
                         "action" in kws), (name, flag, sorted(kws))
+
+
+def test_templates_carry_global_dataset_volume():
+    # I-6 回归：BASE_DIR=/data/k8s/kubeflow/global/dataset 跨节点可见必须由模板
+    # job_template_volume 声明（view_task 会自动合并入任务），否则脱离示例 pipeline
+    # 独立建任务时 import→train 静默断链（仓例 aihub-register 同此字段声明 hostpath）
+    d = _templates()
+    for name in OPS:
+        vol = d[name].get("job_template_volume", "")
+        assert "/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global" in vol, name
+        assert "kubeflow-user-workspace(pvc):/mnt" in vol, name

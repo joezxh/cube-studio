@@ -15,6 +15,9 @@ def main():
         d = json.load(f)
     img_cpu = "ccr.ccs.tencentyun.com/cube-studio/lerobot:import-cpu"
     img_gpu = "ccr.ccs.tencentyun.com/cube-studio/lerobot:gpu-0.6.2"
+    # 三算子均需 /mnt 工作卷(产物/输出落 /mnt/{{creator}})+ global 数据集卷(BASE_DIR 跨节点可见)
+    volume = ("kubeflow-user-workspace(pvc):/mnt/,"
+              "/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global")
     new = {
         "lerobot-import": {
             "gitpath": "/job-template/job/lerobot_import",
@@ -35,7 +38,7 @@ def main():
             "job_template_describe": "LeRobotDataset 接入与画像(企业版)",
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-import",
-            "job_template_volume": "",
+            "job_template_volume": volume,
             "job_template_workdir": "/opt/lerobot_import",
             "project_name": "数据导入导出"},
         "lerobot-train": {
@@ -66,7 +69,7 @@ def main():
             "job_template_describe": "LeRobot 策略训练(企业版)",
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-train",
-            "job_template_volume": "",
+            "job_template_volume": volume,
             "job_template_workdir": "/opt/lerobot_train",
             "project_name": "深度学习"},
         "lerobot-eval": {
@@ -91,7 +94,7 @@ def main():
             "job_template_describe": "LeRobot 仿真评测(企业版)",
             "job_template_env": "", "job_template_expand": {},
             "job_template_name": "lerobot-eval",
-            "job_template_volume": "",
+            "job_template_volume": volume,
             "job_template_workdir": "/opt/lerobot_eval",
             "project_name": "深度学习"},
     }

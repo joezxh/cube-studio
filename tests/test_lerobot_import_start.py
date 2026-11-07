@@ -4,6 +4,8 @@ import pathlib
 import subprocess
 import sys
 
+import pytest
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 START = ROOT / "job-template" / "job" / "lerobot_import" / "start.py"
 
@@ -71,6 +73,33 @@ def test_dryrun_plan_only(tmp_path):
     r = _run(["--source_type", "local_path", "--source", str(src), "--target_name", "n",
               "--target_version", "v", "--base_dir", str(base)], env)
     assert r.returncode == 0, r.stderr
-    plan = json.loads((base / "n" / "v" / "import_plan.json").read_text(encoding="utf-8"))
+    # dry 产物落侧目录 .dryrun，绝不创建/污染正式数据集目录 dst
+    plan = json.loads((base / "n" / "v.dryrun" / "import_plan.json").read_text(encoding="utf-8"))
     assert plan["kind"] == "copy"
-    assert not (base / "n" / "v" / "data").exists()  # 未拷贝
+    assert not (base / "n" / "v").exists()  # 正式 dst 未被凭空创建
+
+
+def test_link_mode_no_source_pollution(tmp_path):
+    # 免拷贝：派生产物写真实 dst，不得经符号链接写穿用户源目录
+    _link = tmp_path / "_symprobe"
+    try:
+        os.symlink(str(tmp_path), str(_link))
+    except (OSError, NotImplementedError):
+        pytest.skip("platform lacks symlink privileges")
+    else:
+        _link.unlink()
+    src = _make_src(tmp_path)
+    base = tmp_path / "b"
+    r = _run(["--source_type", "local_path", "--source", str(src), "--target_name", "n",
+              "--target_version", "v", "--base_dir", str(base), "--link_mode", "true"])
+    assert r.returncode == 0, r.stderr
+    dst = base / "n" / "v"
+    # 派生文件落在 dst（真实文件），未写进源目录
+    assert (dst / ".cube_dataset_meta").is_file()
+    assert (dst / "lerobot_profile.json").is_file()
+    assert not (src / ".cube_dataset_meta").exists()
+    assert not (src / "lerobot_profile.json").exists()
+    assert not (src / "manifest.json").exists()
+    # 源数据仅被链接而非拷贝：dst/meta 是指向 src 的链接目录结构
+    meta = json.loads((dst / ".cube_dataset_meta").read_text(encoding="utf-8"))
+    assert meta["format"] == "lerobot" and meta["profile"]["total_frames"] == 100

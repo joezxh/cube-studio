@@ -25,9 +25,10 @@
   引用节点 2 末端 checkpoint，仿真评测输出契约指标与视频；血缘自动上溯命中节点 2 的 `manifest.json`。
 
 > **挂载前置**：import 算子将数据集规范化写入 `BASE_DIR=/data/k8s/kubeflow/global/dataset/{name}/{version}`，
-> train 算子同路径读 `.cube_dataset_meta` 并拼 `--dataset.root`。三节点已额外声明
-> `/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global` 挂载，使跨节点的数据集目录可见；
-> 若移除该挂载，import→train 交接会断链（train 因 `--dataset.root` 不存在而回退 Hub 下载失败）。
+> train 算子同路径读 `.cube_dataset_meta` 并拼 `--dataset.root`。三模板的 `job_template_volume` 已声明
+> `/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global`（平台自动合并入任务），使跨节点的数据集
+> 目录可见；示例 pipeline 三节点 `volume_mount` 亦显式声明同一挂载。若两处均缺失，
+> import→train 交接会断链（train 因 `--dataset.root` 不存在而回退 Hub 下载失败）。
 
 ## 手工验收清单（GPU 环境，交付后执行一次 · spec §8）
 

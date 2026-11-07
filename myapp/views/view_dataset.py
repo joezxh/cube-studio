@@ -307,17 +307,21 @@ example：
         # 判断文件是否存在
         if item.path:
             new_paths = []
+            first_local = None
             paths = item.path.split("\n")
             for path in paths:
                 local_path = os.path.join('/home/myapp/myapp/static/', path.lstrip('/'))
                 if os.path.exists(local_path):
                     new_paths.append(path)
+                    if first_local is None:
+                        first_local = local_path
                 else:
                     flash(path+"，文件不存在，保存时已去除", "error")
             item.path = '\n'.join(new_paths)
-        # LeRobotDataset 目录登记识别：非 lerobot 目录零影响（多行 path 取首行目录）
-        if item.path:
-            apply_lerobot_meta(item, item.path.split("\n")[0])
+            # LeRobotDataset 目录登记识别：用已判存成功的静态映射路径读 .cube_dataset_meta
+            # （web 短路径字面量在容器内不可解析，须复用 local_path）；非 lerobot 目录零影响
+            if item.path and first_local:
+                apply_lerobot_meta(item, first_local)
 
 
     def pre_update(self, item):
