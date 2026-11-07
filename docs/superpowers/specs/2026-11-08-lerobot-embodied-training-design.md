@@ -137,11 +137,13 @@ start.py:
 
 `metrics.json`（算子补写）：`{steps_run, final_train_loss, wall_time_sec, policy_type, dataset_ref}`，loss 曲线自 stdout 解析。
 
-`manifest.json`：`parents=[{dataset 目录 manifest digest}]`（数据集→训练血缘），`files=[config.yaml, metrics.json]`。
+`manifest.json`：`parents=[{dataset 目录 `.cube_dataset_meta` 的 path+digest}]`（数据集→训练血缘），`files=[train_cmd.sh, metrics.json, train.log]`。
+
+> 实现口径（T6 回写）：血缘源取数据集目录下 import 算子写入的 `.cube_dataset_meta`（sha256 摘要），非本 spec 早期设想的「dataset 目录 manifest digest」；产物文件登记算子自产的 `train_cmd.sh`/`metrics.json`/`train.log`，lerobot 原生 `config.yaml` 属输出目录、不由 manifest `files` 重复登记。
 
 ### 4.3 关键决策
 
-- **本地数据集传参形态为实测锁定项**：lerobot 0.6.2 对离线目录的支持存在 `--dataset.root=` 与 `repo_id + local-files-only` 两种可能形态，实施计划首个 Task 以镜像内 `lerobot-train --help` + dry-run 实测定死其一，结论回写本 spec 并由 `lerobot_train_cmd.py` 单测锁定 flag 契约。
+- **本地数据集传参形态为实测锁定项**：lerobot 0.6.2 对离线目录的支持存在 `--dataset.root=` 与 `repo_id + local-files-only` 两种可能形态，实施计划首个 Task 以镜像内 `lerobot-train --help` + dry-run 实测定死其一，结论回写本 spec 并由 `lerobot_train_cmd.py` 单测锁定 flag 契约。实施默认已锁定 `--dataset.repo_id local/{name}_{version}` + `--dataset.root {base_dir}/{name}/{version}` 形态（`lerobot_train_cmd.py` 单测锁定），真机验收时确认，见 plans/2026-11-08-lerobot-embodied-training.md Task 12。
 - **checkpoint 不自动注册模型仓库**：训练与 model_register 解耦，对齐平台「训练→注册」两步走；注册路径进示例 pipeline 演示但不强制。
 - **权重加载失败显式报错**：`policy_path` 指向不存在/不可读的权重时在启动前报错，绝不静默回退随机初始化。
 
