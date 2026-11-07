@@ -36,6 +36,7 @@ sseclient-py==1.8.0         # openai 流式客户端
 simplejson==3.19.1          # 是一个处理JSON数据的库
 PySnooper==1.2.0            # 函数调用跟踪
 kubernetes==28.1.0          #  Kubernetes Python客户端库
+requests==2.31.0            # LabelStudio 桥接 REST 客户端（kubernetes 客户端传递依赖，显式声明）
 statsd==4.0.1               # 是一个用于发送统计数据到StatsD服务器的库。
 redis==5.0.1                # redis数据库连接
 pymysql==1.1.0              # 连接mysql数据库
