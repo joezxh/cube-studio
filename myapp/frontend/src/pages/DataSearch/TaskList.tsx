@@ -1,7 +1,8 @@
 import { CaretRightOutlined, CloseCircleOutlined, CloseOutlined, DeleteOutlined, DownloadOutlined, LoadingOutlined, QuestionCircleOutlined, RedoOutlined, StopOutlined } from '@ant-design/icons';
-import { Button, Col, Collapse, message, Modal, Row, Select, Spin, Steps, Tooltip } from 'antd'
+import { Button, Col, Collapse, message, Modal, Row, Select, Spin, Steps, Tabs, Tooltip } from 'antd'
 import React, { useRef, useState } from 'react'
 import TableBox from '../../components/TableBox/TableBox';
+import ChartPanel from './ChartPanel';
 import { TTaskStep, IEditorTaskItem, TTaskStatus } from './interface'
 import './DataSearch.less';
 import { getIdexTaskDownloadUrl, getIdexTaskResult, stopIndxTask } from '../../api/dataSearchApi';
@@ -349,22 +350,26 @@ export default function TaskList(props: IProps) {
                                                                 title: '结果查看',
                                                                 content: (
                                                                     <div>
-                                                                        {/* {(result || [])?.map(item => {
-                                                                            return <div>{item}</div>
-                                                                        })} */}
-                                                                        <TableBox
+                                                                        <Tabs defaultActiveKey="table">
+                                                                            <Tabs.TabPane tab="数据表格" key="table">
+                                                                                <TableBox
 
-                                                                            size={"small"}
-                                                                            loading={false}
-                                                                            cancelExportData={true}
-                                                                            rowKey={(record: any) => {
-                                                                                return JSON.stringify(record)
-                                                                            }}
-                                                                            columns={handleData.config}
-                                                                            pagination={false}
-                                                                            dataSource={handleData.data}
-                                                                            scroll={{ x: 'auto' }}
-                                                                        />
+                                                                                    size={"small"}
+                                                                                    loading={false}
+                                                                                    cancelExportData={true}
+                                                                                    rowKey={(record: any) => {
+                                                                                        return JSON.stringify(record)
+                                                                                    }}
+                                                                                    columns={handleData.config}
+                                                                                    pagination={false}
+                                                                                    dataSource={handleData.data}
+                                                                                    scroll={{ x: 'auto' }}
+                                                                                />
+                                                                            </Tabs.TabPane>
+                                                                            <Tabs.TabPane tab="图表分析" key="chart">
+                                                                                <ChartPanel result={result || []} />
+                                                                            </Tabs.TabPane>
+                                                                        </Tabs>
                                                                     </div>
                                                                 ),
                                                                 onOk() { },
