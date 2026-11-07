@@ -48,3 +48,6 @@ compile.py
 # git worktree 隔离目录（.worktrees 点开头路径会被 jest 文件爬虫忽略，故用 worktrees/）
 worktrees/
 .pytest-tmp/
+
+# git worktrees
+.worktrees/
