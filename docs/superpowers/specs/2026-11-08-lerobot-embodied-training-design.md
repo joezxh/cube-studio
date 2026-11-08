@@ -91,7 +91,7 @@ job-template/job/lerobot_<name>/
 
 LeRobotDataset `data/*.parquet`（状态/动作列）由 dataset_reader 表格读取器消费。落地口径（实施已锁定，非“零改动”——原读取器仅分支 csv/jsonl，parquet 会命中“暂不支持”）：
 
-- `load_dataframe` 新增 `.parquet` 分支，经 `pandas.read_parquet`（引擎 `pyarrow`，随 `lerobot-*` 镜像提供；`myapp` 镜像需自备 `pyarrow`）读取，按 `SAMPLE_ROWS` 采样，缺引擎/读失败映射为面向用户的 `DatasetReadError`；
+- `load_dataframe` 新增 `.parquet` 分支，经 `pandas.read_parquet`（引擎 `pyarrow`，随 `lerobot-*` 镜像提供；`myapp`/Data Explorer 所在镜像已在 `install/docker/requirements.txt` 声明 `pyarrow==14.0.2`）读取，按 `SAMPLE_ROWS` 采样，缺引擎/读失败（ImportError/OSError/ValueError 谱系）映射为面向用户的 `DatasetReadError`；
 - `resolve_dataset_path` 对数据集目录：存在 `data.csv` 时优先（既有 csv 数据集零回归）；否则命中 lerobot 布局（`data/` 下有 `*.parquet`）时探索入口指向其首个分片；
 - 本兼容性作为**契约测试**锁定于 `tests/test_dataset_reader.py`（分支派发/采样/穿越目录路由/缺引擎报错，读取引擎以 monkeypatch 隔离，不依赖 pyarrow）。
 

@@ -45,8 +45,9 @@
 - **Data Explorer 读 lerobot**：`dataset_reader` 已新增 `.parquet` 分支，登记后
   `file_type='lerobot'` 的数据集目录会因 `data/` 下存在 `*.parquet` 而自动路由到首个分片（目录
   同时有 `data.csv` 时仍优先走 csv，既有数据集零回归）。`read_parquet` 需要 **pyarrow** 引擎：
-  `lerobot-*` 镜像自带；若 Data Explorer 跑在 `myapp` 镜像，需确认该镜像已安装 `pyarrow`，
-  否则探索会返回面向用户的“parquet 读取失败”（不崩面）。
+  `lerobot-*` 镜像自带；Data Explorer 所在的 `myapp` 镜像已将 `pyarrow==14.0.2` 写入
+  `install/docker/requirements.txt`（需重建 base 镜像生效）；若未装，探索会返回面向用户的
+  “parquet 读取失败”（不崩面）。
 - **跨用户可见**：`BASE_DIR=/data/k8s/kubeflow/global/dataset` 是平台级全局数据集中心（与既有
   dataset 语义一致），任一用户 `lerobot-import` 写入的数据集对其他用户在登记/探索链路均可见。本轮
   仅对 `target_name/version` 施加与 train 对称的单段安全校验防穿越，未做命名空间/属主隔离（详

@@ -2,7 +2,7 @@
 # 注意：本模块禁止 import 任何 myapp.* 模块，保持可独立测试
 import json
 import os
-from glob import iglob
+from glob import escape as glob_escape, iglob
 
 import pandas as pd
 
@@ -34,8 +34,9 @@ def _first_lerobot_parquet(dataset_dir) -> str:
     data_dir = os.path.join(dataset_dir, 'data')
     if not os.path.isdir(data_dir):
         return ''
-    for f in sorted(iglob(os.path.join(data_dir, '**', '*.parquet'),
-                          recursive=True)):
+    # glob.escape：登记路径含 [ ] ? 等字面量时不当作模式解释（避免静默漏匹配）
+    pattern = glob_escape(data_dir) + os.sep + '**' + os.sep + '*.parquet'
+    for f in sorted(iglob(pattern, recursive=True)):
         return f
     return ''
 
@@ -103,8 +104,10 @@ def load_dataframe(path, segment=None, rows=SAMPLE_ROWS):
         # §3.4 lerobot data/*.parquet 直接消费（引擎 pyarrow，随镜像提供）
         try:
             df = pd.read_parquet(path)
-        except Exception as e:  # ImportError(缺引擎)/OSError/解析失败均面客展示
-            raise DatasetReadError('parquet 读取失败: %s' % e)
+        except (ImportError, OSError, ValueError) as e:
+            # 缺引擎/IO/解析失败(含 EmptyDataError、pyarrow ArrowInvalid)映射面客；
+            # 保留异常链便于排障，不吞 TypeError/AttributeError 等编程错误
+            raise DatasetReadError('parquet 读取失败(%s): %s' % (type(e).__name__, e)) from e
         truncated = len(df) > rows
         return df.head(rows), 0, truncated
     raise DatasetReadError('暂不支持该格式探索')
