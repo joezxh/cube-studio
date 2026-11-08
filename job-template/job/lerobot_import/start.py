@@ -51,8 +51,13 @@ def main(argv=None):
     a = p.parse_args(argv)
     dry = os.environ.get("ROBOT_DRYRUN") == "1"
 
-    plan = import_cmd.resolve_paths(a.source_type, a.source, a.target_name,
-                                    a.target_version, a.base_dir, _bool(a.link_mode))
+    try:
+        plan = import_cmd.resolve_paths(a.source_type, a.source, a.target_name,
+                                        a.target_version, a.base_dir, _bool(a.link_mode))
+    except ValueError as e:
+        # 参数非法（source_type/target_name/version 越界）统一退出码 2
+        print(str(e), file=sys.stderr)
+        return 2
     dst = pathlib.Path(plan["dst"])
 
     if dry:

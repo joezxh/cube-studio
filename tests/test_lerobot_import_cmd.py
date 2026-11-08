@@ -30,3 +30,16 @@ def test_resolve_paths_kinds():
     assert ic.resolve_paths("local_path", "/mnt/x", "n", "v1", link_mode=True)["kind"] == "link"
     with pytest.raises(ValueError):
         ic.resolve_paths("ftp", "x", "n", "v1")
+
+
+def test_resolve_paths_rejects_unsafe_target():
+    # I-7：target_name/version 拒路径穿越/分隔符（与 train_cmd 口径对称）
+    for bad_name in ("../evil", "a/b", "a\\b", ".", "..", "n;rm", ""):
+        with pytest.raises(ValueError, match="target_name"):
+            ic.resolve_paths("local_path", "/mnt/x", bad_name, "v1")
+    for bad_ver in ("../v", "v/1", "..", ""):
+        with pytest.raises(ValueError, match="target_version"):
+            ic.resolve_paths("local_path", "/mnt/x", "n", bad_ver)
+    # 安全形态仍正常
+    assert ic.resolve_paths("local_path", "/mnt/x", "pusht_demo", "v2.1")["dst"].endswith(
+        "/dataset/pusht_demo/v2.1")

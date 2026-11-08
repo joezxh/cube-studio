@@ -105,3 +105,14 @@ def test_link_mode_no_source_pollution(tmp_path):
     # 源数据仅被链接而非拷贝：dst/meta 是指向 src 的链接目录结构
     meta = json.loads((dst / ".cube_dataset_meta").read_text(encoding="utf-8"))
     assert meta["format"] == "lerobot" and meta["profile"]["total_frames"] == 100
+
+
+def test_unsafe_target_name_exit2(tmp_path):
+    # I-7：入口对越界 target_name 返回退出码 2（参数非法），不触碰共享数据集目录
+    src = _make_src(tmp_path)
+    base = tmp_path / "b"
+    r = _run(["--source_type", "local_path", "--source", str(src),
+              "--target_name", "../evil", "--target_version", "v",
+              "--base_dir", str(base)])
+    assert r.returncode == 2, r.stderr
+    assert not base.exists()

@@ -89,7 +89,11 @@ job-template/job/lerobot_<name>/
 
 ### 3.4 与 S4 数据探索的兼容（契约锁定项）
 
-LeRobotDataset `data/*.parquet`（状态/动作列）可被既有 dataset_reader 表格读取器直接消费。本兼容性作为**契约测试**锁定（fixture 构造迷你 parquet 目录断言可打开），Data Explorer 对 `file_type='lerobot'` 的入口指向 `data/` 子目录，零改动。
+LeRobotDataset `data/*.parquet`（状态/动作列）由 dataset_reader 表格读取器消费。落地口径（实施已锁定，非“零改动”——原读取器仅分支 csv/jsonl，parquet 会命中“暂不支持”）：
+
+- `load_dataframe` 新增 `.parquet` 分支，经 `pandas.read_parquet`（引擎 `pyarrow`，随 `lerobot-*` 镜像提供；`myapp` 镜像需自备 `pyarrow`）读取，按 `SAMPLE_ROWS` 采样，缺引擎/读失败映射为面向用户的 `DatasetReadError`；
+- `resolve_dataset_path` 对数据集目录：存在 `data.csv` 时优先（既有 csv 数据集零回归）；否则命中 lerobot 布局（`data/` 下有 `*.parquet`）时探索入口指向其首个分片；
+- 本兼容性作为**契约测试**锁定于 `tests/test_dataset_reader.py`（分支派发/采样/穿越目录路由/缺引擎报错，读取引擎以 monkeypatch 隔离，不依赖 pyarrow）。
 
 ### 3.5 失败语义
 
@@ -220,6 +224,16 @@ start.py:
 - [ ] 错配测试（ALOHA checkpoint × pusht）→ 启动前报错、不拉起训练/评测进程
 - [ ] `ROBOT_DRYRUN=1` 三算子均只产 `*_cmd.sh` 不执行
 - [ ] 示例 pipeline 端到端跑通并通过 `scripts/validate_pipelines.py`
+- [ ] `lerobot-import` 对越界 `target_name`/`target_version`（含 `../`、路径分隔符）→ 退出码 2，不写共享数据集中心
+
+### 8.1 安全边界（写入隔离模型之外的已接受风险）
+
+`BASE_DIR=/data/k8s/kubeflow/global/dataset` 是平台级**跨用户全局数据集中心**：任一有权提交 `lerobot-import` 的用户写入的数据集，对其余用户在 Data Explorer/登记链路中均可见（与平台既有全局 dataset 语义一致，非本轮引入）。本轮采取的缓解：
+
+- 算子侧对 `target_name`/`target_version` 施加与 train 对称的单段安全校验（`^[A-Za-z0-9._-]+$`，拒 `..`/分隔符），防止写入穿越到数据集根之外；
+- 覆盖保护：目标目录非空时拒绝覆写（退出码 2）。
+
+未在本轮处理（留待独立安全立项）：按用户/命名空间隔离写入可见性、`--source` 源路径的属主校验、跨用户配额。
 
 ## 附录 A：各策略起始参数建议表（表单 tip 数据源）
 

@@ -63,9 +63,49 @@ def test_load_jsonl_truncation(tmp_path):
 
 
 def test_unsupported_suffix(tmp_path):
-    p = tmp_path / "data.parquet"
+    # 真正未知的后缀仍报错；parquet 已由 §3.4 lerobot 支持接管，不再是拒绝样本
+    p = tmp_path / "data.xyz"
     p.write_text("x", encoding="utf-8")
     with pytest.raises(DatasetReadError, match="暂不支持该格式探索"):
+        load_dataframe(str(p))
+
+
+def test_load_parquet_sample(tmp_path, monkeypatch):
+    # §3.4 lerobot data/*.parquet 可被表格读取器消费（读取引擎 pyarrow，测试环境
+    # 未安装故 monkeypatch pd.read_parquet，仅验证分支派发/采样/truncated 语义）
+    import myapp.utils.dataset_reader as reader
+    p = tmp_path / "file-000.parquet"
+    p.write_bytes(b"PAR1")
+    df = pd.DataFrame({"observation.state": [[0.1, 0.2]] * 3})
+    monkeypatch.setattr(reader.pd, "read_parquet", lambda path: df)
+    out, bad, truncated = load_dataframe(str(p), rows=10)
+    assert list(out.columns) == ["observation.state"]
+    assert len(out) == 3
+    assert bad == 0 and truncated is False
+
+
+def test_load_parquet_truncation(tmp_path, monkeypatch):
+    import myapp.utils.dataset_reader as reader
+    p = tmp_path / "chunk-000.parquet"
+    p.write_bytes(b"PAR1")
+    monkeypatch.setattr(reader.pd, "read_parquet",
+                        lambda path: pd.DataFrame({"i": range(20)}))
+    out, _bad, truncated = load_dataframe(str(p), rows=5)
+    assert len(out) == 5
+    assert truncated is True
+
+
+def test_load_parquet_missing_engine_maps_error(tmp_path, monkeypatch):
+    # 引擎缺失/读取失败须映射为面向用户的 DatasetReadError，不裸抛 ImportError
+    import myapp.utils.dataset_reader as reader
+    p = tmp_path / "c.parquet"
+    p.write_bytes(b"PAR1")
+
+    def boom(path):
+        raise ImportError("Unable to find a usable engine")
+
+    monkeypatch.setattr(reader.pd, "read_parquet", boom)
+    with pytest.raises(DatasetReadError, match="parquet"):
         load_dataframe(str(p))
 
 
@@ -110,6 +150,27 @@ def test_resolve_path_version_latest_fallback(tmp_path, monkeypatch):
     monkeypatch.setattr(reader, "DATASET_ROOT", str(root))
     dataset = SimpleNamespace(name="ds", version="", path="")
     assert resolve_dataset_path(dataset) == str(ds_dir / "data.csv")
+
+
+def test_resolve_path_lerobot_dir_to_parquet(tmp_path):
+    # §3.4 探索入口对 lerobot 目录指向 data/ 下首个 parquet 分片（chunk 子目录）
+    root = tmp_path / "ds"
+    chunk = root / "data" / "chunk-000"
+    chunk.mkdir(parents=True)
+    (chunk / "file-000.parquet").write_bytes(b"PAR1")
+    (chunk / "file-001.parquet").write_bytes(b"PAR1")
+    dataset = SimpleNamespace(name="ds", version="v1", path=str(root))
+    assert resolve_dataset_path(dataset) == str(chunk / "file-000.parquet")
+
+
+def test_resolve_path_prefers_data_csv_over_parquet(tmp_path):
+    # 既有 csv 数据集零回归：目录同时有 data.csv 与 data/*.parquet 时仍走 data.csv
+    root = tmp_path / "ds"
+    (root / "data" / "chunk-000").mkdir(parents=True)
+    (root / "data" / "chunk-000" / "file-000.parquet").write_bytes(b"PAR1")
+    (root / "data.csv").write_text("a\n1\n", encoding="utf-8")
+    dataset = SimpleNamespace(name="ds", version="v1", path=str(root))
+    assert resolve_dataset_path(dataset) == str(root / "data.csv")
 
 
 def test_resolve_path_missing_raises():

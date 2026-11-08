@@ -38,6 +38,19 @@
 - [ ] 错配测试（ALOHA checkpoint × pusht）→ 启动前报错、不拉起训练/评测进程
 - [ ] `ROBOT_DRYRUN=1` 三算子均只产 `*_cmd.sh` 不执行
 - [ ] 示例 pipeline 端到端跑通并通过 `scripts/validate_pipelines.py`
+- [ ] `lerobot-import` 对越界 `--target_name`/`--target_version`（含 `../`、`/`）→ 退出码 2
+
+## 数据探索与安全边界
+
+- **Data Explorer 读 lerobot**：`dataset_reader` 已新增 `.parquet` 分支，登记后
+  `file_type='lerobot'` 的数据集目录会因 `data/` 下存在 `*.parquet` 而自动路由到首个分片（目录
+  同时有 `data.csv` 时仍优先走 csv，既有数据集零回归）。`read_parquet` 需要 **pyarrow** 引擎：
+  `lerobot-*` 镜像自带；若 Data Explorer 跑在 `myapp` 镜像，需确认该镜像已安装 `pyarrow`，
+  否则探索会返回面向用户的“parquet 读取失败”（不崩面）。
+- **跨用户可见**：`BASE_DIR=/data/k8s/kubeflow/global/dataset` 是平台级全局数据集中心（与既有
+  dataset 语义一致），任一用户 `lerobot-import` 写入的数据集对其他用户在登记/探索链路均可见。本轮
+  仅对 `target_name/version` 施加与 train 对称的单段安全校验防穿越，未做命名空间/属主隔离（详
+  spec §8.1）。
 
 ### `--dataset.repo_id + --dataset.root` 离线读数据实镜验证
 
