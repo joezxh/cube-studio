@@ -1,0 +1,8 @@
+# lerobot 数据接入轻镜像（spec §6：不装 torch，仅 parquet/json 搬运+画像+Hub 拉取）
+FROM python:3.11-slim
+RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+RUN pip install --no-cache-dir pyarrow pandas huggingface_hub opencv-python-headless
+COPY job-template/job/lerobot_shared /opt/lerobot_shared
+COPY job-template/job/lerobot_import /opt/lerobot_import
+WORKDIR /opt/lerobot_import
+ENTRYPOINT ["python", "start.py"]

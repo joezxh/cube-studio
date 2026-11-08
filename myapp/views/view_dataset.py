@@ -41,6 +41,7 @@ from myapp.utils.labelstudio_bridge import (
     ls_export_to_records,
     rows_to_ls_tasks,
 )
+from myapp.utils.lerobot_dataset_meta import apply_lerobot_meta
 conf = app.config
 
 
@@ -306,14 +307,21 @@ example：
         # 判断文件是否存在
         if item.path:
             new_paths = []
+            first_local = None
             paths = item.path.split("\n")
             for path in paths:
                 local_path = os.path.join('/home/myapp/myapp/static/', path.lstrip('/'))
                 if os.path.exists(local_path):
                     new_paths.append(path)
+                    if first_local is None:
+                        first_local = local_path
                 else:
                     flash(path+"，文件不存在，保存时已去除", "error")
             item.path = '\n'.join(new_paths)
+            # LeRobotDataset 目录登记识别：用已判存成功的静态映射路径读 .cube_dataset_meta
+            # （web 短路径字面量在容器内不可解析，须复用 local_path）；非 lerobot 目录零影响
+            if item.path and first_local:
+                apply_lerobot_meta(item, first_local)
 
 
     def pre_update(self, item):
@@ -580,6 +588,7 @@ class Dataset_ModelView_Api(Dataset_ModelView_base, MyappModelRestApi):
                           version=dataset_version, file_type='jsonl',
                           path=file_path,
                           describe='来自标注平台项目 %s 的回存' % project_id)
+        apply_lerobot_meta(dataset, file_path)   # db.session.add 之前；非 lerobot 目录零影响
         db.session.add(dataset)
         db.session.commit()
         return jsonify({'status': 0, 'message': 'success',

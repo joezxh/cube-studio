@@ -2,6 +2,7 @@
 # 注意：本模块禁止 import 任何 myapp.* 模块，保持可独立测试
 import json
 import os
+from glob import escape as glob_escape, iglob
 
 import pandas as pd
 
@@ -26,6 +27,20 @@ def _first_path_line(dataset_path) -> str:
     return ''
 
 
+def _first_lerobot_parquet(dataset_dir) -> str:
+    """lerobot 数据集目录 -> data/ 下首个 parquet 分片（含 chunk-* 子目录）。
+
+    命中条件：存在 data/ 子目录且有 *.parquet；否则返回 ''（非 lerobot 布局）。"""
+    data_dir = os.path.join(dataset_dir, 'data')
+    if not os.path.isdir(data_dir):
+        return ''
+    # glob.escape：登记路径含 [ ] ? 等字面量时不当作模式解释（避免静默漏匹配）
+    pattern = glob_escape(data_dir) + os.sep + '**' + os.sep + '*.parquet'
+    for f in sorted(iglob(pattern, recursive=True)):
+        return f
+    return ''
+
+
 def resolve_dataset_path(dataset) -> str:
     path = _first_path_line(getattr(dataset, 'path', ''))
     if path:
@@ -35,6 +50,11 @@ def resolve_dataset_path(dataset) -> str:
             data_csv = os.path.join(path, 'data.csv')
             if os.path.exists(data_csv):
                 path = data_csv
+            else:
+                # §3.4 lerobot 布局：目录无 data.csv 时探索入口指向 data/*.parquet
+                parquet = _first_lerobot_parquet(path)
+                if parquet:
+                    path = parquet
     else:
         # 缺省存储中心路径：dataset/{name}/{version}/data.csv
         version = getattr(dataset, 'version', '') or 'latest'
@@ -80,4 +100,14 @@ def load_dataframe(path, segment=None, rows=SAMPLE_ROWS):
                     bad_rows += 1
         df = pd.json_normalize(records) if records else pd.DataFrame()
         return df, bad_rows, truncated
+    if ext == '.parquet':
+        # §3.4 lerobot data/*.parquet 直接消费（引擎 pyarrow，随镜像提供）
+        try:
+            df = pd.read_parquet(path)
+        except (ImportError, OSError, ValueError) as e:
+            # 缺引擎/IO/解析失败(含 EmptyDataError、pyarrow ArrowInvalid)映射面客；
+            # 保留异常链便于排障，不吞 TypeError/AttributeError 等编程错误
+            raise DatasetReadError('parquet 读取失败(%s): %s' % (type(e).__name__, e)) from e
+        truncated = len(df) > rows
+        return df.head(rows), 0, truncated
     raise DatasetReadError('暂不支持该格式探索')

@@ -48,6 +48,7 @@ parsedatetime==2.6          # 日期时间解析库
 pylint==3.0.0               # Python源代码分析器，用于查找编程错误、遵循代码风格指南
 bleach==6.0.0               # HTML清理和链接化库
 pandas==2.1.2               # 数据处理
+pyarrow==14.0.2             # parquet 读取引擎（Data Explorer 消费 lerobot data/*.parquet）
 beautifulsoup4==4.12.2      # 用于解析HTML和XML文档
 cffi==1.16.0
 clickhouse-driver==0.2.7    # sqllab对接clickhouse

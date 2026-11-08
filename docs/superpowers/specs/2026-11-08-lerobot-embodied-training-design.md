@@ -89,7 +89,11 @@ job-template/job/lerobot_<name>/
 
 ### 3.4 与 S4 数据探索的兼容（契约锁定项）
 
-LeRobotDataset `data/*.parquet`（状态/动作列）可被既有 dataset_reader 表格读取器直接消费。本兼容性作为**契约测试**锁定（fixture 构造迷你 parquet 目录断言可打开），Data Explorer 对 `file_type='lerobot'` 的入口指向 `data/` 子目录，零改动。
+LeRobotDataset `data/*.parquet`（状态/动作列）由 dataset_reader 表格读取器消费。落地口径（实施已锁定，非“零改动”——原读取器仅分支 csv/jsonl，parquet 会命中“暂不支持”）：
+
+- `load_dataframe` 新增 `.parquet` 分支，经 `pandas.read_parquet`（引擎 `pyarrow`，随 `lerobot-*` 镜像提供；`myapp`/Data Explorer 所在镜像已在 `install/docker/requirements.txt` 声明 `pyarrow==14.0.2`）读取，按 `SAMPLE_ROWS` 采样，缺引擎/读失败（ImportError/OSError/ValueError 谱系）映射为面向用户的 `DatasetReadError`；
+- `resolve_dataset_path` 对数据集目录：存在 `data.csv` 时优先（既有 csv 数据集零回归）；否则命中 lerobot 布局（`data/` 下有 `*.parquet`）时探索入口指向其首个分片；
+- 本兼容性作为**契约测试**锁定于 `tests/test_dataset_reader.py`（分支派发/采样/穿越目录路由/缺引擎报错，读取引擎以 monkeypatch 隔离，不依赖 pyarrow）。
 
 ### 3.5 失败语义
 
@@ -137,11 +141,13 @@ start.py:
 
 `metrics.json`（算子补写）：`{steps_run, final_train_loss, wall_time_sec, policy_type, dataset_ref}`，loss 曲线自 stdout 解析。
 
-`manifest.json`：`parents=[{dataset 目录 manifest digest}]`（数据集→训练血缘），`files=[config.yaml, metrics.json]`。
+`manifest.json`：`parents=[{dataset 目录 `.cube_dataset_meta` 的 path+digest}]`（数据集→训练血缘），`files=[train_cmd.sh, metrics.json, train.log]`。
+
+> 实现口径（T6 回写）：血缘源取数据集目录下 import 算子写入的 `.cube_dataset_meta`（sha256 摘要），非本 spec 早期设想的「dataset 目录 manifest digest」；产物文件登记算子自产的 `train_cmd.sh`/`metrics.json`/`train.log`，lerobot 原生 `config.yaml` 属输出目录、不由 manifest `files` 重复登记。
 
 ### 4.3 关键决策
 
-- **本地数据集传参形态为实测锁定项**：lerobot 0.6.2 对离线目录的支持存在 `--dataset.root=` 与 `repo_id + local-files-only` 两种可能形态，实施计划首个 Task 以镜像内 `lerobot-train --help` + dry-run 实测定死其一，结论回写本 spec 并由 `lerobot_train_cmd.py` 单测锁定 flag 契约。
+- **本地数据集传参形态为实测锁定项**：lerobot 0.6.2 对离线目录的支持存在 `--dataset.root=` 与 `repo_id + local-files-only` 两种可能形态，实施计划首个 Task 以镜像内 `lerobot-train --help` + dry-run 实测定死其一，结论回写本 spec 并由 `lerobot_train_cmd.py` 单测锁定 flag 契约。实施默认已锁定 `--dataset.repo_id local/{name}_{version}` + `--dataset.root {base_dir}/{name}/{version}` 形态（`lerobot_train_cmd.py` 单测锁定），真机验收时确认，见 plans/2026-11-08-lerobot-embodied-training.md Task 12。
 - **checkpoint 不自动注册模型仓库**：训练与 model_register 解耦，对齐平台「训练→注册」两步走；注册路径进示例 pipeline 演示但不强制。
 - **权重加载失败显式报错**：`policy_path` 指向不存在/不可读的权重时在启动前报错，绝不静默回退随机初始化。
 
@@ -218,6 +224,16 @@ start.py:
 - [ ] 错配测试（ALOHA checkpoint × pusht）→ 启动前报错、不拉起训练/评测进程
 - [ ] `ROBOT_DRYRUN=1` 三算子均只产 `*_cmd.sh` 不执行
 - [ ] 示例 pipeline 端到端跑通并通过 `scripts/validate_pipelines.py`
+- [ ] `lerobot-import` 对越界 `target_name`/`target_version`（含 `../`、路径分隔符）→ 退出码 2，不写共享数据集中心
+
+### 8.1 安全边界（写入隔离模型之外的已接受风险）
+
+`BASE_DIR=/data/k8s/kubeflow/global/dataset` 是平台级**跨用户全局数据集中心**：任一有权提交 `lerobot-import` 的用户写入的数据集，对其余用户在 Data Explorer/登记链路中均可见（与平台既有全局 dataset 语义一致，非本轮引入）。本轮采取的缓解：
+
+- 算子侧对 `target_name`/`target_version` 施加与 train 对称的单段安全校验（`^[A-Za-z0-9._-]+$`，拒 `..`/分隔符），防止写入穿越到数据集根之外；
+- 覆盖保护：目标目录非空时拒绝覆写（退出码 2）。
+
+未在本轮处理（留待独立安全立项）：按用户/命名空间隔离写入可见性、`--source` 源路径的属主校验、跨用户配额。
 
 ## 附录 A：各策略起始参数建议表（表单 tip 数据源）
 

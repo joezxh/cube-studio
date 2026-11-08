@@ -1,0 +1,12 @@
+# lerobot 训练/评测 GPU 镜像（spec §6：锁 0.6.2，升级走新 tag 不 in-place）
+FROM nvidia/cuda:12.6.0-base-ubuntu22.04
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    python3.11 python3-pip git ffmpeg libsdl2-dev cmake build-essential \
+    && rm -rf /var/lib/apt/lists/*
+RUN pip3 config set global.index-url https://mirrors.aliyun.com/pypi/simple \
+    && pip3 install --no-cache-dir "lerobot==0.6.2" "gym-pusht" "gym-aloha" mujoco
+COPY job-template/job/lerobot_shared /opt/lerobot_shared
+COPY job-template/job/lerobot_train /opt/lerobot_train
+COPY job-template/job/lerobot_eval /opt/lerobot_eval
+WORKDIR /opt/lerobot_train
+ENV MUJOCO_GL=egl HF_HOME=/mnt/.cache/huggingface

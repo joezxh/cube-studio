@@ -372,7 +372,7 @@ git commit -m "feat(lerobot): LeRobotDataset 画像生成纯函数"
 
 **Interfaces:**
 - Consumes: Task 2 `import_cmd`、Task 3 `profile`、Task 1 `manifest_util`（同目录 sibling + `lerobot_shared` 路径注入）
-- Produces: CLI `python start.py --source_type --source --target_name --target_version [--hub_endpoint ""] [--link_mode] [--base_dir <基路径>]`；产物全部落在 `{dst}`（数据集目录）内：`.cube_dataset_meta`（`{"format":"lerobot","version","source","profile"}`）、`lerobot_profile.json`、`manifest.json`；`ROBOT_DRYRUN=1` 时只产 `{dst}/import_plan.json` + manifest，不拷贝；退出码：2=目标非空拒绝覆盖，3=格式不支持/缺 info.json
+- Produces: CLI `python start.py --source_type --source --target_name --target_version [--hub_endpoint ""] [--link_mode] [--base_dir <基路径>]`；产物全部落在 `{dst}`（数据集目录）内：`.cube_dataset_meta`（`{"format":"lerobot","version","source","profile"}`）、`lerobot_profile.json`、`manifest.json`；`ROBOT_DRYRUN=1` 时只产 `{dst}.dryrun/import_plan.json` + manifest（不触碰正式数据集目录，避免凭空创建/覆写真实血缘），不拷贝；退出码：2=目标非空拒绝覆盖，3=格式不支持/缺 info.json/Hub 拉取失败
 
 - [ ] **Step 1: 写失败测试**
 

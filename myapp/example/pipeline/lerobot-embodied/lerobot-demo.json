@@ -1,0 +1,83 @@
+{
+    "pipeline": {
+        "name": "lerobot-embodied",
+        "describe": "具身智能/VLA：LeRobot 数据集接入→策略训练→仿真评测",
+        "project": "public",
+        "parameter": {},
+        "dag_json": {
+            "lerobot-import": {
+                "upstream": []
+            },
+            "lerobot-train": {
+                "upstream": [
+                    "lerobot-import"
+                ]
+            },
+            "lerobot-eval": {
+                "upstream": [
+                    "lerobot-train"
+                ]
+            }
+        }
+    },
+    "tasks": [
+        {
+            "job_templete": "lerobot-import",
+            "name": "lerobot-import",
+            "label": "数据集接入",
+            "volume_mount": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
+            "resource_cpu": "2",
+            "resource_memory": "4G",
+            "resource_gpu": "0",
+            "args": {
+                "--source_type": "local_path",
+                "--source": "/mnt/{{creator}}/raw/pusht_v3",
+                "--target_name": "pusht_demo",
+                "--target_version": "v1",
+                "--hub_endpoint": "",
+                "--link_mode": "false"
+            }
+        },
+        {
+            "job_templete": "lerobot-train",
+            "name": "lerobot-train",
+            "label": "策略训练",
+            "volume_mount": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
+            "resource_cpu": "8",
+            "resource_memory": "16G",
+            "resource_gpu": "1",
+            "args": {
+                "--policy_type": "act",
+                "--policy_path": "",
+                "--dataset_ref": "pusht_demo:v1",
+                "--output": "/mnt/{{creator}}/lerobot/train",
+                "--batch_size": "8",
+                "--steps": "10000",
+                "--save_freq": "5000",
+                "--log_freq": "200",
+                "--lr": "",
+                "--resume": "false",
+                "--wandb_enable": "false",
+                "--extra_args": ""
+            }
+        },
+        {
+            "job_templete": "lerobot-eval",
+            "name": "lerobot-eval",
+            "label": "仿真评测",
+            "volume_mount": "kubeflow-user-workspace(pvc):/mnt/,/data/k8s/kubeflow/global(hostpath):/data/k8s/kubeflow/global",
+            "resource_cpu": "8",
+            "resource_memory": "16G",
+            "resource_gpu": "1",
+            "args": {
+                "--checkpoint": "/mnt/{{creator}}/lerobot/train/checkpoints/10000/pretrained_model",
+                "--env_type": "pusht",
+                "--output": "/mnt/{{creator}}/lerobot/eval",
+                "--n_episodes": "50",
+                "--batch_size": "10",
+                "--seed": "100000",
+                "--video_n_episodes": "3"
+            }
+        }
+    ]
+}
