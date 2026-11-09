@@ -1,0 +1,52 @@
+version: '3'
+# Web-only 单机部署编排（无 k8s 调度组件，仅 Web 端）
+# 外部依赖（均已切换，无自建 mysql/redis）:
+#   redis: 192.168.100.159:6379 db11(密码 tqbibydiu@2025@redis) —— celery=11, cache=12, socketio=13
+#   mysql: 192.168.100.232:3306 库 kubeflow（账号 kubeflow/kubeflow，MySQL 8.0.11，库已存在且为空，
+#          myapp 首次启动自动建表+初始化；PyMySQL 明文连接验证通过）
+# 部署目录需保持如下相对结构（与工程一致）:
+#   <root>/myapp/
+#   <root>/job-template/
+#   <root>/install/docker/docker-compose.web.yml
+# 启动: cd install/docker && docker compose -f docker-compose.web.yml up -d
+services:
+  frontend:   # 前端容器（nginx 反代到 myapp）
+    image: cube-studio-dashboard-frontend:web-local
+    restart: unless-stopped
+    command: ['sh','-c','nginx -g "daemon off;"']
+    ports:
+      - '80:80'
+    depends_on:
+      myapp:
+        condition: service_started
+    volumes:
+      - ./dockerFrontend/nginx.conf:/etc/nginx/nginx.conf
+      - ./dockerFrontend/nginx.80.conf:/etc/nginx/conf.d/default.conf
+    # 说明: 不再挂载 ../../myapp/static 前端产物。
+    # 原因: 仓库 .gitignore 忽略了 frontend/static/js、static/css 等构建产物，
+    #       工作区里只有 index.html 引用 main.xxx.js 而无对应文件，
+    #       挂载后 nginx try_files 会把 JS 404 兜底成 index.html，
+    #       导致浏览器报 Uncaught SyntaxError: Unexpected token '<'。
+    #       官方 frontend 镜像内置完整构建产物且与 index.html 同代，直接使用即可。
+
+  myapp:   # 后端容器（Web-only，无 k8s 调度）
+    image: cube-studio-dashboard:web-local
+    restart: unless-stopped
+    command: [ 'bash','-c','/entrypoint.sh' ]
+    environment:
+      STAGE: 'prod'
+      # 外部共享 Redis（已验证可达+鉴权通过；celery=db11, cache=db12, socketio=db13）
+      REDIS_HOST: '192.168.100.159'
+      REDIS_PORT: '6379'
+      REDIS_PASSWORD: 'tqbibydiu@2025@redis'
+      REDIS_DB: '11'
+      # 外部 MySQL 8.0.11（192.168.100.232，库 kubeflow 已存在且为空，首次启动自动建表初始化）
+      MYSQL_SERVICE: 'mysql+pymysql://kubeflow:kubeflow@192.168.100.232:3306/kubeflow?charset=utf8mb4'
+      ENVIRONMENT: DEV
+    volumes:
+      - ../../myapp/:/home/myapp/myapp/
+      - ../../job-template/:/cube-studio/job-template/
+      - ./data/k8s:/data/k8s/kubeflow
+    # 说明: 相比原 docker-compose.yml 剔除了:
+    #   - ./kubeconfig 挂载（无 k8s 集群）
+    #   - ../../aihub 挂载（镜像内自带 /cube-studio/aihub，本地无 aihub 目录）

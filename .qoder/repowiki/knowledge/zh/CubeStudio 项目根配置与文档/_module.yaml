@@ -1,0 +1,14 @@
+schema_version: 1
+module_path: ""
+title: CubeStudio 项目根配置与文档
+scope:
+    - .dockerignore
+    - .gitignore
+    - .qoderignore
+    - LICENSE
+    - README.md
+    - cube-studio.code-workspace
+    - pytest.ini
+source_files: []
+depends_on: []
+related_to: []

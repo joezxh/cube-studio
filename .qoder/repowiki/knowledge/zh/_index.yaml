@@ -1,0 +1,22 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: main
+nodes_managed: true
+exported_at: "2026-11-09T08:45:27Z"
+modules:
+    "":
+        dir_name: CubeStudio 项目根配置与文档
+        title: CubeStudio 项目根配置与文档
+        scope:
+            - .dockerignore
+            - .gitignore
+            - .qoderignore
+            - LICENSE
+            - README.md
+            - cube-studio.code-workspace
+            - pytest.ini
+        source_files: []
+        children: []
+        depends_on: []
+        related_to: []
