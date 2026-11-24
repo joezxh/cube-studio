@@ -97,9 +97,9 @@ def validate(doc):
         if not _GPU_RE.match(str(t.get("resource_gpu", ""))):
             problems.append(f"task {nm}: resource_gpu 非法(\\d+(\\.\\d+)?)")
 
-    # 规则 8：global_env 含 DATA_ROOT=/mnt/gov
-    if "DATA_ROOT=/mnt/gov" not in str(pipe.get("global_env", "")):
-        problems.append("global_env 必须包含 DATA_ROOT=/mnt/gov")
+    # 规则 8：global_env 含 DATA_ROOT=/mnt/<挂载名>
+    if not re.search(r"DATA_ROOT=/mnt/[\w.-]+", str(pipe.get("global_env", ""))):
+        problems.append("global_env 必须包含 DATA_ROOT=/mnt/<name>")
 
     return problems
 

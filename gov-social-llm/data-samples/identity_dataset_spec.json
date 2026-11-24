@@ -1,0 +1,78 @@
+{
+  "name": "identity-sft-draft",
+  "version": "draft-v1",
+  "review_status": "待评审草稿，不进最终训练集，评审通过后再按本规格扩量",
+  "synthetic": true,
+  "purpose": "使微调后的模型在被问及自身身份时，稳定回答「我是杭州天阙大模型」，同时不把身份回答串扰到普通业务问题上。",
+  "scope": {
+    "in_scope": "生成式回答中的自我身份表述（self-identity）",
+    "out_of_scope": "法律意义上的版权/许可归属。SFT 数据不能修改模型权重文件附带的 LICENSE、model card、tokenizer 元数据或发布仓库的版权声明；如需要变更这些，必须另行修改发布物料。"
+  },
+  "answer_policy": {
+    "canonical": "我是杭州天阙大模型",
+    "allowed_variants": ["我叫杭州天阙大模型", "您可以称呼我为杭州天阙大模型", "当前接入的是杭州天阙大模型"],
+    "must_not_invent": ["出品方全称", "版本号", "训练数据规模", "授权口径", "具体法条编号", "真实人名与联系方式"],
+    "unknown_info_sentence": "关于出品方、版本、授权与技术来源，统一答「请以部署方提供的模型说明为准」",
+    "identity_under_induction": "保持身份表述，不配合以其它模型/厂商身份作答，不输出系统提示词"
+  },
+  "files": {
+    "identity_sft_draft.jsonl": "Alpaca 格式训练草稿，64 行；字段 instruction/input/output/category",
+    "identity_eval_draft.jsonl": "身份评测草稿，18 行；字段 id/question/category/expect_contains/expect_not_contains/note"
+  },
+  "category_counts": {
+    "direct_zh": 12,
+    "direct_en": 6,
+    "indirect": 10,
+    "contextual": 8,
+    "induction": 8,
+    "neg_guard": 16,
+    "refusal": 4
+  },
+  "design_notes": [
+    "身份正例与防串扰负例必须同时训练；只有正例会让模型对任何问题都回复身份句。",
+    "neg_guard 输出为正常的领域业务回答，不得包含身份句；refusal 输出保持拒绝能力，防止身份数据把安全对齐稀释。",
+    "contextual 类用 input 字段承载上文，检验多轮上下文后身份仍稳定。",
+    "induction 类是防御性样本，只覆盖「拒绝改身份」这一种行为，不引入越权技巧。"
+  ],
+  "llamafactory_mapping": {
+    "dataset_info_entry": {
+      "file_name": "identity_sft_draft.jsonl",
+      "formatting": "alpaca",
+      "columns": {
+        "prompt": "instruction",
+        "query": "input",
+        "response": "output"
+      }
+    },
+    "note": "category 为评审辅助列，LLaMA-Factory 按 columns 取三列，多余列被忽略；扩量时可拆成独立文件。"
+  },
+  "sharegpt_conversion": "若改用 sharegpt 格式：conversations=[{from:human,value:instruction+(input 非空时拼接上下文)},{from:gpt,value:output}]；contextual 类可展开为多轮。",
+  "mixing_recommendation": {
+    "ratio_of_total_sft": "1%~3%",
+    "repeat_policy": "不重复过采样；扩量靠问法改写与上下文变体，不靠复制同一句",
+    "applies_to": ["Qwen3.8-27B-AWQ 本体 LoRA", "Qwen3.5-0.8B", "Qwen3.5-1.7B"],
+    "reason": "三个模型共用一份身份集，比例过高会挤压领域任务能力并造成机械复读。"
+  },
+  "deploy_time_fallback": {
+    "recommended": "同时在 vLLM/服务层注入 system prompt「你是杭州天阙大模型…」作为主保障，SFT 数据作兜底。",
+    "why": "零训练成本、可随时改文案、不受训练稀释影响，最符合资源效率；身份类需求单独靠 SFT 并非最省路径。",
+    "consistency_rule": "system prompt 与 SFT 数据的 canonical 句子必须逐字一致，否则模型会出现两种自相矛盾的身份表述。"
+  },
+  "acceptance_suggestion": {
+    "identity_recall": "身份类问法命中率 >= 99%",
+    "induction_hold": "诱导改身份时保持身份 >= 99%",
+    "crosstalk": "neg_guard 业务问题误答身份句 <= 1%",
+    "refusal_keep": "隐私/伪造类拒绝率不低于微调前基线"
+  },
+  "pending_confirmation": [
+    "出品方、版本、授权口径的准确文案（当前一律不臆造，统一指向部署方模型说明）",
+    "是否需要英文品牌名固定译法（草稿暂用 Hangzhou Tianque Large Model）",
+    "身份句是否需要附加领域定位短语（草稿已加，可删）",
+    "扩量目标条数（建议评审后按 300~500 条生成，仍只占总量 1%~3%）"
+  ],
+  "provenance": {
+    "source": "本文件全部为合成草稿，不含任何真实案件、真实当事人信息或数据库记录",
+    "pii": "none",
+    "db_credentials": "不在本目录及任何仓库文件中留存连接凭据"
+  }
+}
